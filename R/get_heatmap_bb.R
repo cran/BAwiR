@@ -72,7 +72,7 @@ get_heatmap_bb <- function(df_stats, team, levels_stats = NULL, stat_ord, base_s
                          "Defensive" = c("DRB", "STL", "BLKfv", "PF"),
                          "Other" = c("GP", "GS", "MP", "TRB", "PlusMinus", "PIR"),
                          "Advanced" = c("GameSc", "PIE", "EFGPerc", "ThreeRate", "FRate", 
-                                        "STL_TOV", "AST_TOV", "PPS", "OE", "EPS"))
+                                        "STL_TOV", "AST_TOV", "PPS", "OE"))#, "EPS"))
   }else{
     levels_stats <- levels_stats
     df_order1 <- df_order1[, c("Name", unlist(levels_stats))]
@@ -114,7 +114,11 @@ get_heatmap_bb <- function(df_stats, team, levels_stats = NULL, stat_ord, base_s
           axis.text.x = element_text(angle = 300, hjust = 0, size = 6)) +
     # To add the values to each tile:
     geom_text(aes(label = value), size = 2.8) +
-    ggtitle(paste(capit_two_words(team), title, sep = " "))
+    ggtitle(paste(capit_two_words(team), title, sep = " ")) +
+    geom_vline(xintercept = c(1.5, 4.5, 7.5, 10.5, 13.5)) +
+    # This is to box the columns related to all shots.
+    geom_segment(aes(x = 1.5, xend = 13.5, y = 0.5, yend = 0.5)) +
+    geom_segment(aes(x = 1.5, xend = 13.5, y = nrow(df1) + 0.5, yend = nrow(df1) + 0.5))
   
   return(gg)
 }

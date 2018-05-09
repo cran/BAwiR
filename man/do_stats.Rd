@@ -4,7 +4,7 @@
 \alias{do_stats}
 \title{Accumulated or average statistics}
 \usage{
-do_stats(df_games, type_stats = "Total", season, competition, type_str)
+do_stats(df_games, type_stats = "Total", season, competition, type_season)
 }
 \arguments{
 \item{df_games}{Data frame with the games, players info, advanced stats and
@@ -16,7 +16,7 @@ eventually recoded teams names.}
 
 \item{competition}{String. Options are "ACB", "Euroleague" and "Eurocup".}
 
-\item{type_str}{String with the round of competition, for example regular season
+\item{type_season}{String with the round of competition, for example regular season
 or playoffs and so on.}
 }
 \value{

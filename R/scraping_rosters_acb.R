@@ -74,7 +74,10 @@
 scraping_rosters_acb <- function(pcode, verbose = TRUE, 
                                  accents = FALSE, r_user = "guillermo.vinue@uv.es"){
   df <- NULL
-  for (i in 1:length(pcode)) {
+  #for (i in 1:length(pcode)) 
+  len_pcode <- length(pcode)
+  # Instead of using 1:len_pcode, we can use seq_len(len_pcode) to avoid the backwards sequence bug.
+  for (i in seq_len(len_pcode)) {
     if (verbose) {
       print(pcode[i])
     } 
@@ -93,7 +96,7 @@ scraping_rosters_acb <- function(pcode, verbose = TRUE,
     if (get_website$status_code == 404) { # The status code 404 is for 
       # the websites that cannot be found, i.e., the websites that 
       # don't exist.
-      print("web doesn't exist")
+      print("Web doesn't exist")
       next
     }
     
@@ -106,7 +109,7 @@ scraping_rosters_acb <- function(pcode, verbose = TRUE,
     # Date of birth:
     born <- grep("fecha de nac", html_pl)
     if (length(born) == 0) { # This means that web doesn't exist.
-      print("web doesn't exist")
+      print("Web doesn't exist")
       next 
     }
     born1 <- html_pl[born + 1]
@@ -199,9 +202,10 @@ scraping_rosters_acb <- function(pcode, verbose = TRUE,
     
     Sys.sleep(2)  
   }
-    
-  colnames(df) <- c("CombinID", "Player", "Position", "Height", 
-                    "Date_birth", "Nationality", "Licence", "Website_player")
+  if (!is.null(df)) {
+    colnames(df) <- c("CombinID", "Player", "Position", "Height", 
+                      "Date_birth", "Nationality", "Licence", "Website_player")
+  }  
   
   return(df)
 }  

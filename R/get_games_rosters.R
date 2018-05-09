@@ -54,7 +54,7 @@
 #' get_data <- get_games_rosters(competition = "ACB", type_league = "ACB", 
 #'                               nums = acb_nums, verbose = TRUE, accents = FALSE, 
 #'                               r_user = "guillermo.vinue@uv.es", 
-#'                               df0 = df0, df_bi0 = df_bio0)
+#'                               df0 = df0, df_bio0 = df_bio0)
 #' acb_games <- get_data$df0
 #' acb_players <- get_data$df_bio0
 #' write_csv(acb_games, path = "acb_games.csv")
@@ -69,7 +69,7 @@
 #' get_data <- get_games_rosters(competition = "ACB", type_league = "ACB", 
 #'                               nums = acb_nums, verbose = TRUE, accents = FALSE, 
 #'                               r_user = "guillermo.vinue@uv.es", 
-#'                               df0 = df0, df_bi0 = df_bio0)
+#'                               df0 = df0, df_bio0 = df_bio0)
 #' 
 #' # -----                               
 #' 
@@ -87,9 +87,9 @@
 #' 
 #' df0 <- data.frame()
 #' get_data <- get_games_rosters(competition = "ACB", type_league = "CREY", 
-#'                               nums = acb_rey_nums, verbose = TRUE, accents = FALSE, 
+#'                               nums = acb_crey_nums, verbose = TRUE, accents = FALSE, 
 #'                               r_user = "guillermo.vinue@uv.es", 
-#'                               df0 = df0, df_bi0 = NULL)
+#'                               df0 = df0, df_bio0 = NULL)
 #' acb_crey_games <- get_data$df0
 #' write_csv(acb_crey_games, path = "acb_crey_games.csv")
 #' 
@@ -109,9 +109,9 @@
 #'                            
 #' df0 <- data.frame()
 #' get_data <- get_games_rosters(competition = "ACB", type_league = "SCOPA", 
-#'                               nums = acb_nums, verbose = TRUE, accents = FALSE, 
+#'                               nums = acb_scopa_nums, verbose = TRUE, accents = FALSE, 
 #'                               r_user = "guillermo.vinue@uv.es", 
-#'                               df0 = df0, df_bi0 = NULL)
+#'                               df0 = df0, df_bio0 = NULL)
 #' acb_scopa_games <- get_data$df0
 #' write_csv(acb_scopa_games, path = "acb_scopa_games.csv")
 #' 
@@ -130,7 +130,7 @@
 #'                      Nationality = NA, Website_player = NA)
 #' get_data <- get_games_rosters(competition = "Euroleague", nums = euroleague_nums, 
 #'                               verbose = TRUE, r_user = "guillermo.vinue@uv.es", 
-#'                               df0 = df0, df_bi0 = df_bio0)
+#'                               df0 = df0, df_bio0 = df_bio0)
 #' euroleague_games <- get_data$df0
 #' euroleague_players <- get_data$df_bio0
 #' write_csv(euroleague_games, path = "euroleague_games.csv")
@@ -150,7 +150,7 @@
 #'                      Nationality = NA, Website_player = NA)
 #' get_data <- get_games_rosters(competition = "Eurocup", nums = eurocup_nums, 
 #'                               verbose = TRUE, r_user = "guillermo.vinue@uv.es", 
-#'                               df0 = df0, df_bi0 = df_bio0)
+#'                               df0 = df0, df_bio0 = df_bio0)
 #' eurocup_games <- get_data$df0
 #' eurocup_players <- get_data$df_bio0
 #' write_csv(eurocup_games, path = "eurocup_games.csv")

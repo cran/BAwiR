@@ -8,13 +8,12 @@
 #' for each month, which is very useful to analyse the players' evolution.
 #' 
 #' @usage 
-#' get_barplot_monthly_stats(df_stats, team, player, title, nrow_facet)
+#' get_barplot_monthly_stats(df_stats, title, nrow_facet, size_text = 2.5)
 #' 
 #' @param df_stats Data frame with the statistics.
-#' @param team Team.
-#' @param player Player. 
 #' @param title Plot title.
 #' @param nrow_facet Number of facet rows.
+#' @param size_text Label size for each bar. Default 2.5.
 #' 
 #' @return 
 #' Graphical device
@@ -28,7 +27,6 @@
 #' compet <- "ACB"
 #' df <- do_join_games_bio(compet, acb_games_1718, acb_players_1718)
 #' df1 <- do_add_adv_stats(df)
-#' df2 <- do_stats(df1, "Total", "2017-2018", compet, "Regular Season")
 #' 
 #' months <- c(df %>% distinct(Month))$Month
 #' months_order <- c("September", "October", "November", "December", 
@@ -37,27 +35,42 @@
 #' months_plot1 <- months_plot[!is.na(months_plot)]
 #' months_plot2 <- months[months_plot1]
 #'
-#' df3 <- data.frame()
-#' for (i in months_plot2) {
-#'  df1_month <- df1 %>%
-#'    filter(Month == i)
-#'  df2_month <- do_stats(df1_month, "Total", "2017-2018", compet, "Regular Season") %>%
-#'    mutate(Month = i)
-#'  df3 <- bind_rows(df3, df2_month)
-#'}
+#' df3_m <- df1 %>%
+#' filter(Team == "Real_Madrid", 
+#'       Player.x == "Doncic, Luka") %>%
+#'  group_by(Month) %>%
+#'  do(do_stats(., "Average", "2017-2018", "ACB", "Regular Season")) %>%
+#'  ungroup() %>%
+#'  mutate(Month = factor(Month, levels = months_plot2)) %>%
+#'  arrange(Month)
 #' 
-#' # For just one player:
-#' player <- "Abalde, Alberto"
-#' get_barplot_monthly_stats(df3, "Valencia", player, 
-#'                           paste(compet, "2017-2018", unique(df3$Type_stats), sep = " "), 2)
+#' stats <- c("GP", "MP", "PTS", "FGA", "FGPerc", "ThreePA", 
+#'            "ThreePPerc", "FTA", "FTPerc",
+#'            "TRB", "ORB", "AST", "TOV", "STL")
+#'            
+#' df3_m1 <- df3_m %>%
+#'   select(1:5, stats, 46:50)
+#' get_barplot_monthly_stats(df3_m1, paste("; ACB", "2017-2018", "Average", sep = " ; "), 
+#'                           2, 2.5)
 #' 
 #' # For all teams and players:
-#' teams <- as.character(rev(sort(unique(df2$Team))))
-#' for (i in teams[1:2]) {
-#'   players <- sort(unique(df3[df3$Team == i, "Name"]))
-#'   for (j in players[1:2]) {
-#'     print(get_barplot_monthly_stats(df3, i, j, "ACB 2017-2018", 2))
-#'   }
+#' teams <- as.character(sort(unique(df1$Team)))
+#' df3_m <- df1 %>%
+#' filter(Team == teams[13]) %>%
+#'  group_by(Month) %>%
+#'  do(do_stats(., "Average", "2017-2018", "ACB", "Regular Season")) %>%
+#'  ungroup() %>%
+#'  mutate(Month = factor(Month, levels = months_plot2)) %>%
+#'  arrange(Month)
+#' 
+#' df3_m1 <- df3_m %>%
+#'   select(1:5, stats, 46:50)
+#' 
+#' for (i in unique(df3_m1$Name)) {
+#'   print(i)
+#'   print(get_barplot_monthly_stats(df3_m1 %>% filter(Name == i), 
+#'                                   paste(" ; ACB", "2017-2018", "Average", sep = " ; "), 
+#'                                   2, 2.5))
 #' }
 #' }
 #' 
@@ -66,19 +79,19 @@
 #'
 #' @export
 
-get_barplot_monthly_stats <- function(df_stats, team, player, title, nrow_facet){
-  Team <- Name <- CombinID <- Nationality <- Season <- Compet <- NULL
+get_barplot_monthly_stats <- function(df_stats, title, nrow_facet, size_text = 2.5){
+  Team <- Name <- CombinID <- Season <- Compet <- NULL
   Type_season <- Type_stats <- variable <- value <- NULL
   
   df_stats1 <- df_stats %>%
-    filter(Team %in% team, Name == player) %>% # Team %in% team instead Team == team because some players
+    #filter(Team %in% team, Name == player) %>% # Team %in% team instead Team == team because some players
     # have played for different teams in the same season, e.g., Pedro Llompart played for Valencia and Tenerife
     # in season 2017-2018.
-    select(-c(Team, CombinID, Position, Nationality, Season, Compet, Type_season, Type_stats))
+    select(-c(CombinID, Position, Season, Compet, Type_season, Type_stats))
   # Order the months:
-  df_stats1$Month <- factor(df_stats1$Month, 
-                            levels = c("September", "October", "November", "December", 
-                                      "January", "February", "March", "April", "May"))
+  #df_stats1$Month <- factor(df_stats1$Month, 
+  #                          levels = c("September", "October", "November", "December", 
+  #                                    "January", "February", "March", "April", "May"))
   
   df_stats2 <- melt(df_stats1)
   # Order the stats:
@@ -91,9 +104,10 @@ get_barplot_monthly_stats <- function(df_stats, team, player, title, nrow_facet)
     # label_wrap_gen to split facet title in several lines.
     facet_wrap(reformulate("Month"), labeller = label_wrap_gen(width = 1), nrow = nrow_facet) + 
     #ylim(min(df_stats2$value), max(df_stats2$value)) + 
-    geom_text(aes(label = value), hjust = -0.2, size = 2.5, color = "red") +
+    geom_text(aes(label = value), hjust = -0.2, size = size_text, color = "red") +
     coord_flip() +
-    ggtitle(paste(paste(team, collapse = " and "), player, title, sep = "; ")) +
+    #ggtitle(paste(paste(team, collapse = " and "), player, title, sep = "; ")) +
+    ggtitle(paste(unique(df_stats2$Team), ";", unique(df_stats2$Name), title, sep = " ")) +
     theme(axis.title.x = element_blank(),
           axis.title.y = element_blank(),
           axis.text.x = element_text(size = 7),
@@ -101,3 +115,4 @@ get_barplot_monthly_stats <- function(df_stats, team, player, title, nrow_facet)
   
   return(gg)
 }
+

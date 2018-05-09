@@ -4,7 +4,7 @@
 \alias{get_four_factors_plot}
 \title{Four factors plot}
 \usage{
-get_four_factors_plot(df_rank, df_no_rank, team)
+get_four_factors_plot(df_rank, df_no_rank, team, language)
 }
 \arguments{
 \item{df_rank}{Data frame with the team's offense and 
@@ -14,6 +14,9 @@ defense four factors and its ranking labels.}
 defense four factors.}
 
 \item{team}{Team name.}
+
+\item{language}{Language labels. Current options are 'en' for english
+and 'es' for spanish.}
 }
 \value{
 Graphical device
@@ -29,7 +32,8 @@ df1 <- do_add_adv_stats(df)
 team <- "Valencia"
 df_four_factors <- do_four_factors_df(df1, team)
 # If only one team is represented the ranking between parentheses is just one.
-get_four_factors_plot(df_four_factors$df_rank, df_four_factors$df_no_rank, team)
+get_four_factors_plot(df_four_factors$df_rank, 
+                      df_four_factors$df_no_rank, team, "en")
 }
 
 }

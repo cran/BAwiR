@@ -11,8 +11,8 @@ Collection of tools to work with basketball data. Functions available are relate
 \tabular{ll}{
 Package: BAwiR\cr
 Type: Package\cr
-Version: 1.0\cr
-Date: 2018-01-25\cr
+Version: 1.1\cr
+Date: 2018-05-09\cr
 License: GPL-2\cr
 LazyLoad: yes\cr
 LazyData: yes\cr
@@ -29,6 +29,7 @@ do_OE: Offensive Efficiency (OE). \cr
 do_scraping_games: Player game finder data.\cr
 do_scraping_rosters: Players profile data.\cr
 do_stats: Accumulated or average statistics.\cr
+do_stats_teams: Accumulated and average statistics for teams.\cr
 eurocup_games_1718: Eurocup games 2017-2018.\cr
 eurocup_players_1718:	Eurocup players 2017-2018.\cr
 euroleague_games_1718: Euroleague games 2017-2018.\cr
@@ -42,6 +43,9 @@ get_map_nats: Nationalities map.\cr
 get_pop_pyramid_acb: ACB population pyramid.\cr
 get_shooting_plot: Shooting plot.\cr
 get_similar_players: Similar players to archetypoids.\cr
+get_similar_teams: Similar teams to archetypoids.\cr
+get_stats_seasons: Season-by-season stats.\cr
+get_table_results: League cross table.\cr
 join_players_bio_age_acb: Join ACB games and players' info.\cr
 join_players_bio_age_euro: Join Euroleague and Eurocup games and players' info.\cr
 scraping_games_acb: ACB player game finder data.\cr

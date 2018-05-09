@@ -73,11 +73,13 @@ do_four_factors_df <- function(df_games, teams) {
 
   df5 <- data.frame()
   for (i in teams) {
-    team_GameID <- unique(df_games$GameID[df_games$Team == i])
+    #team_GameID <- unique(df_games$GameID[df_games$Team == i])
+    team_Game <- unique(df_games$Game[df_games$Team == i])
     df2 <- df_games %>%
       #ungroup() %>%
       #filter(grepl(i, Game)) %>%
-      filter(GameID %in% team_GameID) %>%
+      #filter(GameID %in% team_GameID) %>%
+      filter(Game %in% team_Game) %>%
       select(Day, Game, Team, Player.x, FG, FGA, ThreeP, FT, FTA, DRB, ORB, TOV) %>%
       group_by(Team) %>%
       mutate(Type = ifelse(Team == i, "Offense", "Defense")) 

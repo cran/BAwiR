@@ -1,6 +1,19 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.1 [2018-05-09]
+* A minor typo has been corrected in scraping_rosters_acb() and scraping_rosters_euro() to check if the data frame is NULL before adding name columns.
+* In the same two functions, the colon notation in the initial loop has been replaced by seq_len to avoid the backwards sequence bug.
+* A minor typo has been corrected in do_four_factors_df() to identify the games that every team played.
+* get_pop_pyramid_acb() has been corrected to be in line with ggplot2 updates.
+* get_map_nats() is not interactive anymore in order to harmonize with all other functions. This feature is just in the web application.
+* These new functions have been added:
+  - do_stats_teams() Total and average statistics for every team.
+  - get_similar_teams() Similar teams to archetypoids.
+  - get_stats_seasons() Season-by-season average players' stats.
+  - get_table_results() Cross table of league results.
+
+
 Version: 1.0 [2018-01-25]
 * First package version.
 * Submitted to CRAN.

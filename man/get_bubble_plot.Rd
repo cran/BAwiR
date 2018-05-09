@@ -4,12 +4,14 @@
 \alias{get_bubble_plot}
 \title{Basketball bubble plot}
 \usage{
-get_bubble_plot(df_stats, player)
+get_bubble_plot(df_stats, player, descr_stats)
 }
 \arguments{
 \item{df_stats}{Data frame with the statistics.}
 
 \item{player}{Player.}
+
+\item{descr_stats}{Description of the statistics for the legend.}
 }
 \value{
 Graphical device
@@ -21,6 +23,8 @@ contains the percentiles between 0 and 24. The second, between 25 and 49.
 The third, between 50 and 74 and the fourth, between 75 and 100. The
 percentiles are computed with the function 
 \code{\link[Anthropometry]{percentilsArchetypoid}}.
+Boxes of the same percentile category are in the same color in the interests
+of easy understanding.
 
 This type of visualization allows the user to analyze each player in a very 
 simple way, since a general idea of those aspects of the game in which the 
@@ -37,7 +41,18 @@ compet <- "ACB"
 df <- do_join_games_bio(compet, acb_games_1718, acb_players_1718)
 df1 <- do_add_adv_stats(df)
 df2 <- do_stats(df1, "Total", "2017-2018", compet, "Regular Season")
-get_bubble_plot(df2, "Abalde, Alberto")
+# When choosing a subset of stats, follow the order in which they appear
+# in the data frame.
+stats <- c("GP", "MP", "PTS", "FGA", "FGPerc", "ThreePA", "ThreePPerc", 
+           "FTA", "FTPerc", "TRB", "ORB", "AST", "STL", "TOV")
+df2_1 <- df2[, c(1:5, which(colnames(df2) \%in\% stats), 46:49)]
+descr_stats <- c("Games played", "Minutes played", "Points", 
+                "Field goals attempted", "Field goals percentage", 
+                "3-point field goals attempted", "3-point percentage", 
+                "FTA: Free throws attempted", "Free throws percentage", 
+                "Total rebounds", "Offensive rebounds", 
+                "Assists", "Steals", "Turnovers")
+get_bubble_plot(df2_1, "Abalde, Alberto", descr_stats)
 }
 
 }

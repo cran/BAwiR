@@ -41,16 +41,19 @@ get_pop_pyramid_acb <- function(df) {
     group_by(Season) %>%
     count(Nationality_1) %>%
     mutate(Number = ifelse(Nationality_1 == "Foreigner", -n, n)) %>%
+    #rename(Number = n) %>%
     select(Season, Nationality_1, Number)
   df1$Season <- as.factor(df1$Season)
   
   tit <- " Number of Spanish and foreign players along the ACB seasons \n Data from www.acb.com"
-  g1 <- ggplot(data = df1, aes(x = Season, fill = Nationality_1)) +
-    geom_bar(aes(y = Number), stat = "identity", subset(df1, df1$Nationality_1 == "Spanish")) +
-    geom_bar(aes(y = Number), stat = "identity", subset(df1, df1$Nationality_1 == "Foreigner")) +
-    geom_text(aes(y = Number, label = Number), subset(df1, df1$Nationality_1 == "Spanish"), 
+  g1 <- ggplot(data = df1, aes(x = Season, fill = Nationality_1, group = Nationality_1)) +
+    geom_bar(aes(y = Number), stat = "identity") + #, subset(df1, df1$Nationality_1 == "Spanish")) +
+    #geom_bar(aes(y = Number), stat = "identity", subset(df1, df1$Nationality_1 == "Foreigner")) +
+    geom_text(aes(y = Number, label = Number), 
+              subset(df1, df1$Nationality_1 == "Spanish"), 
               size = 4, hjust = -0.1) +
-    geom_text(aes(y = Number, label = Number * (-1)), subset(df1, df1$Nationality_1 == "Foreigner"), 
+    geom_text(aes(y = Number, label = Number * (-1)), 
+              subset(df1, df1$Nationality_1 == "Foreigner"), 
               size = 4, hjust = -0.1) +
     coord_flip() +
     labs(x = "Season\n", y = "Number of players", 

@@ -94,6 +94,7 @@ scraping_games_euro <- function(competition, nums, year, verbose = TRUE,
     if (get_website$status_code == 404 | get_website$status_code == 500) { 
       # The status code 404 is for the websites that cannot be found, i.e., the websites that don't exist.
       # The status code 500 is for the websites under maintenance, so the websites don't exist either.
+      print("Web doesn't exist")
       next
     }
     

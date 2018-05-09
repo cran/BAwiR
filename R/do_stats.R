@@ -6,14 +6,14 @@
 #' This function computes either the total or the average statistics.
 #' 
 #' @usage 
-#' do_stats(df_games, type_stats = "Total", season, competition, type_str)
+#' do_stats(df_games, type_stats = "Total", season, competition, type_season)
 #' 
 #' @param df_games Data frame with the games, players info, advanced stats and
 #' eventually recoded teams names.
 #' @param type_stats String. Options are "Total" and "Average".
 #' @param season String indicating the season, for example, 2017-2018.
 #' @param competition String. Options are "ACB", "Euroleague" and "Eurocup".
-#' @param type_str String with the round of competition, for example regular season
+#' @param type_season String with the round of competition, for example regular season
 #' or playoffs and so on.
 #' 
 #' @return 
@@ -33,7 +33,7 @@
 #'                  
 #' @export
 
-do_stats <- function(df_games, type_stats = "Total", season, competition, type_str){
+do_stats <- function(df_games, type_stats = "Total", season, competition, type_season){
  Number <- TwoPPerc <- ThreePPerc <- FTPerc <- Day <- Date <- NULL
  Game <- GameRes <- GameID <- Website <- Player.y <- Height <- NULL
  Date_birth <- Licence <- Website_player <- Age <- Month <- Compet <- NULL
@@ -130,7 +130,12 @@ do_stats <- function(df_games, type_stats = "Total", season, competition, type_s
 
   df5$Season <- season
   df5$Compet <- competition
-  df5$Type_season <- type_str
+  if (length(type_season) > 1) { # In some months, more than one round is played.
+    # In February, there are games from Copa del Rey and ACB regular season.
+    df5$Type_season <- "All"
+  }else{
+    df5$Type_season <- type_season 
+  }
   df5$Type_stats <- type_stats
 
   return(df5)

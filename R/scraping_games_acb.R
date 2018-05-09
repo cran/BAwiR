@@ -106,6 +106,7 @@ scraping_games_acb <- function(type_league, nums, year, verbose = TRUE, accents 
     if (get_website$status_code == 404) { # The status code 404 is for 
       # the websites that cannot be found, i.e., the websites that 
       # don't exist.
+      print("Web doesn't exist")
       next
     }
     
@@ -124,7 +125,8 @@ scraping_games_acb <- function(type_league, nums, year, verbose = TRUE, accents 
       # These are the seasons where there is column Plus/Minus, so the seasons
       # different from them must have 35 columns:
       if (!(nums[jorn] %in% c(76001:76007, 77001:77007, 78001:78007,
-                              79001:79007, 80001:80007, 81001:81007))) {
+                              79001:79007, 80001:80007, 81001:81007,
+                              82001:82007))) {
         numCols <- 35
       }else{
         numCols <- 36

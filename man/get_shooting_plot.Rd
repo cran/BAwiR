@@ -4,7 +4,7 @@
 \alias{get_shooting_plot}
 \title{Shooting plot}
 \usage{
-get_shooting_plot(df_stats, team, type_shot, min_att, title)
+get_shooting_plot(df_stats, team, type_shot, min_att, title, language)
 }
 \arguments{
 \item{df_stats}{Data frame with the statistics.}
@@ -18,6 +18,9 @@ get_shooting_plot(df_stats, team, type_shot, min_att, title)
 be represented in the plot.}
 
 \item{title}{Plot title.}
+
+\item{language}{Language labels. Current options are 'en' for english
+and 'es' for spanish.}
 }
 \value{
 Graphical device.
@@ -33,7 +36,8 @@ compet <- "ACB"
 df <- do_join_games_bio(compet, acb_games_1718, acb_players_1718)
 df1 <- do_add_adv_stats(df)
 df2 <- do_stats(df1, "Total", "2017-2018", compet, "Regular Season")
-get_shooting_plot(df2, "Valencia", 3, 1, paste("Valencia", compet, "2017-2018", sep = " "))
+get_shooting_plot(df2, "Valencia", 3, 1, 
+                  paste("Valencia", compet, "2017-2018", sep = " "), "en")
 }
 
 }

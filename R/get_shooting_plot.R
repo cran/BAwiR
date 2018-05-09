@@ -7,7 +7,7 @@
 #' player of the same team, together with the scoring percentage. 
 #' The players are sortered by percentage.
 #' 
-#' @usage get_shooting_plot(df_stats, team, type_shot, min_att, title)
+#' @usage get_shooting_plot(df_stats, team, type_shot, min_att, title, language)
 #' 
 #' @param df_stats Data frame with the statistics.
 #' @param team Team.
@@ -16,6 +16,8 @@
 #' @param min_att Minimum number of attempts by the player to
 #' be represented in the plot.
 #' @param title Plot title.
+#' @param language Language labels. Current options are 'en' for english
+#' and 'es' for spanish.
 #' 
 #' @return 
 #' Graphical device.
@@ -29,7 +31,8 @@
 #' df <- do_join_games_bio(compet, acb_games_1718, acb_players_1718)
 #' df1 <- do_add_adv_stats(df)
 #' df2 <- do_stats(df1, "Total", "2017-2018", compet, "Regular Season")
-#' get_shooting_plot(df2, "Valencia", 3, 1, paste("Valencia", compet, "2017-2018", sep = " "))
+#' get_shooting_plot(df2, "Valencia", 3, 1, 
+#'                   paste("Valencia", compet, "2017-2018", sep = " "), "en")
 #' }
 #' 
 #' @importFrom ggplot2 geom_segment theme_minimal
@@ -37,7 +40,7 @@
 #'
 #' @export
 
-get_shooting_plot <- function(df_stats, team, type_shot, min_att, title){
+get_shooting_plot <- function(df_stats, team, type_shot, min_att, title, language){
   Team <- Name <- FT <- FTA <- TwoP <- TwoPA <- ThreeP <- ThreePA <- NULL
   total_att <- total_sco <- perc_sco <- perc_no_sco <- total_no_sco <- NULL
   
@@ -48,8 +51,13 @@ get_shooting_plot <- function(df_stats, team, type_shot, min_att, title){
       select(Name, FT, FTA) %>%
       group_by(Name) %>%
       summarise(total_att = sum(FTA), total_sco = sum(FT)) 
-    color1 <- "Free throws scored "
-    color2 <- "Free throws missed"
+    if (language == "en") {
+      color1 <- "Free throws scored"
+      color2 <- "Free throws missed"
+    }else if (language == "es") {
+      color1 <- "Tiros libres anotados"
+      color2 <- "Tiros libres fallados"
+     }  
   }else if (type_shot == 2) {
     df1 <- df_stats %>% 
       ungroup() %>%
@@ -57,8 +65,13 @@ get_shooting_plot <- function(df_stats, team, type_shot, min_att, title){
       select(Name, TwoP, TwoPA) %>%
       group_by(Name) %>%
       summarise(total_att = sum(TwoPA), total_sco = sum(TwoP)) 
-    color1 <- "Two-points scored"
-    color2 <- "Two-points missed"
+    if (language == "en") {
+      color1 <- "Two-points scored"
+      color2 <- "Two-points missed"
+    }else if (language == "es") {
+      color1 <- "Tiros de dos anotados"
+      color2 <- "Tiros de dos fallados"
+    }  
   }else if (type_shot == 3) {
     df1 <- df_stats %>% 
       ungroup() %>%
@@ -66,8 +79,13 @@ get_shooting_plot <- function(df_stats, team, type_shot, min_att, title){
       select(Name, ThreeP, ThreePA) %>%
       group_by(Name) %>%
       summarise(total_att = sum(ThreePA), total_sco = sum(ThreeP)) 
-    color1 <- "Three-points scored"
-    color2 <- "Three-points missed"
+    if (language == "en") {
+      color1 <- "Three-points scored"
+      color2 <- "Three-points missed"
+    }else if (language == "es") {
+      color1 <- "Tiros de tres anotados"
+      color2 <- "Tiros de tres fallados"
+    } 
   }
   
   df_tm <- df1 %>%

@@ -4,23 +4,17 @@
 \alias{get_map_nats}
 \title{Nationalities map}
 \usage{
-get_map_nats(competition, season, df_stats)
+get_map_nats(df_stats)
 }
 \arguments{
-\item{competition}{String. Options are "ACB", "Euroleague" and "Eurocup".}
-
-\item{season}{Season, e.g. 2017-2018.}
-
-\item{df_stats}{Data frame with the statistics and the
-corrected nationalities.}
+\item{df_stats}{Data frame with the statistics and the corrected nationalities.}
 }
 \value{
 Graphical device.
 }
 \description{
 A world map is represented. The countries from where there are players 
-in the competition selected are in green color. By hovering over each 
-country, the user gets the exact number of players and their names.
+in the competition selected are in green color.
 }
 \examples{
 \dontrun{
@@ -28,7 +22,7 @@ compet <- "ACB"
 df <- do_join_games_bio(compet, acb_games_1718, acb_players_1718)
 df1 <- do_add_adv_stats(df)
 df2 <- do_stats(df1, "Total", "2017-2018", compet, "Regular Season")
-get_map_nats("ACB", "2017-2018", df2)
+get_map_nats(df2)
 }
         
 }

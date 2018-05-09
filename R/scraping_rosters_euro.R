@@ -67,7 +67,10 @@
 scraping_rosters_euro <- function(competition, pcode, year, verbose = TRUE, 
                                   r_user = "guillermo.vinue@uv.es"){
   df <- NULL
-  for (i in 1:length(pcode)) {
+  #for (i in 1:length(pcode)) 
+  len_pcode <- length(pcode)
+  # Instead of using 1:len_pcode, we can use seq_len(len_pcode) to avoid the backwards sequence bug.
+  for (i in seq_len(len_pcode)) {
     if (verbose) {
       print(i)
       print(pcode[i]) 
@@ -94,6 +97,7 @@ scraping_rosters_euro <- function(competition, pcode, year, verbose = TRUE,
     if (get_website$status_code == 404) { # The status code 404 is for 
       # the websites that cannot be found, i.e., the websites that 
       # don't exist.
+      print("Web doesn't exist")
       next
     }
     
@@ -186,9 +190,10 @@ scraping_rosters_euro <- function(competition, pcode, year, verbose = TRUE,
     # Crawl-delay asks to pause between requests for 15 seconds.
     Sys.sleep(15)  
   } 
-  
-  colnames(df) <- c("CombinID", "Player", "Position", "Height", 
-                    "Date_birth", "Nationality", "Website_player")
+  if (!is.null(df)) {
+    colnames(df) <- c("CombinID", "Player", "Position", "Height", 
+                      "Date_birth", "Nationality", "Website_player")
+  }  
   
   return(df)
 }
