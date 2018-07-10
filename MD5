@@ -1,6 +1,6 @@
-73f23968f2d36c97186d80509387384d *DESCRIPTION
+cfcbb77782d7cb3927efd097cb46f1d2 *DESCRIPTION
 c84a9ee13f4655cf6f9396e9a4695728 *NAMESPACE
-6ee90ee6ae767bb9cc7ecb06c57c03cf *NEWS
+490765e3d7b5ef34581824c0ccd106f7 *NEWS
 abbf4a94294c412e44cb3ed37c93945c *R/capit_two_words.R
 bd7281c0647af6ed4b0665c3a892f22a *R/do_EPS.R
 1934acb7b00a0e3af9f9298fbdc9224f *R/do_OE.R
@@ -26,7 +26,7 @@ c75e668ecbf7b98d797e453376efa74e *R/get_similar_teams.R
 1ed08507cb43ae06f49e3ae6b4b061ae *R/get_table_results.R
 2b62f6b849f3f0f033f3c94a9b1fa668 *R/join_players_bio_age_acb.R
 1633ebabfc936a83be3a4a3fda7bfa30 *R/join_players_bio_age_euro.R
-12ea7d734acfe6232f44d450cf52276b *R/scraping_games_acb.R
+196e002a5d60883d0031785309968839 *R/scraping_games_acb.R
 412c8cf09702dd93f0920c0591c052a7 *R/scraping_games_euro.R
 a74bc30361519501eb5e1f9fcfc3ac9d *R/scraping_rosters_acb.R
 2b7defaee5899fbf5c388e71653bed24 *R/scraping_rosters_euro.R
@@ -36,7 +36,7 @@ fe1021f63d1f120fed921cfbe32b89ed *data/eurocup_games_1718.RData
 d374aaaa13871ee9d88bcf7d0a6b2457 *data/eurocup_players_1718.RData
 0e897b89ec9d500ed8a95b1171f1de47 *data/euroleague_games_1718.RData
 08ea15d2675654b9ac25c3e08bb5cc97 *data/euroleague_players_1718.RData
-b3afc2ce8c8cad30a37c3af175f29e36 *man/BAwiR-package.Rd
+a363ef92bb2b6521d387fa9a8615090b *man/BAwiR-package.Rd
 32fda7698d1a9dbacdae53e496955f5a *man/acb_games_1718.Rd
 04dbae0256f279e35c065f7c517a0ea6 *man/acb_players_1718.Rd
 b7742b217c0321707d03228173042b53 *man/capit_two_words.Rd

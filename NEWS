@@ -1,6 +1,9 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.1.1 [2018-07-10]
+* The scraping numbers for the playoff games for the ACB 2017-2018 season have been added to scraping_games_acb().
+
 Version: 1.1 [2018-05-09]
 * A minor typo has been corrected in scraping_rosters_acb() and scraping_rosters_euro() to check if the data frame is NULL before adding name columns.
 * In the same two functions, the colon notation in the initial loop has been replaced by seq_len to avoid the backwards sequence bug.
