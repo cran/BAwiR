@@ -1,6 +1,10 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.1.2 [2018-09-10]
+* An html vignette has been added.
+* In get_stats_seasons()$df_gg, the column Age indicates the age of player at February 1st of the season.
+
 Version: 1.1.1 [2018-07-10]
 * The scraping numbers for the playoff games for the ACB 2017-2018 season have been added to scraping_games_acb().
 

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Guillermo Vinue" />
+
+<meta name="date" content="2018-09-10" />
+
+<title>Visualization of European basketball data</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Visualization of European basketball data</h1>
+<h4 class="author"><em>Guillermo Vinue</em></h4>
+<h4 class="date"><em>2018-09-10</em></h4>
+
+
+
+<p>This document contains all the needed R code to reproduce the results described in the paper <em>A web application for interactive visualization of European basketball data</em>, which presents the web application available at <a href="https://gvinue.shinyapps.io/AppEuroACB/" class="uri" target="_blank">https://gvinue.shinyapps.io/AppEuroACB/</a>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Firstly, load BAwiR and other packages that will be used in the paper:</span>
+<span class="kw">library</span>(BAwiR)
+<span class="kw">library</span>(tidyverse)
+<span class="kw">library</span>(Anthropometry)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 1:</span>
+<span class="co"># Load the data_app_acb file with the ACB games from seasons 1985-1986 to 2017-2018:</span>
+<span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;http://www.uv.es/vivigui/softw/data_app_acb.RData&quot;</span>))
+<span class="kw">get_pop_pyramid_acb</span>(data_app_acb)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create the data with games and players' info, add the advanced stats </span>
+<span class="co"># and compute the total numbers:</span>
+df0 &lt;-<span class="st"> </span><span class="kw">do_join_games_bio</span>(<span class="st">&quot;ACB&quot;</span>, acb_games_<span class="dv">1718</span>, acb_players_<span class="dv">1718</span>)
+df1 &lt;-<span class="st"> </span><span class="kw">do_add_adv_stats</span>(df0)
+df2 &lt;-<span class="st"> </span><span class="kw">do_stats</span>(df1, <span class="st">&quot;Total&quot;</span>, <span class="st">&quot;2017-2018&quot;</span>, <span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;Regular Season&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Table 2:</span>
+df3 &lt;-<span class="st"> </span>df2[<span class="kw">which</span>(df2<span class="op">$</span>Position <span class="op">==</span><span class="st"> &quot;Center&quot;</span>), <span class="kw">c</span>(<span class="st">&quot;MP&quot;</span>, <span class="st">&quot;PTS&quot;</span>, <span class="st">&quot;Name&quot;</span>)]
+preproc &lt;-<span class="st"> </span><span class="kw">preprocessing</span>(df3[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dt">stand =</span> <span class="ot">TRUE</span>, <span class="dt">percAccomm =</span> <span class="dv">1</span>)
+<span class="kw">set.seed</span>(<span class="dv">4321</span>)
+lass &lt;-<span class="st"> </span><span class="kw">stepArchetypesRawData</span>(preproc<span class="op">$</span>data, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">numRep =</span> <span class="dv">20</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
+res &lt;-<span class="st"> </span><span class="kw">archetypoids</span>(<span class="dv">2</span>, preproc<span class="op">$</span>data, <span class="dt">huge =</span> <span class="dv">200</span>, <span class="dt">step =</span> <span class="ot">FALSE</span>, <span class="dt">ArchObj =</span> lass, 
+                    <span class="dt">nearest =</span> <span class="st">&quot;cand_ns&quot;</span>, <span class="dt">sequ =</span> <span class="ot">TRUE</span>)
+cases &lt;-<span class="st"> </span><span class="kw">anthrCases</span>(res)
+alphas &lt;-<span class="st"> </span><span class="kw">round</span>(res<span class="op">$</span>alphas, <span class="dv">4</span>)
+df3[cases,]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 2:</span>
+sel1 &lt;-<span class="st"> </span>df3 <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">   </span><span class="kw">mutate</span>(<span class="dt">Archetypoid =</span> <span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(<span class="kw">rownames</span>(df3)) <span class="op">%in%</span><span class="st"> </span>cases, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>))
+<span class="kw">ggplot</span>(sel1, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">c</span>(sel1[,<span class="dv">1</span>])[[<span class="dv">1</span>]], <span class="dt">y =</span> <span class="kw">c</span>(sel1[,<span class="dv">2</span>])[[<span class="dv">1</span>]], <span class="dt">color =</span> Archetypoid)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">colnames</span>(sel1)[<span class="dv">1</span>], <span class="dt">y =</span> <span class="kw">colnames</span>(sel1)[<span class="dv">2</span>]) <span class="op">+</span>
+<span class="st">  </span><span class="kw">guides</span>(<span class="dt">color =</span> <span class="kw">guide_legend</span>(<span class="dt">override.aes =</span> <span class="kw">list</span>(<span class="dt">size =</span> <span class="dv">5</span>)))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Table 3:</span>
+df3_aux &lt;-<span class="st"> </span>df2[<span class="kw">which</span>(df2<span class="op">$</span>Position <span class="op">==</span><span class="st"> &quot;Center&quot;</span>), ]
+<span class="kw">get_similar_players</span>(<span class="dv">2</span>, <span class="fl">0.95</span>, alphas, cases, df3_aux, <span class="kw">c</span>(<span class="st">&quot;MP&quot;</span>, <span class="st">&quot;PTS&quot;</span>), 
+                    <span class="kw">unique</span>(df3_aux<span class="op">$</span>Compet), <span class="kw">unique</span>(df3_aux<span class="op">$</span>Season))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 3:</span>
+stats &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;GP&quot;</span>, <span class="st">&quot;MP&quot;</span>, <span class="st">&quot;PTS&quot;</span>, <span class="st">&quot;FGPerc&quot;</span>, <span class="st">&quot;FTPerc&quot;</span>, <span class="st">&quot;TRB&quot;</span>, <span class="st">&quot;AST&quot;</span>, <span class="st">&quot;TOV&quot;</span>, <span class="st">&quot;PlusMinus&quot;</span>, <span class="st">&quot;PIR&quot;</span>)
+descr_stats &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Games played&quot;</span>, <span class="st">&quot;Minutes played&quot;</span>, <span class="st">&quot;Points&quot;</span>, <span class="st">&quot;Field goals percentage&quot;</span>, 
+                 <span class="st">&quot;Free throws percentage&quot;</span>, <span class="st">&quot;Total rebounds&quot;</span>, <span class="st">&quot;Assists&quot;</span>, <span class="st">&quot;Turnovers&quot;</span>, 
+                 <span class="st">&quot;Plus/minus&quot;</span>, <span class="st">&quot;Performance index rating&quot;</span>)
+df2_<span class="dv">1</span> &lt;-<span class="st"> </span>df2 <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, stats, <span class="dv">46</span><span class="op">:</span><span class="dv">49</span>)
+<span class="kw">get_bubble_plot</span>(df2_<span class="dv">1</span>, <span class="st">&quot;Doncic, Luka&quot;</span>, descr_stats)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 4:</span>
+months &lt;-<span class="st"> </span><span class="kw">c</span>(df0 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>(Month))<span class="op">$</span>Month
+months_order &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;September&quot;</span>, <span class="st">&quot;October&quot;</span>, <span class="st">&quot;November&quot;</span>, <span class="st">&quot;December&quot;</span>,  <span class="st">&quot;January&quot;</span>, 
+                  <span class="st">&quot;February&quot;</span>, <span class="st">&quot;March&quot;</span>, <span class="st">&quot;April&quot;</span>, <span class="st">&quot;May&quot;</span>, <span class="st">&quot;June&quot;</span>)
+months_plot &lt;-<span class="st"> </span><span class="kw">match</span>(months_order, months)
+months_plot1 &lt;-<span class="st"> </span>months_plot[<span class="op">!</span><span class="kw">is.na</span>(months_plot)]
+months_plot2 &lt;-<span class="st"> </span>months[months_plot1]
+
+df1_m &lt;-<span class="st"> </span>df1 <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">filter</span>(Team <span class="op">==</span><span class="st"> &quot;Real_Madrid&quot;</span>, 
+                     Player.x <span class="op">==</span><span class="st"> &quot;Doncic, Luka&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">group_by</span>(Month) <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">do</span>(<span class="kw">do_stats</span>(., <span class="st">&quot;Average&quot;</span>, <span class="st">&quot;2017-2018&quot;</span>, <span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;Regular Season&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">mutate</span>(<span class="dt">Month =</span> <span class="kw">factor</span>(Month, <span class="dt">levels =</span> months_plot2)) <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">arrange</span>(Month)
+
+
+df1_m1 &lt;-<span class="st"> </span>df1_m <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, stats, <span class="dv">46</span><span class="op">:</span><span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>EPS)
+title &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw">paste</span>(<span class="st">&quot;;&quot;</span>, <span class="st">&quot;ACB&quot;</span>), <span class="st">&quot;2017-2018&quot;</span>, <span class="st">&quot;Regular Season&quot;</span>, 
+                         <span class="st">&quot;Average&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot; ; &quot;</span>)
+<span class="kw">get_barplot_monthly_stats</span>(df1_m1, title, <span class="dv">2</span>, <span class="dv">4</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 5:</span>
+df0<span class="op">$</span>Compet &lt;-<span class="st"> &quot;ACB&quot;</span>
+plot_yearly &lt;-<span class="st"> </span><span class="kw">get_stats_seasons</span>(df0, <span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;Doncic, Luka&quot;</span>, stats, <span class="st">&quot;Regular Season&quot;</span>)
+plot_yearly<span class="op">$</span>gg <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Doncic, Luka ; Yearly statistics&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 6:</span>
+levels_stats &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;Offensive&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;PTS&quot;</span>, <span class="st">&quot;FG&quot;</span>, <span class="st">&quot;FGA&quot;</span>, <span class="st">&quot;FGPerc&quot;</span>, 
+                                     <span class="st">&quot;TwoP&quot;</span>, <span class="st">&quot;TwoPA&quot;</span>, <span class="st">&quot;TwoPPerc&quot;</span>,
+                                     <span class="st">&quot;ThreeP&quot;</span>, <span class="st">&quot;ThreePA&quot;</span>, <span class="st">&quot;ThreePPerc&quot;</span>,
+                                     <span class="st">&quot;FT&quot;</span>, <span class="st">&quot;FTA&quot;</span>, <span class="st">&quot;FTPerc&quot;</span>, <span class="st">&quot;ORB&quot;</span>, <span class="st">&quot;AST&quot;</span>),
+                     <span class="st">&quot;Defensive&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;DRB&quot;</span>, <span class="st">&quot;STL&quot;</span>, <span class="st">&quot;PF&quot;</span>),
+                     <span class="st">&quot;Other&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;GP&quot;</span>, <span class="st">&quot;MP&quot;</span>, <span class="st">&quot;TRB&quot;</span>, <span class="st">&quot;PlusMinus&quot;</span>, <span class="st">&quot;PIR&quot;</span>),
+                     <span class="st">&quot;Advanced&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;EFGPerc&quot;</span>, <span class="st">&quot;PPS&quot;</span>))
+<span class="kw">get_heatmap_bb</span>(df2, <span class="st">&quot;Real_Madrid&quot;</span>, levels_stats, <span class="st">&quot;PlusMinus&quot;</span>, <span class="dv">9</span>, 
+               <span class="kw">paste</span>(<span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;2017-2018&quot;</span>, <span class="st">&quot;Total&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 7:</span>
+<span class="kw">get_shooting_plot</span>(df2, <span class="st">&quot;Real_Madrid&quot;</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="kw">paste</span>(<span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;17-18&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>), <span class="st">&quot;en&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 8:</span>
+df1_<span class="dv">10</span> &lt;-<span class="st"> </span>df1 <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(Day <span class="op">&lt;=</span><span class="st"> </span><span class="dv">10</span>) 
+teams &lt;-<span class="st"> </span><span class="kw">as.character</span>(<span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">unique</span>(df2<span class="op">$</span>Team))))
+df_four_factors &lt;-<span class="st"> </span><span class="kw">do_four_factors_df</span>(df1_<span class="dv">10</span>, teams)
+<span class="kw">get_four_factors_plot</span>(df_four_factors<span class="op">$</span>df_rank, df_four_factors<span class="op">$</span>df_no_rank, <span class="st">&quot;Real_Madrid&quot;</span>, <span class="st">&quot;en&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 9:</span>
+df0<span class="op">$</span>Compet &lt;-<span class="st"> &quot;ACB&quot;</span>
+gg &lt;-<span class="st"> </span><span class="kw">get_table_results</span>(df0, <span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;2017-2018&quot;</span>)
+gg<span class="op">$</span>plot_teams</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 10:</span>
+<span class="kw">get_map_nats</span>(df2)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
+<pre><code>## R version 3.4.4 (2018-03-15)
+## Platform: x86_64-redhat-linux-gnu (64-bit)
+## Running under: Fedora 27 (Workstation Edition)
+## 
+## Matrix products: default
+## BLAS/LAPACK: /usr/lib64/R/lib/libRblas.so
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=C              
+##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## loaded via a namespace (and not attached):
+##  [1] compiler_3.4.4  backports_1.1.2 magrittr_1.5    rprojroot_1.3-2
+##  [5] htmltools_0.3.6 tools_3.4.4     yaml_2.1.16     Rcpp_0.12.17   
+##  [9] stringi_1.2.3   rmarkdown_1.8   knitr_1.19      stringr_1.3.1  
+## [13] digest_0.6.15   evaluate_0.10.1</code></pre>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

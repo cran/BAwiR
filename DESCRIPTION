@@ -1,8 +1,8 @@
 Package: BAwiR
 Type: Package
 Title: Analysis of Basketball Data
-Version: 1.1.1
-Date: 2018-07-10
+Version: 1.1.2
+Date: 2018-09-10
 Author: Guillermo Vinue
 Maintainer: Guillermo Vinue <Guillermo.Vinue@uv.es>
 Description: Collection of tools to work with basketball data. Functions available are related to friendly 
@@ -17,9 +17,11 @@ Depends: R (>= 3.4.0)
 Imports: Anthropometry, plyr, dplyr, ggplot2, ggthemes, grid,
         hrbrthemes, httr, lubridate, magrittr, purrr, reshape2, rvest,
         rworldmap, scales, stringi, stringr, tidyr, xml2
+Suggests: knitr
+VignetteBuilder: knitr
 LazyData: true
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2018-07-10 16:37:49 UTC; guillevinue
+Packaged: 2018-09-10 15:25:17 UTC; guillevinue
 Repository: CRAN
-Date/Publication: 2018-07-10 17:10:14 UTC
+Date/Publication: 2018-09-10 16:10:06 UTC

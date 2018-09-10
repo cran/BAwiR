@@ -94,8 +94,14 @@ get_stats_seasons <- function(df, competition, player, variabs, type_season){
     select(Name, Team, Season, variabs)
   
   Date_birth <- unique(df2$Date_birth)
-  df4$Age <- round((as.Date(paste("1/10/", substr(df4$Season, 1, 4), sep = ""), "%d/%m/%Y") - 
-                      as.Date(Date_birth, "%d/%m/%Y")) / 365.25, 1)
+  # Age of Player at the start of October 1st of that season. 
+  # For instance, season 2013-2014, age at October 1st 2013.
+  #df4$Age <- round((as.Date(paste("1/10/", substr(df4$Season, 1, 4), sep = ""), "%d/%m/%Y") - 
+  #                    as.Date(Date_birth, "%d/%m/%Y")) / 365.25, 1)
+  # Age of Player at the start of February 1st of that season.
+  # For instance, season 2013-2014, age at February 1st 2014.
+  df4$Age <- trunc((as.Date(paste("1/02/", sapply(strsplit(df4$Season, "-"), `[`, 2), sep = ""), "%d/%m/%Y") - 
+                      as.Date(Date_birth, "%d/%m/%Y")) / 365.25)
   
   df5 <- melt(df4 %>% select(-Age))
   
