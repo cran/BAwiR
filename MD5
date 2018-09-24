@@ -1,6 +1,6 @@
-63f6958af5efe9ea7bbefc8ec59cd984 *DESCRIPTION
+23eeb2c9fb8d8a9e369bc5b71901f86e *DESCRIPTION
 c84a9ee13f4655cf6f9396e9a4695728 *NAMESPACE
-896a0f34e872a946576ac96d8c0abcaa *NEWS
+a5bcd803d578fdb17adbb38f3ef48d37 *NEWS
 abbf4a94294c412e44cb3ed37c93945c *R/capit_two_words.R
 bd7281c0647af6ed4b0665c3a892f22a *R/do_EPS.R
 1934acb7b00a0e3af9f9298fbdc9224f *R/do_OE.R
@@ -15,7 +15,7 @@ da451c995fa79663a1cbfc55dea36499 *R/do_stats_teams.R
 b60d300d87cc9b967a7b358da09e178f *R/get_barplot_monthly_stats.R
 cefb7ff33313f7475551bbf9cbbb3b98 *R/get_bubble_plot.R
 d8f3bb3973a98ba0bb40023abd7181d5 *R/get_four_factors_plot.R
-b84b14297d9eb3db1bf7d8a5556f2c76 *R/get_games_rosters.R
+8657f87b61eca16f45bb72f3350d7957 *R/get_games_rosters.R
 1b95c341931bbc685beb21db89fb42ae *R/get_heatmap_bb.R
 4046184910045b9d70b5d21ce2b122a6 *R/get_map_nats.R
 d8e86baf3c7893bc5fa011a746059b67 *R/get_pop_pyramid_acb.R
@@ -26,7 +26,7 @@ c75e668ecbf7b98d797e453376efa74e *R/get_similar_teams.R
 1ed08507cb43ae06f49e3ae6b4b061ae *R/get_table_results.R
 2b62f6b849f3f0f033f3c94a9b1fa668 *R/join_players_bio_age_acb.R
 1633ebabfc936a83be3a4a3fda7bfa30 *R/join_players_bio_age_euro.R
-196e002a5d60883d0031785309968839 *R/scraping_games_acb.R
+7c19af306180444ff216e82686b32460 *R/scraping_games_acb.R
 412c8cf09702dd93f0920c0591c052a7 *R/scraping_games_euro.R
 a74bc30361519501eb5e1f9fcfc3ac9d *R/scraping_rosters_acb.R
 2b7defaee5899fbf5c388e71653bed24 *R/scraping_rosters_euro.R
@@ -39,8 +39,8 @@ d374aaaa13871ee9d88bcf7d0a6b2457 *data/eurocup_players_1718.RData
 08ea15d2675654b9ac25c3e08bb5cc97 *data/euroleague_players_1718.RData
 2b1b90c5b9de8d0e0344e25f6136e9c8 *inst/doc/BAwiR.R
 be48216df91fcbd74135a91c4e381ed2 *inst/doc/BAwiR.Rmd
-1a9d3fe6c0c889872066e435ff0fc968 *inst/doc/BAwiR.html
-8481986d834dc6ed06bbbb52203bc327 *man/BAwiR-package.Rd
+cf22786416245764e42680557909b486 *inst/doc/BAwiR.html
+8b7b7c4f9dbef974e18844a7df1d0189 *man/BAwiR-package.Rd
 32fda7698d1a9dbacdae53e496955f5a *man/acb_games_1718.Rd
 04dbae0256f279e35c065f7c517a0ea6 *man/acb_players_1718.Rd
 b7742b217c0321707d03228173042b53 *man/capit_two_words.Rd
@@ -61,7 +61,7 @@ fe52ed466da7ed4bb45e3fc12f068d11 *man/euroleague_games_1718.Rd
 a656eb8cd94ad1aead880aac45130234 *man/get_barplot_monthly_stats.Rd
 2c8ed18f0ba63b8558c6036b90605004 *man/get_bubble_plot.Rd
 f543f323e111e899e45af8962b6f41e7 *man/get_four_factors_plot.Rd
-3f77ba426fa2c5bb4d9dd3d2418ec898 *man/get_games_rosters.Rd
+d8ea74cfc27bab8b0726474945e08464 *man/get_games_rosters.Rd
 3c8d5410b298ffe0f0d9c0706fde4e6a *man/get_heatmap_bb.Rd
 a9273ac9b249ad7ff5b1d4fcd2a25d2d *man/get_map_nats.Rd
 fa7055f3bc809083736014d62e7354db *man/get_pop_pyramid_acb.Rd

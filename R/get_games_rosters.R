@@ -100,12 +100,12 @@
 #' acb_scopa_nums <- list(1001, 2001, 3001, 4001, 5001:5004, 6001:6004, 
 #'                        7001:7003, 9001:9003, 10001:10003, 11001:11003,
 #'                        12001:12003, 13001:13003, 14001:14003, 15001:15003, 
-#'                        16001:16003, 17001:17003, 18001:18003)
+#'                        16001:16003, 17001:17003, 18001:18003, 19001:19003)
 #' # I haven't found the data for the supercopa in Bilbao 2007 ; 8001:8003
 #' # http://www.acb.com/fichas/SCOPA8001.php
 #' names(acb_scopa_nums) <- c(paste(as.character(1984:1987), as.character(1985:1988), sep = "-"),
 #'                            paste(as.character(2004:2006), as.character(2005:2007), sep = "-"),
-#'                            paste(as.character(2008:2017), as.character(2009:2018), sep = "-"))
+#'                            paste(as.character(2008:2018), as.character(2009:2019), sep = "-"))
 #'                            
 #' df0 <- data.frame()
 #' get_data <- get_games_rosters(competition = "ACB", type_league = "SCOPA", 
@@ -172,7 +172,7 @@ get_games_rosters <- function(competition, type_league, nums, verbose = TRUE,
                                verbose = verbose, accents = accents, r_user = r_user)
       df0 <- rbind(df0, df1)
       
-      if (type_league == "ACB") {
+      #if (type_league == "ACB") {
         pcode <- setdiff(df0$CombinID, df_bio0$CombinID)
         pcode1 <- pcode[pcode != 0 & !is.na(pcode)]
         if (verbose) {
@@ -183,7 +183,7 @@ get_games_rosters <- function(competition, type_league, nums, verbose = TRUE,
                                        verbose = verbose, accents = accents, r_user = r_user)
       
         df_bio0 <- rbind(df_bio0, df_bio1)
-      }  
+      #}  
       if (verbose) {
         print("Done!")
       }

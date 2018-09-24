@@ -11,8 +11,8 @@ Collection of tools to work with basketball data. Functions available are relate
 \tabular{ll}{
 Package: BAwiR\cr
 Type: Package\cr
-Version: 1.1.2\cr
-Date: 2018-09-10\cr
+Version: 1.1.3\cr
+Date: 2018-09-24\cr
 License: GPL-2\cr
 LazyLoad: yes\cr
 LazyData: yes\cr
@@ -55,7 +55,7 @@ scraping_rosters_euro: Euroleague and Eurocup players' profile.\cr
 }
 \references{
 Vinue, G., (2018). A Web Application for the Visualization of Basketball Data Using R. 
-\emph{Submitted}, http://bayes2.ucd.ie:3838/gvinue/AppEuroACB/
+\emph{Submitted}, https://www.uv.es/vivigui/AppEuroACB.html
 }
 \author{
 Guillermo Vinue <Guillermo.Vinue@uv.es>

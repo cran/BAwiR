@@ -122,21 +122,24 @@ scraping_games_acb <- function(type_league, nums, year, verbose = TRUE, accents 
     orange <- grep('"naranjaclaro"', pl_page)
     
     if (type_league == "CREY") {
-      # These are the seasons where there is column Plus/Minus, so the seasons
-      # different from them must have 35 columns:
-      if (!(nums[jorn] %in% c(76001:76007, 77001:77007, 78001:78007,
-                              79001:79007, 80001:80007, 81001:81007,
-                              82001:82007))) {
+      # These are the seasons where there is not column Plus/Minus, so they must have 35 columns:
+      if (nums[jorn] %in% c(50001:50004, 51001:51007, 52001:52007, 53033:53039, 
+                            54033:54039, 55033:55040, 56033:56040, 57029:57036, 
+                            58025:58032, 59038:59045, 60001:60008, 61001:61007, 
+                            62001:62007, 63001:63007, 64001:64007, 65001:65007, 
+                            66001:66007, 67001:67007, 68001:68007, 69001:69007, 
+                            70001:70007, 71001:71007, 72001:72007, 73001:73007, 
+                            74001:74007, 75001:75007)) {
         numCols <- 35
       }else{
         numCols <- 36
       }
     }else if (type_league == "SCOPA"){
-      # These are the seasons where there is column Plus/Minus, so the seasons
-      # different from them must have 35 columns::
-      if (!(nums[jorn] %in% c(1001, 2001, 13001:13003, 14001:14003, 
-                              15001:15003, 16001:16003, 17001:17003,
-                              18001:18003))) {
+      # These are the seasons where there is not column Plus/Minus, so they must have 35 columns::
+      if (nums[jorn] %in% c(3001, 4001, 5001:5004, 6001:6004, 7001:7003, 
+                            9001:9003, 10001:10003, 11001:11003, 12001, 12003)) {
+        # http://www.acb.com/fichas/SCOPA12002.php # There is Plus/Minus.
+        # http://www.acb.com/fichas/SCOPA12003.php # There is not Plus/Minus.
         numCols <- 35
       }else{
         numCols <- 36

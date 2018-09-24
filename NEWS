@@ -1,6 +1,9 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.1.3 [2018-09-24]
+* In scraping_games_acb the seasons where there are no Plus/Minus have been updated. Thus, it is not needed to update the package every time there is a new ACB season.
+
 Version: 1.1.2 [2018-09-10]
 * An html vignette has been added.
 * In get_stats_seasons()$df_gg, the column Age indicates the age of player at February 1st of the season.
@@ -19,7 +22,6 @@ Version: 1.1 [2018-05-09]
   - get_similar_teams() Similar teams to archetypoids.
   - get_stats_seasons() Season-by-season average players' stats.
   - get_table_results() Cross table of league results.
-
 
 Version: 1.0 [2018-01-25]
 * First package version.
