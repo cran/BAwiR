@@ -6,8 +6,9 @@
 #' The heatmap created with this function allows the user to easily represent
 #' the stats for each player. The more intense the color, the more the player
 #' highlights in the statistic considered. The plot can be ordered by any
-#' statistic. The offensive statistics are grouped in red, the defensive in green, 
-#' the rest in purple and the advanced in pink.
+#' statistic. If all the statistics are represented, the offensive statistics are 
+#' grouped in red, the defensive in green, the rest in purple and the advanced in pink.
+#' Otherwise, the default color is red.
 #' 
 #' @usage 
 #' get_heatmap_bb(df_stats, team, levels_stats = NULL, stat_ord, base_size = 9, title) 
@@ -22,10 +23,10 @@
 #' @param title Plot title.
 #' 
 #' @return 
-#' Graphical device
+#' Graphical device.
 #' 
 #' @author 
-#' This function has been created using the code of these websites:
+#' This function has been created using the code from these websites:
 #' \url{https://learnr.wordpress.com/2010/01/26/ggplot2-quick-heatmap-plotting/} and 
 #' \url{http://stackoverflow.com/questions/13016022/ggplot2-heatmaps-using-different-gradients-for-categories/13016912}
 #' 
@@ -52,7 +53,7 @@
 get_heatmap_bb <- function(df_stats, team, levels_stats = NULL, stat_ord, base_size = 9, title){ 
   Team <- CombinID <- Nationality <- Season <- Compet <- NULL
   Type_season <- Type_stats <- Month <- MP <- NULL
-  value <- variable2 <- Name <- rescaleoffset <- NULL
+  value <- Variable <- Name <- rescaleoffset <- NULL
 
   df <- df_stats %>% 
     filter(Team == team) %>%
@@ -97,28 +98,48 @@ get_heatmap_bb <- function(df_stats, team, levels_stats = NULL, stat_ord, base_s
   
   df.s$rescaleoffset <- df.s$rescale + 100 * (as.numeric(df.s$Category) - 1)
   scalerange <- range(df.s$rescale)
-  gradientends <- scalerange + rep(c(0, 100, 200, 300), each = 2)
-  colorends <- c("white", "red", "white", "green", "white", "blue", "white", "pink")
+  if (length(levels_stats) == 1) {
+    gradientends <- scalerange
+    colorends <- c("white", "red")
+  }else{
+    gradientends <- scalerange + rep(c(0, 100, 200, 300), each = 2)
+    colorends <- c("white", "red", "white", "green", "white", "blue", "white", "pink") 
+  }
     
-  df.s$variable2 <- reorder(df.s$variable, as.numeric(df.s$Category))
+  df.s$Variable <- reorder(df.s$variable, as.numeric(df.s$Category))
   df.s$Name <- factor(df.s$Name, levels = rev(unique(df.s$Name)))
   
-  gg <- ggplot(df.s, aes(variable2, Name)) + 
+  gg <- ggplot(df.s, aes(Variable, Name)) + 
     geom_tile(aes(fill = rescaleoffset), colour = "white") + 
     scale_fill_gradientn(colours = colorends, values = rescale(gradientends)) + 
     scale_x_discrete("", expand = c(0, 0)) + 
     scale_y_discrete("", expand = c(0, 0)) + 
-    theme_grey(base_size = base_size) + 
-    theme(legend.position = "none",
-          axis.ticks = element_blank(), 
-          axis.text.x = element_text(angle = 300, hjust = 0, size = 6)) +
+    theme_grey(base_size = base_size) +
     # To add the values to each tile:
     geom_text(aes(label = value), size = 2.8) +
-    ggtitle(paste(capit_two_words(team), title, sep = " ")) +
-    geom_vline(xintercept = c(1.5, 4.5, 7.5, 10.5, 13.5)) +
-    # This is to box the columns related to all shots.
-    geom_segment(aes(x = 1.5, xend = 13.5, y = 0.5, yend = 0.5)) +
-    geom_segment(aes(x = 1.5, xend = 13.5, y = nrow(df1) + 0.5, yend = nrow(df1) + 0.5))
+    ggtitle(paste(capit_two_words(team), title, sep = " "))
+  
+  if ("Offensive" %in% names(levels_stats)) {
+    gg <- gg +
+      geom_vline(xintercept = c(1.5, 4.5, 7.5, 10.5, 13.5)) +
+      # This is to box the columns related to all shots.
+      geom_segment(aes(x = 1.5, xend = 13.5, y = 0.5, yend = 0.5)) +
+      geom_segment(aes(x = 1.5, xend = 13.5, y = nrow(df1) + 0.5, yend = nrow(df1) + 0.5)) 
+  }
+  
+  if (length(levels_stats) == 1 & any(names(levels_stats) != "Offensive")) {
+    gg <- gg +
+      theme(legend.position = "none",
+            axis.ticks = element_blank(),
+            axis.text.x = element_text(hjust = 0, size = 12))
+      
+  }else{
+    gg <- gg + 
+      theme(legend.position = "none",
+            axis.ticks = element_blank(), 
+            axis.text.x = element_text(angle = 300, hjust = 0, size = 6))
+      
+  }
   
   return(gg)
 }

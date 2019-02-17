@@ -4,7 +4,7 @@
 \alias{get_bubble_plot}
 \title{Basketball bubble plot}
 \usage{
-get_bubble_plot(df_stats, player, descr_stats)
+get_bubble_plot(df_stats, player, descr_stats, size_text, size_text_x, size_legend)
 }
 \arguments{
 \item{df_stats}{Data frame with the statistics.}
@@ -12,9 +12,15 @@ get_bubble_plot(df_stats, player, descr_stats)
 \item{player}{Player.}
 
 \item{descr_stats}{Description of the statistics for the legend.}
+
+\item{size_text}{Text size inside each box.}
+
+\item{size_text_x}{Stats labels size.}
+
+\item{size_legend}{Legend size.}
 }
 \value{
-Graphical device
+Graphical device.
 }
 \description{
 This plot is a representation of the percentiles of all statistics 
@@ -52,7 +58,7 @@ descr_stats <- c("Games played", "Minutes played", "Points",
                 "FTA: Free throws attempted", "Free throws percentage", 
                 "Total rebounds", "Offensive rebounds", 
                 "Assists", "Steals", "Turnovers")
-get_bubble_plot(df2_1, "Abalde, Alberto", descr_stats)
+get_bubble_plot(df2_1, "Abalde, Alberto", descr_stats, 6, 10, 12)
 }
 
 }
@@ -60,6 +66,6 @@ get_bubble_plot(df2_1, "Abalde, Alberto", descr_stats)
 \code{\link[Anthropometry]{percentilsArchetypoid}}
 }
 \author{
-This function has been created using the code of this website:
+This function has been created using the code from this website:
 \url{https://www.r-bloggers.com/visualizing-the-best/}.
 }

@@ -16,8 +16,8 @@
 #' @param min_att Minimum number of attempts by the player to
 #' be represented in the plot.
 #' @param title Plot title.
-#' @param language Language labels. Current options are 'en' for english
-#' and 'es' for spanish.
+#' @param language Language labels. Current options are 'en' for English
+#' and 'es' for Spanish.
 #' 
 #' @return 
 #' Graphical device.

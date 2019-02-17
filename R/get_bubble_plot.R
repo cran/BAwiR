@@ -16,17 +16,20 @@
 #' simple way, since a general idea of those aspects of the game in which the 
 #' player excels can be obtained.
 #' 
-#' @usage get_bubble_plot(df_stats, player, descr_stats)
+#' @usage get_bubble_plot(df_stats, player, descr_stats, size_text, size_text_x, size_legend)
 #' 
 #' @param df_stats Data frame with the statistics.
 #' @param player Player. 
 #' @param descr_stats Description of the statistics for the legend.
+#' @param size_text Text size inside each box.
+#' @param size_text_x Stats labels size.
+#' @param size_legend Legend size.
 #' 
 #' @return 
-#' Graphical device
+#' Graphical device.
 #' 
 #' @author 
-#' This function has been created using the code of this website:
+#' This function has been created using the code from this website:
 #' \url{https://www.r-bloggers.com/visualizing-the-best/}.
 #' 
 #' @details 
@@ -54,7 +57,7 @@
 #'                 "FTA: Free throws attempted", "Free throws percentage", 
 #'                 "Total rebounds", "Offensive rebounds", 
 #'                 "Assists", "Steals", "Turnovers")
-#' get_bubble_plot(df2_1, "Abalde, Alberto", descr_stats)
+#' get_bubble_plot(df2_1, "Abalde, Alberto", descr_stats, 6, 10, 12)
 #' }
 #' 
 #' @importFrom Anthropometry percentilsArchetypoid
@@ -64,16 +67,15 @@
 #'
 #' @export
 
-get_bubble_plot <- function(df_stats, player, descr_stats){
+get_bubble_plot <- function(df_stats, player, descr_stats, size_text, size_text_x, size_legend){
   Name <- Team <- CombinID <- Position <- Nationality <- NULL 
   Season <- Compet <- Type_season <- Type_stats <- NULL
   stat <- outof4 <- percentile <- descr <- outof4_f <- NULL
   
-  
   df_stats1 <- df_stats %>% 
     ungroup() %>%
     select(-c(Name, Team, CombinID, Position, Nationality, 
-              Season, Compet, Type_season, Type_stats))
+              Season, Compet, Type_season, Type_stats)) 
   
   percs <- sapply(1:dim(df_stats1)[2], percentilsArchetypoid, 
                   which(df_stats$Name == player), df_stats1, 0)
@@ -106,16 +108,17 @@ get_bubble_plot <- function(df_stats, player, descr_stats){
     coord_polar() + 
     scale_y_continuous(limits = c(0, 4), breaks = c(1, 2, 3, 4)) + 
     labs(x = "", y = "", fill = "Percentiles", col = "") +#, col = "Statistics") + 
-    geom_text(aes(label = percentile), nudge_y = -0.2, size = 3) +
+    geom_text(aes(label = percentile), nudge_y = -0.2, size = size_text) +
     geom_point(size = 0) +
-    guides(colour = guide_legend(override.aes = list(size = 3))) +
+    guides(colour = guide_legend(override.aes = list(size = 5))) +
     theme(panel.background = element_rect(fill = "#FFFFFF"), # plot with white (#FFFFFF) background.
           strip.background = element_rect(fill = "#FFFFFF"), # title with white background.
-          strip.text = element_text(size = 18), # text label
+          #strip.text = element_text(size = 18), # text label
           axis.ticks = element_blank(),
           axis.text.y = element_blank(),
-          axis.text.x = element_text(size = 10),
-          panel.spacing = unit(20, "lines"))
+          axis.text.x = element_text(size = size_text_x),
+          panel.spacing = unit(20, "lines"),
+          legend.text = element_text(size = size_legend))
   
   return(gg)
 }

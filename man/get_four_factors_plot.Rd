@@ -13,13 +13,13 @@ defense four factors and its ranking labels.}
 \item{df_no_rank}{Data frame with the team's offense and 
 defense four factors.}
 
-\item{team}{Team name.}
+\item{team}{Team name. Multiple teams can be chosen.}
 
-\item{language}{Language labels. Current options are 'en' for english
-and 'es' for spanish.}
+\item{language}{Language labels. Current options are 'en' for English
+and 'es' for Spanish.}
 }
 \value{
-Graphical device
+Graphical device.
 }
 \description{
 Once computed the team's factors and its rankings with 

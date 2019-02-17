@@ -15,6 +15,9 @@
 #' @return 
 #' Vector with the two words capitalized.
 #' 
+#' @author 
+#' Guillermo Vinue
+#' 
 #' @examples 
 #' capit_two_words("valencia basket")
 #'

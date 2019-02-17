@@ -5,14 +5,15 @@
 Analysis of Basketball Data
 }
 \description{
-Collection of tools to work with basketball data. Functions available are related to friendly web scraping and visualization. Data were obtained from <http://www.euroleague.net/>, <http://www.eurocupbasketball.com/> and <http://www.acb.com>, following the instructions of their respectives robots.txt files. Tools for visualization include a population pyramid, 2D plots of archetypoids and the rest of players, percentile circular plots, plots to analyze monthly evolution, heatmaps, shooting barplots, four factor plots and maps of players' nationalities.    
+Collection of tools to work with basketball data. Functions available are related to friendly web scraping and visualization. Data were obtained from <http://www.euroleague.net/>, <http://www.eurocupbasketball.com/> and
+<http://www.acb.com>, following the instructions of their respectives robots.txt files, when available. Tools for visualization include a population pyramid, 2D plots, circular plots of players' percentiles, plots of players' monthly/yearly stats, team heatmaps, team shooting plots, team four factors plots, cross-tables with the results of regular season games and maps of nationalities.     
 }
 \details{
 \tabular{ll}{
 Package: BAwiR\cr
 Type: Package\cr
-Version: 1.1.3\cr
-Date: 2018-09-24\cr
+Version: 1.2\cr
+Date: 2019-02-17\cr
 License: GPL-2\cr
 LazyLoad: yes\cr
 LazyData: yes\cr
@@ -40,7 +41,7 @@ get_four_factors_plot: Four factors plot.\cr
 get_games_rosters: Get all games and rosters.\cr
 get_heatmap_bb: Basketball heatmap.\cr  
 get_map_nats: Nationalities map.\cr
-get_pop_pyramid_acb: ACB population pyramid.\cr
+get_pop_pyramid: ACB population pyramid.\cr
 get_shooting_plot: Shooting plot.\cr
 get_similar_players: Similar players to archetypoids.\cr
 get_similar_teams: Similar teams to archetypoids.\cr
@@ -54,7 +55,7 @@ scraping_rosters_acb: ACB players' profile.\cr
 scraping_rosters_euro: Euroleague and Eurocup players' profile.\cr
 }
 \references{
-Vinue, G., (2018). A Web Application for the Visualization of Basketball Data Using R. 
+Vinue, G., (2019). A web application for interactive visualization of European basketball data. 
 \emph{Submitted}, https://www.uv.es/vivigui/AppEuroACB.html
 }
 \author{

@@ -4,19 +4,23 @@
 \alias{get_stats_seasons}
 \title{Season-by-season stats}
 \usage{
-get_stats_seasons(df, competition, player, variabs, type_season)
+get_stats_seasons(df, competition, player, variabs, type_season, add_text, show_x_axis)
 }
 \arguments{
 \item{df}{Data frame with the games and the players info.}
 
 \item{competition}{Competition.}
 
-\item{player}{Player.}
+\item{player}{Players's names.}
 
 \item{variabs}{Vector with the statistics to plot.}
 
 \item{type_season}{String with the round of competition, for example regular season
 or playoffs and so on.}
+
+\item{add_text}{Boolean. Should text be added to the plot points?}
+
+\item{show_x_axis}{Boolean. Should x-axis labels be shown in the plot?}
 }
 \value{
 List with two elements:
@@ -27,7 +31,7 @@ List with two elements:
 }
 \description{
 This function represents the average values of a set of statistics 
-for a certain player in every season where the player played. It gives
+for certain players in every season where the players played. It gives
 an idea of the season-by-season performance.
 }
 \examples{
@@ -37,10 +41,11 @@ df <- do_join_games_bio("ACB", acb_games_1718, acb_players_1718)
 df$Compet <- competition
 player <- "Carroll, Jaycee"
 variabs <- c("GP", "MP", "PTS", "EFGPerc", "TRB", "AST", "TOV", "PIR")
-plot_yearly <- get_stats_seasons(df, competition, player, variabs, "All")
+plot_yearly <- get_stats_seasons(df, competition, player, variabs, "All", TRUE, TRUE)
 plot_yearly$gg
 # There are only games from the regular season in this demo data frame.
-plot_yearly1 <- get_stats_seasons(df, competition, player, variabs, "Regular Season")
+plot_yearly1 <- get_stats_seasons(df, competition, player, variabs, "Regular Season", 
+                                  TRUE, TRUE)
 plot_yearly1$gg
 }
 

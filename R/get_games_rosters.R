@@ -23,7 +23,7 @@
 #' @param df_bio0 Data frame to save the rosters data.
 #' 
 #' @return 
-#' Data frame
+#' Data frame.
 #' 
 #' @author 
 #' Guillermo Vinue

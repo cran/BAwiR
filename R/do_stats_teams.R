@@ -66,7 +66,7 @@ do_stats_teams <- function(df_games, season, competition, type_season){
     group_by(Team) %>%
     distinct(Game) %>%
     count()
-  
+
   if (type_season == "All") {
     df_games2 <- do_stats(df_games1, 
                           "Total", 
@@ -79,7 +79,7 @@ do_stats_teams <- function(df_games, season, competition, type_season){
                           unique(df_games1$Season), 
                           unique(df_games1$Compet), 
                           unique(df_games1$Type_season))
-  } 
+  }  
   
   # Once we have the total statistics for every player, we can get
   # the teams' statistics by summing their players' statistics:

@@ -12,7 +12,7 @@
 
 <meta name="author" content="Guillermo Vinue" />
 
-<meta name="date" content="2018-09-24" />
+<meta name="date" content="2019-02-17" />
 
 <title>Visualization of European basketball data</title>
 
@@ -70,45 +70,39 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Visualization of European basketball data</h1>
 <h4 class="author"><em>Guillermo Vinue</em></h4>
-<h4 class="date"><em>2018-09-24</em></h4>
+<h4 class="date"><em>2019-02-17</em></h4>
 
 
 
-<p>This document contains all the needed R code to reproduce the results described in the paper <em>A web application for interactive visualization of European basketball data</em>, which presents the web application available at <a href="https://gvinue.shinyapps.io/AppEuroACB/" class="uri" target="_blank">https://gvinue.shinyapps.io/AppEuroACB/</a>.</p>
+<p>This document contains all the needed R code to reproduce the results described in the paper <em>A web application for interactive visualization of European basketball data</em>, which presents the dashboard available at <a href="https://www.uv.es/vivigui/AppEuroACB.html" class="uri" target="_blank">https://www.uv.es/vivigui/AppEuroACB.html</a>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Firstly, load BAwiR and other packages that will be used in the paper:</span>
-<span class="kw">library</span>(BAwiR)
-<span class="kw">library</span>(tidyverse)
-<span class="kw">library</span>(Anthropometry)</code></pre></div>
+<span class="kw">library</span>(BAwiR) <span class="co"># 1.2</span>
+<span class="kw">library</span>(tidyverse) <span class="co"># 1.2.1</span>
+<span class="kw">library</span>(FSA) <span class="co"># 0.8.22</span>
+<span class="kw">library</span>(gridExtra) <span class="co"># 2.3</span></code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 1:</span>
-<span class="co"># Load the data_app_acb file with the ACB games from seasons 1985-1986 to 2017-2018:</span>
+<span class="co"># Load the data_app_acb file with the ACB games from the 1985-1986 season to the 2017-2018 season:</span>
 <span class="kw">load</span>(<span class="kw">url</span>(<span class="st">&quot;http://www.uv.es/vivigui/softw/data_app_acb.RData&quot;</span>))
-<span class="kw">get_pop_pyramid_acb</span>(data_app_acb)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create the data with games and players' info, add the advanced stats </span>
-<span class="co"># and compute the total numbers:</span>
+title &lt;-<span class="st"> &quot; Number of Spanish and foreign players along the ACB seasons </span><span class="ch">\n</span><span class="st"> Data from www.acb.com&quot;</span>
+<span class="kw">get_pop_pyramid</span>(data_app_acb, title, <span class="st">&quot;eng&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create the data with games and players' info, add the advanced stats and compute the total numbers:</span>
 df0 &lt;-<span class="st"> </span><span class="kw">do_join_games_bio</span>(<span class="st">&quot;ACB&quot;</span>, acb_games_<span class="dv">1718</span>, acb_players_<span class="dv">1718</span>)
 df1 &lt;-<span class="st"> </span><span class="kw">do_add_adv_stats</span>(df0)
 df2 &lt;-<span class="st"> </span><span class="kw">do_stats</span>(df1, <span class="st">&quot;Total&quot;</span>, <span class="st">&quot;2017-2018&quot;</span>, <span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;Regular Season&quot;</span>)</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Table 2:</span>
-df3 &lt;-<span class="st"> </span>df2[<span class="kw">which</span>(df2<span class="op">$</span>Position <span class="op">==</span><span class="st"> &quot;Center&quot;</span>), <span class="kw">c</span>(<span class="st">&quot;MP&quot;</span>, <span class="st">&quot;PTS&quot;</span>, <span class="st">&quot;Name&quot;</span>)]
-preproc &lt;-<span class="st"> </span><span class="kw">preprocessing</span>(df3[,<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], <span class="dt">stand =</span> <span class="ot">TRUE</span>, <span class="dt">percAccomm =</span> <span class="dv">1</span>)
-<span class="kw">set.seed</span>(<span class="dv">4321</span>)
-lass &lt;-<span class="st"> </span><span class="kw">stepArchetypesRawData</span>(preproc<span class="op">$</span>data, <span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dt">numRep =</span> <span class="dv">20</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
-res &lt;-<span class="st"> </span><span class="kw">archetypoids</span>(<span class="dv">2</span>, preproc<span class="op">$</span>data, <span class="dt">huge =</span> <span class="dv">200</span>, <span class="dt">step =</span> <span class="ot">FALSE</span>, <span class="dt">ArchObj =</span> lass, 
-                    <span class="dt">nearest =</span> <span class="st">&quot;cand_ns&quot;</span>, <span class="dt">sequ =</span> <span class="ot">TRUE</span>)
-cases &lt;-<span class="st"> </span><span class="kw">anthrCases</span>(res)
-alphas &lt;-<span class="st"> </span><span class="kw">round</span>(res<span class="op">$</span>alphas, <span class="dv">4</span>)
-df3[cases,]</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 2:</span>
-sel1 &lt;-<span class="st"> </span>df3 <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">   </span><span class="kw">mutate</span>(<span class="dt">Archetypoid =</span> <span class="kw">ifelse</span>(<span class="kw">as.numeric</span>(<span class="kw">rownames</span>(df3)) <span class="op">%in%</span><span class="st"> </span>cases, <span class="st">&quot;Yes&quot;</span>, <span class="st">&quot;No&quot;</span>))
-<span class="kw">ggplot</span>(sel1, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">c</span>(sel1[,<span class="dv">1</span>])[[<span class="dv">1</span>]], <span class="dt">y =</span> <span class="kw">c</span>(sel1[,<span class="dv">2</span>])[[<span class="dv">1</span>]], <span class="dt">color =</span> Archetypoid)) <span class="op">+</span>
+df3 &lt;-<span class="st"> </span>df2[<span class="kw">which</span>(df2<span class="op">$</span>Position <span class="op">==</span><span class="st"> &quot;Center&quot;</span>), <span class="kw">c</span>(<span class="st">&quot;MP&quot;</span>, <span class="st">&quot;PTS&quot;</span>, <span class="st">&quot;Name&quot;</span>, <span class="st">&quot;CombinID&quot;</span>)]
+df3 &lt;-<span class="st"> </span>df3[df3<span class="op">$</span>MP <span class="op">&gt;</span><span class="st"> </span><span class="dv">100</span>,]
+<span class="kw">ggplot</span>(df3, <span class="kw">aes</span>(<span class="dt">x =</span> <span class="kw">c</span>(df3[,<span class="dv">1</span>])[[<span class="dv">1</span>]], <span class="dt">y =</span> <span class="kw">c</span>(df3[,<span class="dv">2</span>])[[<span class="dv">1</span>]], <span class="dt">group =</span> Name)) <span class="op">+</span>
 <span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span>
-<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">colnames</span>(sel1)[<span class="dv">1</span>], <span class="dt">y =</span> <span class="kw">colnames</span>(sel1)[<span class="dv">2</span>]) <span class="op">+</span>
-<span class="st">  </span><span class="kw">guides</span>(<span class="dt">color =</span> <span class="kw">guide_legend</span>(<span class="dt">override.aes =</span> <span class="kw">list</span>(<span class="dt">size =</span> <span class="dv">5</span>)))</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Table 3:</span>
-df3_aux &lt;-<span class="st"> </span>df2[<span class="kw">which</span>(df2<span class="op">$</span>Position <span class="op">==</span><span class="st"> &quot;Center&quot;</span>), ]
-<span class="kw">get_similar_players</span>(<span class="dv">2</span>, <span class="fl">0.95</span>, alphas, cases, df3_aux, <span class="kw">c</span>(<span class="st">&quot;MP&quot;</span>, <span class="st">&quot;PTS&quot;</span>), 
-                    <span class="kw">unique</span>(df3_aux<span class="op">$</span>Compet), <span class="kw">unique</span>(df3_aux<span class="op">$</span>Season))</code></pre></div>
+<span class="st">  </span><span class="kw">geom_text</span>(<span class="kw">aes</span>(<span class="dt">label =</span> Name), <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">vjust =</span> <span class="op">-</span><span class="fl">0.8</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="kw">colnames</span>(df3)[<span class="dv">1</span>], <span class="dt">y =</span> <span class="kw">colnames</span>(df3)[<span class="dv">2</span>], 
+       <span class="dt">title =</span> <span class="st">&quot;ACB 2017-2018, Regular Season. Total stats. Centers.&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Table 2:</span>
+df4 &lt;-<span class="st"> </span>df3 <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Player_info =</span> <span class="kw">paste</span>(<span class="st">&quot;http://www.acb.com/jugador.php?id=&quot;</span>, CombinID, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>CombinID)
+df5 &lt;-<span class="st"> </span>df4[<span class="kw">order</span>(df4[,<span class="dv">1</span>][[<span class="dv">1</span>]], <span class="dt">decreasing =</span> <span class="ot">TRUE</span>),]
+<span class="kw">headtail</span>(df5, <span class="dv">3</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 3:</span>
 stats &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;GP&quot;</span>, <span class="st">&quot;MP&quot;</span>, <span class="st">&quot;PTS&quot;</span>, <span class="st">&quot;FGPerc&quot;</span>, <span class="st">&quot;FTPerc&quot;</span>, <span class="st">&quot;TRB&quot;</span>, <span class="st">&quot;AST&quot;</span>, <span class="st">&quot;TOV&quot;</span>, <span class="st">&quot;PlusMinus&quot;</span>, <span class="st">&quot;PIR&quot;</span>)
 descr_stats &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Games played&quot;</span>, <span class="st">&quot;Minutes played&quot;</span>, <span class="st">&quot;Points&quot;</span>, <span class="st">&quot;Field goals percentage&quot;</span>, 
@@ -116,7 +110,20 @@ descr_stats &lt;-<span class="st"> </span><span class="kw">c</span>(<span class=
                  <span class="st">&quot;Plus/minus&quot;</span>, <span class="st">&quot;Performance index rating&quot;</span>)
 df2_<span class="dv">1</span> &lt;-<span class="st"> </span>df2 <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">select</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, stats, <span class="dv">46</span><span class="op">:</span><span class="dv">49</span>)
-<span class="kw">get_bubble_plot</span>(df2_<span class="dv">1</span>, <span class="st">&quot;Doncic, Luka&quot;</span>, descr_stats)</code></pre></div>
+
+perc_plot_doncid &lt;-<span class="st"> </span><span class="kw">get_bubble_plot</span>(df2_<span class="dv">1</span>, <span class="st">&quot;Doncic, Luka&quot;</span>, descr_stats, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">8</span>) <span class="op">+</span>
+<span class="st">                        </span><span class="kw">theme</span>(<span class="dt">strip.text.x =</span> <span class="kw">element_blank</span>()) <span class="op">+</span>
+<span class="st">                        </span><span class="kw">ggtitle</span>(<span class="dt">label =</span> <span class="st">&quot;Doncic, Luka&quot;</span>,
+                                <span class="dt">subtitle =</span> <span class="st">&quot;ACB 2017-2018, Regular Season. Total stats.&quot;</span>) <span class="op">+</span>
+<span class="st">                        </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">20</span>))
+
+perc_plot_abalde &lt;-<span class="st"> </span><span class="kw">get_bubble_plot</span>(df2_<span class="dv">1</span>, <span class="st">&quot;Abalde, Alberto&quot;</span>, descr_stats, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">8</span>) <span class="op">+</span>
+<span class="st">                        </span><span class="kw">theme</span>(<span class="dt">strip.text.x =</span> <span class="kw">element_blank</span>()) <span class="op">+</span>
+<span class="st">                        </span><span class="kw">ggtitle</span>(<span class="dt">label =</span> <span class="st">&quot;Abalde, Alberto&quot;</span>,
+                                <span class="dt">subtitle =</span> <span class="st">&quot;ACB 2017-2018, Regular Season. Total stats.&quot;</span>) <span class="op">+</span>
+<span class="st">                        </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">20</span>))
+
+<span class="kw">grid.arrange</span>(perc_plot_doncid, perc_plot_abalde, <span class="dt">ncol =</span> <span class="dv">2</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 4:</span>
 months &lt;-<span class="st"> </span><span class="kw">c</span>(df0 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">distinct</span>(Month))<span class="op">$</span>Month
 months_order &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;September&quot;</span>, <span class="st">&quot;October&quot;</span>, <span class="st">&quot;November&quot;</span>, <span class="st">&quot;December&quot;</span>,  <span class="st">&quot;January&quot;</span>, 
@@ -126,25 +133,27 @@ months_plot1 &lt;-<span class="st"> </span>months_plot[<span class="op">!</span>
 months_plot2 &lt;-<span class="st"> </span>months[months_plot1]
 
 df1_m &lt;-<span class="st"> </span>df1 <span class="op">%&gt;%</span>
-<span class="st">              </span><span class="kw">filter</span>(Team <span class="op">==</span><span class="st"> &quot;Real_Madrid&quot;</span>, 
-                     Player.x <span class="op">==</span><span class="st"> &quot;Doncic, Luka&quot;</span>) <span class="op">%&gt;%</span>
+<span class="st">              </span><span class="kw">filter</span>(Player.x <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Doncic, Luka&quot;</span>, <span class="st">&quot;Abalde, Alberto&quot;</span>)) <span class="op">%&gt;%</span>
 <span class="st">              </span><span class="kw">group_by</span>(Month) <span class="op">%&gt;%</span>
 <span class="st">              </span><span class="kw">do</span>(<span class="kw">do_stats</span>(., <span class="st">&quot;Average&quot;</span>, <span class="st">&quot;2017-2018&quot;</span>, <span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;Regular Season&quot;</span>)) <span class="op">%&gt;%</span>
 <span class="st">              </span><span class="kw">ungroup</span>() <span class="op">%&gt;%</span>
 <span class="st">              </span><span class="kw">mutate</span>(<span class="dt">Month =</span> <span class="kw">factor</span>(Month, <span class="dt">levels =</span> months_plot2)) <span class="op">%&gt;%</span>
 <span class="st">              </span><span class="kw">arrange</span>(Month)
 
-
 df1_m1 &lt;-<span class="st"> </span>df1_m <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">select</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, stats, <span class="dv">46</span><span class="op">:</span><span class="dv">50</span>) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>EPS)
-title &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="kw">paste</span>(<span class="st">&quot;;&quot;</span>, <span class="st">&quot;ACB&quot;</span>), <span class="st">&quot;2017-2018&quot;</span>, <span class="st">&quot;Regular Season&quot;</span>, 
-                         <span class="st">&quot;Average&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot; ; &quot;</span>)
-<span class="kw">get_barplot_monthly_stats</span>(df1_m1, title, <span class="dv">2</span>, <span class="dv">4</span>)</code></pre></div>
+max_val &lt;-<span class="st"> </span><span class="kw">max</span>(df1_m1[,<span class="kw">colnames</span>(df1_m1) <span class="op">%in%</span><span class="st"> </span>stats])
+min_val &lt;-<span class="st"> </span><span class="kw">min</span>(df1_m1[,<span class="kw">colnames</span>(df1_m1) <span class="op">%in%</span><span class="st"> </span>stats])
+<span class="kw">get_barplot_monthly_stats</span>(df1_m1, <span class="st">&quot;ACB 2017-2018, Regular Season. Monthly average stats.&quot;</span>, <span class="dv">3</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">limits =</span> <span class="kw">c</span>(min_val <span class="op">-</span><span class="st"> </span><span class="dv">10</span>, max_val <span class="op">+</span><span class="st"> </span><span class="dv">10</span>))</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 5:</span>
 df0<span class="op">$</span>Compet &lt;-<span class="st"> &quot;ACB&quot;</span>
-plot_yearly &lt;-<span class="st"> </span><span class="kw">get_stats_seasons</span>(df0, <span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;Doncic, Luka&quot;</span>, stats, <span class="st">&quot;Regular Season&quot;</span>)
-plot_yearly<span class="op">$</span>gg <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Doncic, Luka ; Yearly statistics&quot;</span>)</code></pre></div>
+plot_yearly &lt;-<span class="st"> </span><span class="kw">get_stats_seasons</span>(df0, <span class="st">&quot;ACB&quot;</span>, <span class="kw">c</span>(<span class="st">&quot;Doncic, Luka&quot;</span>, <span class="st">&quot;Abalde, Alberto&quot;</span>), 
+                                 stats[<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>], <span class="st">&quot;Regular Season&quot;</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>)
+plot_yearly<span class="op">$</span>gg <span class="op">+</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;ACB 2017-2018, Regular Season. Yearly average stats.&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">strip.text.x =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">15</span>))</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 6:</span>
 levels_stats &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;Offensive&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;PTS&quot;</span>, <span class="st">&quot;FG&quot;</span>, <span class="st">&quot;FGA&quot;</span>, <span class="st">&quot;FGPerc&quot;</span>, 
                                      <span class="st">&quot;TwoP&quot;</span>, <span class="st">&quot;TwoPA&quot;</span>, <span class="st">&quot;TwoPPerc&quot;</span>,
@@ -154,21 +163,25 @@ levels_stats &lt;-<span class="st"> </span><span class="kw">list</span>(<span cl
                      <span class="st">&quot;Other&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;GP&quot;</span>, <span class="st">&quot;MP&quot;</span>, <span class="st">&quot;TRB&quot;</span>, <span class="st">&quot;PlusMinus&quot;</span>, <span class="st">&quot;PIR&quot;</span>),
                      <span class="st">&quot;Advanced&quot;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;EFGPerc&quot;</span>, <span class="st">&quot;PPS&quot;</span>))
 <span class="kw">get_heatmap_bb</span>(df2, <span class="st">&quot;Real_Madrid&quot;</span>, levels_stats, <span class="st">&quot;PlusMinus&quot;</span>, <span class="dv">9</span>, 
-               <span class="kw">paste</span>(<span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;2017-2018&quot;</span>, <span class="st">&quot;Total&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>))</code></pre></div>
+               <span class="kw">paste</span>(<span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;2017-2018, Regular Season.&quot;</span>, <span class="st">&quot;Total stats.&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>))</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 7:</span>
-<span class="kw">get_shooting_plot</span>(df2, <span class="st">&quot;Real_Madrid&quot;</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="kw">paste</span>(<span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;17-18&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>), <span class="st">&quot;en&quot;</span>)</code></pre></div>
+<span class="kw">get_shooting_plot</span>(df2, <span class="st">&quot;Real_Madrid&quot;</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="st">&quot;ACB 2017-2018, Regular Season.&quot;</span>, <span class="st">&quot;en&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">theme</span>(<span class="dt">plot.title =</span> <span class="kw">element_text</span>(<span class="dt">size =</span> <span class="dv">15</span>))</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 8:</span>
 df1_<span class="dv">10</span> &lt;-<span class="st"> </span>df1 <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(Day <span class="op">&lt;=</span><span class="st"> </span><span class="dv">10</span>) 
 teams &lt;-<span class="st"> </span><span class="kw">as.character</span>(<span class="kw">rev</span>(<span class="kw">sort</span>(<span class="kw">unique</span>(df2<span class="op">$</span>Team))))
 df_four_factors &lt;-<span class="st"> </span><span class="kw">do_four_factors_df</span>(df1_<span class="dv">10</span>, teams)
-<span class="kw">get_four_factors_plot</span>(df_four_factors<span class="op">$</span>df_rank, df_four_factors<span class="op">$</span>df_no_rank, <span class="st">&quot;Real_Madrid&quot;</span>, <span class="st">&quot;en&quot;</span>)</code></pre></div>
+<span class="kw">get_four_factors_plot</span>(df_four_factors<span class="op">$</span>df_rank, df_four_factors<span class="op">$</span>df_no_rank, 
+                      <span class="kw">c</span>(<span class="st">&quot;Real_Madrid&quot;</span>, <span class="st">&quot;Valencia&quot;</span>), <span class="st">&quot;en&quot;</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;ACB 2017-2018, Regular Season.&quot;</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 9:</span>
 df0<span class="op">$</span>Compet &lt;-<span class="st"> &quot;ACB&quot;</span>
 gg &lt;-<span class="st"> </span><span class="kw">get_table_results</span>(df0, <span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;2017-2018&quot;</span>)
 gg<span class="op">$</span>plot_teams</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Code for Figure 10:</span>
-<span class="kw">get_map_nats</span>(df2)</code></pre></div>
+<span class="kw">get_map_nats</span>(df2) <span class="op">+</span>
+<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;ACB 2017-2018, Regular Season.&quot;</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">sessionInfo</span>()</code></pre></div>
 <pre><code>## R version 3.4.4 (2018-03-15)
 ## Platform: x86_64-redhat-linux-gnu (64-bit)
@@ -190,9 +203,9 @@ gg<span class="op">$</span>plot_teams</code></pre></div>
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] compiler_3.4.4  backports_1.1.2 magrittr_1.5    rprojroot_1.3-2
-##  [5] htmltools_0.3.6 tools_3.4.4     yaml_2.1.16     Rcpp_0.12.17   
+##  [5] htmltools_0.3.6 tools_3.4.4     yaml_2.1.16     Rcpp_1.0.0     
 ##  [9] stringi_1.2.3   rmarkdown_1.8   knitr_1.19      stringr_1.3.1  
-## [13] digest_0.6.15   evaluate_0.10.1</code></pre>
+## [13] digest_0.6.18   evaluate_0.10.1</code></pre>
 
 
 

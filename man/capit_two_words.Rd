@@ -21,3 +21,6 @@ names for the plots title.
 capit_two_words("valencia basket")
 
 }
+\author{
+Guillermo Vinue
+}

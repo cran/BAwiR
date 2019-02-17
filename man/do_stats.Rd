@@ -10,7 +10,8 @@ do_stats(df_games, type_stats = "Total", season, competition, type_season)
 \item{df_games}{Data frame with the games, players info, advanced stats and
 eventually recoded teams names.}
 
-\item{type_stats}{String. Options are "Total" and "Average".}
+\item{type_stats}{String. In English, the options are "Total" and "Average" and in
+Spanish, the options are "Totales" and "Promedio".}
 
 \item{season}{String indicating the season, for example, 2017-2018.}
 

@@ -8,15 +8,17 @@
 #' for each month, which is very useful to analyse the players' evolution.
 #' 
 #' @usage 
-#' get_barplot_monthly_stats(df_stats, title, nrow_facet, size_text = 2.5)
+#' get_barplot_monthly_stats(df_stats, title, size_text = 2.5)
 #' 
 #' @param df_stats Data frame with the statistics.
 #' @param title Plot title.
-#' @param nrow_facet Number of facet rows.
 #' @param size_text Label size for each bar. Default 2.5.
 #' 
 #' @return 
-#' Graphical device
+#' Graphical device.
+#' 
+#' @author 
+#' Guillermo Vinue
 #' 
 #' @seealso 
 #' \code{\link{capit_two_words}}
@@ -51,7 +53,7 @@
 #' df3_m1 <- df3_m %>%
 #'   select(1:5, stats, 46:50)
 #' get_barplot_monthly_stats(df3_m1, paste("; ACB", "2017-2018", "Average", sep = " ; "), 
-#'                           2, 2.5)
+#'                           2.5)
 #' 
 #' # For all teams and players:
 #' teams <- as.character(sort(unique(df1$Team)))
@@ -70,7 +72,7 @@
 #'   print(i)
 #'   print(get_barplot_monthly_stats(df3_m1 %>% filter(Name == i), 
 #'                                   paste(" ; ACB", "2017-2018", "Average", sep = " ; "), 
-#'                                   2, 2.5))
+#'                                   2.5))
 #' }
 #' }
 #' 
@@ -79,7 +81,7 @@
 #'
 #' @export
 
-get_barplot_monthly_stats <- function(df_stats, title, nrow_facet, size_text = 2.5){
+get_barplot_monthly_stats <- function(df_stats, title, size_text = 2.5){
   Team <- Name <- CombinID <- Season <- Compet <- NULL
   Type_season <- Type_stats <- variable <- value <- NULL
   
@@ -98,16 +100,27 @@ get_barplot_monthly_stats <- function(df_stats, title, nrow_facet, size_text = 2
   df_stats2$variable <- factor(df_stats2$variable, 
                                levels = rev(levels(df_stats2$variable)))
   
+  #gg <- ggplot(df_stats2, aes(variable, value)) + 
+  #  geom_bar(stat = "identity", color = "black", fill = "white") +
+  #  # reformulate works fine to pass string to facet_grid.
+  #  # label_wrap_gen to split facet title in several lines.
+  #  facet_wrap(reformulate("Month"), labeller = label_wrap_gen(width = 1), nrow = nrow_facet) + 
+  #  #ylim(min(df_stats2$value), max(df_stats2$value)) + 
+  #  geom_text(aes(label = value), hjust = -0.2, size = size_text, color = "red") +
+  #  coord_flip() +
+  #  #ggtitle(paste(paste(team, collapse = " and "), player, title, sep = "; ")) +
+  #  ggtitle(paste(unique(df_stats2$Team), ";", unique(df_stats2$Name), title, sep = " ")) +
+  #  theme(axis.title.x = element_blank(),
+  #        axis.title.y = element_blank(),
+  #        axis.text.x = element_text(size = 7),
+  #        strip.text = element_text(size = 20)) 
+  
   gg <- ggplot(df_stats2, aes(variable, value)) + 
     geom_bar(stat = "identity", color = "black", fill = "white") +
-    # reformulate works fine to pass string to facet_grid.
-    # label_wrap_gen to split facet title in several lines.
-    facet_wrap(reformulate("Month"), labeller = label_wrap_gen(width = 1), nrow = nrow_facet) + 
-    #ylim(min(df_stats2$value), max(df_stats2$value)) + 
+    facet_grid(Month~Name+Team, labeller = label_wrap_gen(width = 1)) + 
     geom_text(aes(label = value), hjust = -0.2, size = size_text, color = "red") +
     coord_flip() +
-    #ggtitle(paste(paste(team, collapse = " and "), player, title, sep = "; ")) +
-    ggtitle(paste(unique(df_stats2$Team), ";", unique(df_stats2$Name), title, sep = " ")) +
+    ggtitle(title) +
     theme(axis.title.x = element_blank(),
           axis.title.y = element_blank(),
           axis.text.x = element_text(size = 7),

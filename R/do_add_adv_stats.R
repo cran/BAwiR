@@ -58,6 +58,8 @@ do_add_adv_stats <- function(df) {
   # Total game stats:
   df1 <- df %>%
     filter(MP != 0) %>%
+    filter(!is.na(MP)) %>%
+    filter(GameRes != "NA-NA") %>%
     group_by(Game) %>%
     mutate(GmPTS = sum(as.numeric(strsplit(as.character(unique(GameRes)), "-")[[1]]))) %>%
     mutate(GmFG = sum(TwoP) + sum(ThreeP)) %>%

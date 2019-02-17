@@ -19,8 +19,8 @@ be represented in the plot.}
 
 \item{title}{Plot title.}
 
-\item{language}{Language labels. Current options are 'en' for english
-and 'es' for spanish.}
+\item{language}{Language labels. Current options are 'en' for English
+and 'es' for Spanish.}
 }
 \value{
 Graphical device.

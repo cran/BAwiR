@@ -4,19 +4,17 @@
 \alias{get_barplot_monthly_stats}
 \title{Barplots with monthly stats}
 \usage{
-get_barplot_monthly_stats(df_stats, title, nrow_facet, size_text = 2.5)
+get_barplot_monthly_stats(df_stats, title, size_text = 2.5)
 }
 \arguments{
 \item{df_stats}{Data frame with the statistics.}
 
 \item{title}{Plot title.}
 
-\item{nrow_facet}{Number of facet rows.}
-
 \item{size_text}{Label size for each bar. Default 2.5.}
 }
 \value{
-Graphical device
+Graphical device.
 }
 \description{
 In all the available basketball websites, the stats are presented for the whole
@@ -53,7 +51,7 @@ stats <- c("GP", "MP", "PTS", "FGA", "FGPerc", "ThreePA",
 df3_m1 <- df3_m \%>\%
   select(1:5, stats, 46:50)
 get_barplot_monthly_stats(df3_m1, paste("; ACB", "2017-2018", "Average", sep = " ; "), 
-                          2, 2.5)
+                          2.5)
 
 # For all teams and players:
 teams <- as.character(sort(unique(df1$Team)))
@@ -72,11 +70,14 @@ for (i in unique(df3_m1$Name)) {
   print(i)
   print(get_barplot_monthly_stats(df3_m1 \%>\% filter(Name == i), 
                                   paste(" ; ACB", "2017-2018", "Average", sep = " ; "), 
-                                  2, 2.5))
+                                  2.5))
 }
 }
 
 }
 \seealso{
 \code{\link{capit_two_words}}
+}
+\author{
+Guillermo Vinue
 }

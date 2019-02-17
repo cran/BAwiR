@@ -22,14 +22,15 @@ the user can define a vector with the variables to represent.}
 \item{title}{Plot title.}
 }
 \value{
-Graphical device
+Graphical device.
 }
 \description{
 The heatmap created with this function allows the user to easily represent
 the stats for each player. The more intense the color, the more the player
 highlights in the statistic considered. The plot can be ordered by any
-statistic. The offensive statistics are grouped in red, the defensive in green, 
-the rest in purple and the advanced in pink.
+statistic. If all the statistics are represented, the offensive statistics are 
+grouped in red, the defensive in green, the rest in purple and the advanced in pink.
+Otherwise, the default color is red.
 }
 \examples{
 \dontrun{
@@ -43,7 +44,7 @@ get_heatmap_bb(df2, teams[6], NULL, "MP", 9, paste(compet, "2017-2018", "Total",
 
 }
 \author{
-This function has been created using the code of these websites:
+This function has been created using the code from these websites:
 \url{https://learnr.wordpress.com/2010/01/26/ggplot2-quick-heatmap-plotting/} and 
 \url{http://stackoverflow.com/questions/13016022/ggplot2-heatmaps-using-different-gradients-for-categories/13016912}
 }

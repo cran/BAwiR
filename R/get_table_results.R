@@ -41,11 +41,18 @@ get_table_results <- function(df, competition, season){
   Compet <- Type_season <- Season <- Game <- GameRes <- Win_num <- NULL
   Team <- Local <- Visitor <- Local_points <- Visitor_points <- Win <- NULL
 
-  df1 <- df %>%
-    filter(Compet == competition,
-           Type_season == "Regular Season",
-           Season == season) %>%
-    distinct(Game, GameRes, Team)
+  if (competition == "DIA") {
+    df1 <- df %>%
+      filter(Type_season == "Regular_Season",
+             Season == season) %>%
+      distinct(Game, GameRes, Team)
+  }else{
+    df1 <- df %>%
+      filter(Compet == competition,
+             Type_season == "Regular Season",
+             Season == season) %>%
+      distinct(Game, GameRes, Team) 
+  }
   
   df11 <- df1 %>%
     group_by(Game) %>%
@@ -64,6 +71,8 @@ get_table_results <- function(df, competition, season){
       select(-Game)
   }
   df2$GameRes <- df11$GameRes
+  df2$Local <- as.character(df2$Local)
+  df2$Visitor <- as.character(df2$Visitor)
   
   df3 <- df2 %>%
     mutate(Local_points = as.numeric(Local_points)) %>%

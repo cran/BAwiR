@@ -29,7 +29,7 @@ is working as transparently as possible with a research purpose.}
 \item{df_bio0}{Data frame to save the rosters data.}
 }
 \value{
-Data frame
+Data frame.
 }
 \description{
 This function is to get all the games and rosters of the 

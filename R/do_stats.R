@@ -10,7 +10,8 @@
 #' 
 #' @param df_games Data frame with the games, players info, advanced stats and
 #' eventually recoded teams names.
-#' @param type_stats String. Options are "Total" and "Average".
+#' @param type_stats String. In English, the options are "Total" and "Average" and in
+#' Spanish, the options are "Totales" and "Promedio".
 #' @param season String indicating the season, for example, 2017-2018.
 #' @param competition String. Options are "ACB", "Euroleague" and "Eurocup".
 #' @param type_season String with the round of competition, for example regular season
@@ -69,7 +70,7 @@ do_stats <- function(df_games, type_stats = "Total", season, competition, type_s
   group_by(Name, Team, CombinID, Position, Nationality, GP, GS)
     
  # Sum or average all numeric variables:
- if (type_stats == "Total") {
+ if (type_stats == "Total" | type_stats == "Totales") {
    df3 <- df3 %>%
     summarise_all(sum, na.rm = TRUE) # gv <- c(NA, NA) ; sum(gv) is NA but sum(gv, na.rm = TRUE) is 0.
    
@@ -82,7 +83,7 @@ do_stats <- function(df_games, type_stats = "Total", season, competition, type_s
                              sum(as.numeric(as.period(ms(MP), unit = "sec")), na.rm = TRUE))) %>%
      mutate(MP_oper_def = sprintf("%02d:%02d", MP_oper %/% 60, MP_oper %% 60)) %>%
      distinct(Name, Team, CombinID, Position, Nationality, GP, GS, MP_oper_def)
-  }else if (type_stats == "Average") {
+  }else if (type_stats == "Average" | type_stats == "Promedio") {
     df3 <- df3 %>%
      summarise_all(mean, na.rm = TRUE) 
     df3[, 8:ncol(df3)] <- round(df3[, 8:ncol(df3)], 1)
@@ -97,7 +98,7 @@ do_stats <- function(df_games, type_stats = "Total", season, competition, type_s
       mutate(MP_oper_def = sprintf("%02d:%02d", MP_oper %/% 60, MP_oper %% 60)) %>%
       distinct(Name, Team, CombinID, Position, Nationality, GP, GS, MP_oper_def)
   }else{
-    stop("Options are 'Total' or 'Average'")
+    stop("Wrong option.")
   }
     
   df3_def <- left_join(df3, df3_mp) %>%
