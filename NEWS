@@ -1,6 +1,9 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.2.1 [2020-02-04]
+* The paper presenting this package has been published, so its doi link has been added to the DESCRIPTION file.
+
 Version: 1.2 [2019-02-17]
 * get_barplot_monthly_stats() and get_stats_seasons() allow now to represent multiple players at the same time.
 * get_four_factors_plot() allows now to represent multiple teams at the same time.

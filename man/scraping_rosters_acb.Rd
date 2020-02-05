@@ -36,7 +36,7 @@ Data frame with eight columns:
 This function allows us to obtain the basic information of each player, 
 including his birth date. Then, we will be able to compute the age that 
 each player had in the date that he played each game. 
-The website used to collect information is \url{www.acb.com}.
+The website used to collect information is \url{https://www.acb.com}.
 }
 \details{
 Some players have a particular licence, which does not necessarily match with their

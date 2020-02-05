@@ -31,7 +31,7 @@
 #' doesn't exist, so for these cases is where we can use the 
 #'  \code{httr} package.
 #' 
-#' In \url{www.uv.es/vivigui/docs/acb_scraping.pdf} a document 
+#' In \url{https://www.uv.es/vivigui/docs/acb_scraping.pdf} a document 
 #' is available with the exact numbers xxxxx related to
 #' http://www.acb.com/fichas/LACBxxxxx.php for some seasons.
 #' 
@@ -463,7 +463,7 @@ scraping_games_acb <- function(type_league, nums, year, verbose = TRUE, accents 
                             45307:45339, 46307:46339, 47307:47339, 48307:48341, 49307:49341, 
                             50307:50339, 51307:51340, 52307:52337, 53273:53294, 54307:54331,
                             55307:55331, 56307:56333, 57307:57333, 58307:58333, 59307:59331,
-                            60307:60332, 61273:61298, 62307:62332)) {
+                            60307:60332, 61273:61298, 62307:62332, 63307:63332)) {
         type_season <- "Playoffs"
       }else{
         type_season <- "Regular Season"

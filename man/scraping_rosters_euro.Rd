@@ -37,7 +37,7 @@ This function allows us to obtain the basic information of each
 Euroleague/Eurocup player, including his birth date. Then, we will 
 be able to compute the age that each player had in the date that he 
 played each game. The websites used to collect information are
-\url{www.euroleague.net} and \url{www.eurocupbasketball.com}.
+\url{https://www.euroleague.net} and \url{https://www.eurocupbasketball.com}.
 }
 \note{
 In addition to use the email address to stay identifiable, the function also 

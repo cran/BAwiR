@@ -6,14 +6,14 @@ Analysis of Basketball Data
 }
 \description{
 Collection of tools to work with basketball data. Functions available are related to friendly web scraping and visualization. Data were obtained from <http://www.euroleague.net/>, <http://www.eurocupbasketball.com/> and
-<http://www.acb.com>, following the instructions of their respectives robots.txt files, when available. Tools for visualization include a population pyramid, 2D plots, circular plots of players' percentiles, plots of players' monthly/yearly stats, team heatmaps, team shooting plots, team four factors plots, cross-tables with the results of regular season games and maps of nationalities.     
+<http://www.acb.com>, following the instructions of their respectives robots.txt files, when available. Tools for visualization include a population pyramid, 2D plots, circular plots of players' percentiles, plots of players' monthly/yearly stats, team heatmaps, team shooting plots, team four factors plots, cross-tables with the results of regular season games and maps of nationalities. Please see Vinue (2020) <doi:10.1089/big.2018.0124>.    
 }
 \details{
 \tabular{ll}{
 Package: BAwiR\cr
 Type: Package\cr
-Version: 1.2\cr
-Date: 2019-02-17\cr
+Version: 1.2.1\cr
+Date: 2020-02-04\cr
 License: GPL-2\cr
 LazyLoad: yes\cr
 LazyData: yes\cr

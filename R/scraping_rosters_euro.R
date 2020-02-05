@@ -8,7 +8,7 @@
 #' Euroleague/Eurocup player, including his birth date. Then, we will 
 #' be able to compute the age that each player had in the date that he 
 #' played each game. The websites used to collect information are
-#' \url{www.euroleague.net} and \url{www.eurocupbasketball.com}.
+#' \url{https://www.euroleague.net} and \url{https://www.eurocupbasketball.com}.
 #' 
 #' @usage
 #' scraping_rosters_euro(competition, pcode, year, verbose = TRUE, 
@@ -120,7 +120,7 @@ scraping_rosters_euro <- function(competition, pcode, year, verbose = TRUE,
     born1 <- html_pl[born + 2]
     # There are players with no height such as:
     # http://www.eurocupbasketball.com/eurocup/competition/players/showplayer?pcode=BMO&seasoncode=U2002
-    if (grepl("Nationality", born1)) {
+    if (unique(grepl("Nationality", born1))) {
       born1 <- html_pl[born + 1]
       heig4 <- NA
     }else{
@@ -133,7 +133,12 @@ scraping_rosters_euro <- function(competition, pcode, year, verbose = TRUE,
     
     born2 <- gsub("<span>Born:", "", born1)
     born3 <- gsub("</span>", "", born2)
-    born4 <- gsub(",", "", born3)
+    if (length(born3) > 1) {
+      born3 <- born3[1]
+      born4 <- gsub(",", "",gsub("                                     ", "", born3)) 
+    }else{
+      born4 <- gsub(",", "", born3)
+    }
     born5 <- as.Date(born4, format = "%d %B %Y")
     born6 <- gsub("-", "/", born5)
     born7 <- strsplit(born6, "/")[[1]]

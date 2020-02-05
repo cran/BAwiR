@@ -41,7 +41,7 @@ Note that for example http://www.acb.com/fichas/LACB60315.php
 doesn't exist, so for these cases is where we can use the 
  \code{httr} package.
 
-In \url{www.uv.es/vivigui/docs/acb_scraping.pdf} a document 
+In \url{https://www.uv.es/vivigui/docs/acb_scraping.pdf} a document 
 is available with the exact numbers xxxxx related to
 http://www.acb.com/fichas/LACBxxxxx.php for some seasons.
 }
