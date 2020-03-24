@@ -33,6 +33,10 @@ Similar players to the archetypoids computed with
 }
 \examples{
 (s0 <- Sys.time())
+# Turn off temporarily some negligible warnings from the 
+# archetypes package to avoid missunderstandings. The code works well.
+oldw <- getOption("warn")
+options(warn = -1)
 library(Anthropometry)
 df <- do_join_games_bio("ACB", acb_games_1718, acb_players_1718)
 df1 <- do_add_adv_stats(df)
@@ -49,6 +53,7 @@ alphas <- round(res$alphas, 4)
 df3_aux <- df2[which(df2$Position == "Guard")[1:31], ]
 get_similar_players(1, 0.99, alphas, cases, df3_aux, c("MP", "PTS"), 
                     unique(df3_aux$Compet), unique(df3_aux$Season))
+options(warn = oldw)                     
 s1 <- Sys.time() - s0
 s1                    
 

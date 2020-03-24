@@ -1,6 +1,9 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.2.2 [2020-03-24]
+* This a minor update to avoid some negligible warnings highlighted by the new version of dplyr.
+
 Version: 1.2.1 [2020-02-04]
 * The paper presenting this package has been published, so its doi link has been added to the DESCRIPTION file.
 

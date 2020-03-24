@@ -1,8 +1,8 @@
 Package: BAwiR
 Type: Package
 Title: Analysis of Basketball Data
-Version: 1.2.1
-Date: 2020-02-04
+Version: 1.2.2
+Date: 2020-03-24
 Author: Guillermo Vinue
 Maintainer: Guillermo Vinue <Guillermo.Vinue@uv.es>
 Description: Collection of tools to work with basketball data. Functions available are related to friendly 
@@ -24,6 +24,6 @@ VignetteBuilder: knitr
 LazyData: true
 RoxygenNote: 6.1.1
 NeedsCompilation: no
-Packaged: 2020-02-04 17:20:06 UTC; guillevinue
+Packaged: 2020-03-24 07:54:24 UTC; guillevinue
 Repository: CRAN
-Date/Publication: 2020-02-05 14:00:03 UTC
+Date/Publication: 2020-03-24 08:50:02 UTC
