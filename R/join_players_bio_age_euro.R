@@ -24,7 +24,7 @@
 #' @examples 
 #' df <- join_players_bio_age_euro(euroleague_games_1718, euroleague_players_1718)
 #'           
-#' @importFrom dplyr filter as_data_frame left_join mutate   
+#' @importFrom dplyr filter left_join mutate   
 #' @importFrom purrr map_if 
 #' @importFrom lubridate month
 #'                  
@@ -36,7 +36,8 @@ join_players_bio_age_euro <- function(df_games, df_rosters){
     filter(Nationality != "</div>") %>%
     droplevels() %>% # To drop unused levels after filtering by factor
     map_if(is.factor, as.character) %>%  
-    as_data_frame()
+    #as_data_frame()
+    as_tibble()
   
   # Merge both data frames using column CombinID
   df_merg <- left_join(df_games, df_bio_updated1, by = "CombinID") 

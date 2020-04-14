@@ -26,8 +26,9 @@
 #' @examples 
 #' df <- do_join_games_bio("ACB", acb_games_1718, acb_players_1718)
 #'           
-#' @importFrom dplyr filter as_data_frame     
+#' @importFrom dplyr filter 
 #' @importFrom purrr map_if  
+#' @importFrom tibble as_tibble
 #'                  
 #' @export
 
@@ -42,7 +43,8 @@ do_join_games_bio <- function(competition, df_games, df_rosters) {
     filter(CombinID != 0, CombinID != "NA") %>% 
     droplevels() %>% # To drop unused levels after filtering by factor.
     map_if(is.factor, as.character) %>% 
-    as_data_frame()
+    #as_data_frame()
+    as_tibble()
   
   if (competition == "ACB") {
     # Add players bio and age:

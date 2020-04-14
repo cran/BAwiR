@@ -1,11 +1,20 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.2.3 [2020-04-14]
+* In the examples of get_similar_players(), supressWarnings() has been used instead of calling options().
+* An error related to anthrCases() from the package 'Anthropometry' has been corrected. This was due to the upgrade of package 'tibble' to version 3.0.0.
+See version of 1.14 of 'Anthropometry'.
+* as_data_frame() has been replaced by as_tibble(), as required by the upgrade of package 'tibble' to version 3.0.0.
+* Submitted to CRAN.
+
 Version: 1.2.2 [2020-03-24]
 * This a minor update to avoid some negligible warnings highlighted by the new version of dplyr.
+* Submitted to CRAN.
 
 Version: 1.2.1 [2020-02-04]
 * The paper presenting this package has been published, so its doi link has been added to the DESCRIPTION file.
+* Submitted to CRAN.
 
 Version: 1.2 [2019-02-17]
 * get_barplot_monthly_stats() and get_stats_seasons() allow now to represent multiple players at the same time.

@@ -24,7 +24,7 @@
 #' @examples 
 #' df <- join_players_bio_age_acb(acb_games_1718, acb_players_1718)
 #'           
-#' @importFrom dplyr filter as_data_frame left_join mutate    
+#' @importFrom dplyr filter left_join mutate    
 #' @importFrom purrr map_if 
 #' @importFrom tidyr drop_na
 #' @importFrom lubridate month
@@ -38,7 +38,8 @@ join_players_bio_age_acb <- function(df_games, df_rosters){
     filter(Position != "|") %>%
     droplevels() %>% # To drop unused levels after filtering by factor
     map_if(is.factor, as.character) %>%  
-    as_data_frame()
+    #as_data_frame()
+    as_tibble()
 
   # Merge both data frames using column CombinID:
   df_merg <- left_join(df_games, df_bio_updated1, by = "CombinID") 

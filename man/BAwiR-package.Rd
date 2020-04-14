@@ -12,8 +12,8 @@ Collection of tools to work with basketball data. Functions available are relate
 \tabular{ll}{
 Package: BAwiR\cr
 Type: Package\cr
-Version: 1.2.2\cr
-Date: 2020-03-24\cr
+Version: 1.2.3\cr
+Date: 2020-04-14\cr
 License: GPL-2\cr
 LazyLoad: yes\cr
 LazyData: yes\cr
