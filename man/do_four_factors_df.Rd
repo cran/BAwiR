@@ -59,6 +59,10 @@ the biggest ORBP and the biggest FTRate, respectively.
 \examples{
 df <- do_join_games_bio("ACB", acb_games_1718, acb_players_1718)
 df1 <- do_add_adv_stats(df)
+# When only one team is selected the rankings between parentheses
+# do not reflect the real rankings regarding all the league teams.
+# The rankings are computed with respect to the number of teams 
+# passed as an argument.
 df_four_factors <- do_four_factors_df(df1, "Valencia")
 
 }

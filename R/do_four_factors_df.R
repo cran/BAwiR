@@ -61,6 +61,10 @@
 #' @examples 
 #' df <- do_join_games_bio("ACB", acb_games_1718, acb_players_1718)
 #' df1 <- do_add_adv_stats(df)
+#' # When only one team is selected the rankings between parentheses
+#' # do not reflect the real rankings regarding all the league teams.
+#' # The rankings are computed with respect to the number of teams 
+#' # passed as an argument.
 #' df_four_factors <- do_four_factors_df(df1, "Valencia")
 #' 
 #' @importFrom dplyr summarise bind_rows
@@ -82,7 +86,8 @@ do_four_factors_df <- function(df_games, teams) {
       filter(Game %in% team_Game) %>%
       select(Day, Game, Team, Player.x, FG, FGA, ThreeP, FT, FTA, DRB, ORB, TOV) %>%
       group_by(Team) %>%
-      mutate(Type = ifelse(Team == i, "Offense", "Defense")) 
+      mutate(Type = ifelse(Team == i, "Offense", "Defense")) %>%
+      ungroup()
     
     df3 <- df2 %>%
       group_by(Type) %>%
@@ -91,7 +96,8 @@ do_four_factors_df <- function(df_games, teams) {
                 ORB = sum(ORB),
                 DRB = sum(DRB), 
                 ORBP = NA,
-                FTRate = sum(FT) / sum(FGA)) 
+                FTRate = sum(FT) / sum(FGA)) %>%
+      ungroup()
     df3$ORBP[1] <- df3$ORB[1] / (df3$ORB[1] + df3$DRB[2])
     df3$ORBP[2] <- df3$ORB[2] / (df3$ORB[2] + df3$DRB[1])
     
@@ -119,6 +125,7 @@ do_four_factors_df <- function(df_games, teams) {
     mutate(order_ORBP = Team[order(ORBP)]) %>%
     # The best team is the one that allows the worst (smallest) free throw rate:
     mutate(order_FTRate = Team[order(FTRate)])
+  df6 <- as.data.frame(df6)
   
   for (i in teams) {
     # Find the position of the team in each of the order columns.
@@ -137,6 +144,7 @@ do_four_factors_df <- function(df_games, teams) {
     mutate(order_ORBP = Team[order(ORBP, decreasing = TRUE)]) %>%
     # The best team is the one that has the best (biggest) free throw rate:
     mutate(order_FTRate = Team[order(FTRate, decreasing = TRUE)])
+  df7 <- as.data.frame(df7)
   
   for (i in teams) {
     orders_cols <- apply(df7[,7:10], 2, function(x){grep(i, x)})

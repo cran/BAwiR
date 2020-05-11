@@ -1,6 +1,10 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.2.4 [2020-05-11]
+* In do_four_factors_df(), the df6 and df7 matrices are converted to data frames with as.data.frame(), as required by the upgrade of package 'dplyr' to version 1.0.0.
+* Submitted to CRAN.
+
 Version: 1.2.3 [2020-04-14]
 * In the examples of get_similar_players(), supressWarnings() has been used instead of calling options().
 * An error related to anthrCases() from the package 'Anthropometry' has been corrected. This was due to the upgrade of package 'tibble' to version 3.0.0.
