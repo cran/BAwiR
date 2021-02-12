@@ -30,7 +30,7 @@
 #' 
 #' @author 
 #' This function has been created using the code from this website:
-#' \url{https://www.r-bloggers.com/visualizing-the-best/}.
+#' \url{https://www.r-bloggers.com/2017/01/visualizing-the-best/}.
 #' 
 #' @details 
 #' In the example shown below, it can be seen that Alberto Abalde has a percentile of 
@@ -87,7 +87,8 @@ get_bubble_plot <- function(df_stats, player, descr_stats, size_text, size_text_
 
   df_cp$descr <- descr_stats
   # Order is to get the stats legend in the same order as they are displayed in the circular plot.
-  df_cp <- df_cp[order(df_cp$stat),]
+  #df_cp <- df_cp[order(df_cp$stat),]
+  df_cp <- df_cp[do.call("order", c(df_cp["stat"], list(decreasing = FALSE))),]
   labs <- with(df_cp, paste(stat, descr, sep = ": "))
   
   percs_player <- sort(unique(df_cp$outof4))

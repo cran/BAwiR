@@ -62,11 +62,16 @@ get_similar_players <- function(atype, threshold, alphas, cases, data, variables
   
   good_dat <- data[vec, c("Name", "Position", "Team", variables, "CombinID")]
   
-  good_dat1 <- cbind(good_dat, good_coef)
+  #good_dat1 <- cbind(good_dat, good_coef)
+  good_dat1 <- cbind(as.data.frame(good_dat), good_coef)
   
-  good_dat2 <- good_dat1[order(good_dat1[, colnames(good_dat1) == atype], decreasing = TRUE),]
+  #good_dat2 <- good_dat1[order(good_dat1[, colnames(good_dat1) == atype], decreasing = TRUE),]
+  cols <- as.character(atype)
+  good_dat2 <- good_dat1[do.call("order", c(good_dat1[cols], list(decreasing = TRUE))),]
   
-  good_dat3 <- rbind(data[cases[atype], c("Name", "Position", "Team", variables, "CombinID")], 
+  # I have also added as.data.frame here:
+  good_dat3 <- rbind(as.data.frame(data[cases[atype], c("Name", "Position", "Team", 
+                                                        variables, "CombinID")]), 
                      good_dat2[, c("Name", "Position", "Team", variables, "CombinID")])
   
   if (compet == "ACB") {

@@ -1,6 +1,11 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.2.5 [2021-02-12]
+* In get_bubble_plot(), get_four_factors_plot(), get_heatmap_bb(), get_similar_teams() and get_similar_players(): order() on data frames is no longer called, as required by the CRAN maintainers.
+* Some links have been fixed, as required by the CRAN maintainers.
+* Submitted to CRAN.
+
 Version: 1.2.4 [2020-05-11]
 * In do_four_factors_df(), the df6 and df7 matrices are converted to data frames with as.data.frame(), as required by the upgrade of package 'dplyr' to version 1.0.0.
 * Submitted to CRAN.

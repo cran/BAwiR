@@ -10,5 +10,5 @@ and the first three days of top 16 of the Eurocup 2017-2018 season.
 }
 \usage{eurocup_players_1718}
 \format{Data frame with 351 rows and 7 columns.}
-\source{\url{http://www.eurocupbasketball.com/}}
+\source{\url{https://www.eurocupbasketball.com/}}
 \keyword{datasets}

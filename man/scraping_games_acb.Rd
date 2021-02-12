@@ -35,7 +35,7 @@ all the desired ACB seasons available from:
 \details{
 The official website of the Spanish basketball league ACB presents the
 statistics of each game in a php website, such as:
-\url{http://www.acb.com/fichas/LACB62090.php}.
+http://www.acb.com/fichas/LACB62090.php.
 
 Note that for example http://www.acb.com/fichas/LACB60315.php
 doesn't exist, so for these cases is where we can use the 

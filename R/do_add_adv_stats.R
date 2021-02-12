@@ -31,7 +31,7 @@
 #' 
 #' The detailed definition of some of these stats can be found at
 #' \url{https://www.basketball-reference.com/about/glossary.html} and
-#' \url{https://stats.nba.com/help/glossary/}.
+#' \url{https://www.nba.com/stats/help/glossary/}.
 #' 
 #' @author 
 #' Guillermo Vinue

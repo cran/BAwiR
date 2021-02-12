@@ -65,8 +65,11 @@ get_four_factors_plot <- function(df_rank, df_no_rank, team, language) {
   df_no_rank2 <- melt(df_no_rank1, id = c("Team", "Type"))
   levels(df_no_rank2$variable) <- c("EFG%", "TOV%", "ORB%", "FTR")
   
-  df_no_rank21 <- df_no_rank2[order(df_no_rank2$Type),]
-  df_rank21 <- df_rank2[order(df_rank2$Type),]
+  #df_no_rank21 <- df_no_rank2[order(df_no_rank2$Type),]
+  #df_rank21 <- df_rank2[order(df_rank2$Type),]
+  
+  df_no_rank21 <- df_no_rank2[do.call("order", c(df_no_rank2["Type"], list(decreasing = FALSE))),]
+  df_rank21 <- df_rank2[do.call("order", c(df_rank2["Type"], list(decreasing = FALSE))),]
   
   if (language == "en") {
     descr_stats <- rep(c(rep("Effective field goal percentage", length(team)), 

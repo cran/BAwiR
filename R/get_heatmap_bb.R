@@ -28,7 +28,7 @@
 #' @author 
 #' This function has been created using the code from these websites:
 #' \url{https://learnr.wordpress.com/2010/01/26/ggplot2-quick-heatmap-plotting/} and 
-#' \url{http://stackoverflow.com/questions/13016022/ggplot2-heatmaps-using-different-gradients-for-categories/13016912}
+#' \url{https://stackoverflow.com/questions/13016022/ggplot2-heatmaps-using-different-gradients-for-categories/13016912}
 #' 
 #' @examples 
 #' \dontrun{
@@ -61,7 +61,8 @@ get_heatmap_bb <- function(df_stats, team, levels_stats = NULL, stat_ord, base_s
     select(-c(Team, CombinID, Position, Nationality, Season, Compet, Type_season, Type_stats)) #%>%
     #arrange(desc(MP))
   df_order <- data.frame(df)
-  df_order1 <- df_order[order(df_order[, stat_ord], decreasing = TRUE), ]
+  #df_order1 <- df_order[order(df_order[, stat_ord], decreasing = TRUE), ]
+  df_order1 <- df_order[do.call("order", c(df_order[stat_ord], list(decreasing = TRUE))), ]
   
   if (is.null(levels_stats)) {
     levels_stats <- list("Offensive" = c("PTS", "FG", "FGA", "FGPerc", 

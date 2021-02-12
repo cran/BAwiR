@@ -46,5 +46,5 @@ get_heatmap_bb(df2, teams[6], NULL, "MP", 9, paste(compet, "2017-2018", "Total",
 \author{
 This function has been created using the code from these websites:
 \url{https://learnr.wordpress.com/2010/01/26/ggplot2-quick-heatmap-plotting/} and 
-\url{http://stackoverflow.com/questions/13016022/ggplot2-heatmaps-using-different-gradients-for-categories/13016912}
+\url{https://stackoverflow.com/questions/13016022/ggplot2-heatmaps-using-different-gradients-for-categories/13016912}
 }

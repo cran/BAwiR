@@ -26,8 +26,8 @@ A data frame with the player game finder data.
 \description{
 This function allows us to get all the player game finder data for 
 all the desired Euroleague and Eurocup seasons available from
-\url{http://www.euroleague.net/main/results/} and
-\url{http://www.eurocupbasketball.com/eurocup/games/results}, respectively.
+\url{https://www.euroleague.net/main/results/} and
+\url{https://www.eurocupbasketball.com/eurocup/games/results}, respectively.
 }
 \details{
 See the examples in \code{\link{get_games_rosters}} to see the game numbers
@@ -38,7 +38,7 @@ In addition to use the email address to stay identifiable, the function also
 contains two headers regarding the R platform and version used.
 
 Furthermore, in the robots.txt file located at
-\url{http://www.euroleague.net/robots.txt} and 
+\url{https://www.euroleague.net/robots.txt} and 
 \url{https://www.eurocupbasketball.com/robots.txt}
 there is the Crawl-delay field which asks crawlers to pause between 
 requests for 15 seconds. This is done by adding to the function the command

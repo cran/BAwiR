@@ -12,7 +12,7 @@
 #' 
 #' As a summary, EFGP is a measure of shooting efficiency; TOVP is
 #' the percentage of possessions where the team missed the ball, see
-#' \url{http://www.nba.com/thunder/news/stats101.html} to read about 
+#' \url{https://www.nba.com/thunder/news/stats101.html} to read about 
 #' the 0.44 coefficient; ORBP measures how many rebounds were offensive 
 #' from the total of available rebounds; Finally, FTRate is a measure of both 
 #' how often a team gets to the line and how often they make them.

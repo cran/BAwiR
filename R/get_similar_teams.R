@@ -59,11 +59,15 @@ get_similar_teams <- function(atype, threshold, alphas, cases, data, variables) 
   
   good_dat <- data[vec, c("Team", variables)]
   
-  good_dat1 <- cbind(good_dat, good_coef)
+  #good_dat1 <- cbind(good_dat, good_coef)
+  good_dat1 <- cbind(as.data.frame(good_dat), good_coef)
   
-  good_dat2 <- good_dat1[order(good_dat1[, colnames(good_dat1) == atype], decreasing = TRUE),]
+  #good_dat2 <- good_dat1[order(good_dat1[, colnames(good_dat1) == atype], decreasing = TRUE),]
+  cols <- as.character(atype)
+  good_dat2 <- good_dat1[do.call("order", c(good_dat1[cols], list(decreasing = TRUE))),]
   
-  good_dat3 <- rbind(data[cases[atype], c("Team", variables)], good_dat2[, c("Team", variables)])
+  good_dat3 <- rbind(as.data.frame(data[cases[atype], c("Team", variables)]), 
+                     good_dat2[, c("Team", variables)])
  
   return(good_dat3)
 }

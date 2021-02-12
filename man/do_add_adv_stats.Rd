@@ -33,7 +33,7 @@ The advanced statistics computed are as follows:
 
 The detailed definition of some of these stats can be found at
 \url{https://www.basketball-reference.com/about/glossary.html} and
-\url{https://stats.nba.com/help/glossary/}.
+\url{https://www.nba.com/stats/help/glossary/}.
 }
 \examples{
 df <- do_join_games_bio("ACB", acb_games_1718, acb_players_1718)

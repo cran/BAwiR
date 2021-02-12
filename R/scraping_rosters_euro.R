@@ -42,7 +42,7 @@
 #' contains two headers regarding the R platform and version used.
 #' 
 #' Furthermore, in the robots.txt file located at
-#' \url{http://www.euroleague.net/robots.txt} and 
+#' \url{https://www.euroleague.net/robots.txt} and 
 #' \url{https://www.eurocupbasketball.com/robots.txt}
 #' there is the Crawl-delay field which asks crawlers to pause between 
 #' requests for 15 seconds. This is done by adding to the function the command

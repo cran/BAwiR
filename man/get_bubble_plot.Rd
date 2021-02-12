@@ -67,5 +67,5 @@ get_bubble_plot(df2_1, "Abalde, Alberto", descr_stats, 6, 10, 12)
 }
 \author{
 This function has been created using the code from this website:
-\url{https://www.r-bloggers.com/visualizing-the-best/}.
+\url{https://www.r-bloggers.com/2017/01/visualizing-the-best/}.
 }
