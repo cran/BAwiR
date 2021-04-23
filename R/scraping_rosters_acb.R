@@ -44,7 +44,7 @@
 #' contains two headers regarding the R platform and version used.
 #' 
 #' Furthermore, even though in the robots.txt file at 
-#' \url{http://www.acb.com/robots.txt}, there is no information about scraping
+#' \url{https://www.acb.com/robots.txt}, there is no information about scraping
 #' limitations and all robots are allowed to have complete access,
 #' the function also includes the command \code{Sys.sleep(2)}
 #' to pause between requests for 2 seconds. In this way, we don't bother the server 

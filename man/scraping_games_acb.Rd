@@ -30,27 +30,27 @@ A data frame with the player game finder data.
 \description{
 This function allows us to get all the player game finder data for 
 all the desired ACB seasons available from: 
-\url{http://www.acb.com}.
+\url{https://www.acb.com}.
 }
 \details{
-The official website of the Spanish basketball league ACB presents the
+The official website of the Spanish basketball league ACB used to present the
 statistics of each game in a php website, such as:
-http://www.acb.com/fichas/LACB62090.php.
+https://www.acb.com/fichas/LACB62090.php.
 
-Note that for example http://www.acb.com/fichas/LACB60315.php
-doesn't exist, so for these cases is where we can use the 
+In some cases, https://www.acb.com/fichas/LACB60315.php
+didn't exist, so for these cases is where we can use the 
  \code{httr} package.
 
 In \url{https://www.uv.es/vivigui/docs/acb_scraping.pdf} a document 
 is available with the exact numbers xxxxx related to
-http://www.acb.com/fichas/LACBxxxxx.php for some seasons.
+https://www.acb.com/fichas/LACBxxxxx.php for some seasons.
 }
 \note{
 In addition to use the email address to stay identifiable, the function also 
 contains two headers regarding the R platform and version used.
 
 Furthermore, even though in the robots.txt file at 
-\url{http://www.acb.com/robots.txt}, there is no information about scraping
+\url{https://www.acb.com/robots.txt}, there is no information about scraping
 limitations and all robots are allowed to have complete access,
 the function also includes the command \code{Sys.sleep(2)}
 to pause between requests for 2 seconds. In this way, we don't bother the server 

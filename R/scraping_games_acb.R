@@ -5,7 +5,7 @@
 #' @description 
 #' This function allows us to get all the player game finder data for 
 #' all the desired ACB seasons available from: 
-#' \url{http://www.acb.com}. 
+#' \url{https://www.acb.com}. 
 #' 
 #' @usage 
 #' scraping_games_acb(type_league, nums, year, verbose = TRUE, 
@@ -23,17 +23,17 @@
 #' is working as transparently as possible with a research purpose.
 #' 
 #' @details 
-#' The official website of the Spanish basketball league ACB presents the
+#' The official website of the Spanish basketball league ACB used to present the
 #' statistics of each game in a php website, such as:
-#' http://www.acb.com/fichas/LACB62090.php.
+#' https://www.acb.com/fichas/LACB62090.php.
 #' 
-#' Note that for example http://www.acb.com/fichas/LACB60315.php
-#' doesn't exist, so for these cases is where we can use the 
+#' In some cases, https://www.acb.com/fichas/LACB60315.php
+#' didn't exist, so for these cases is where we can use the 
 #'  \code{httr} package.
 #' 
 #' In \url{https://www.uv.es/vivigui/docs/acb_scraping.pdf} a document 
 #' is available with the exact numbers xxxxx related to
-#' http://www.acb.com/fichas/LACBxxxxx.php for some seasons.
+#' https://www.acb.com/fichas/LACBxxxxx.php for some seasons.
 #' 
 #' @return 
 #' A data frame with the player game finder data.
@@ -43,7 +43,7 @@
 #' contains two headers regarding the R platform and version used.
 #' 
 #' Furthermore, even though in the robots.txt file at 
-#' \url{http://www.acb.com/robots.txt}, there is no information about scraping
+#' \url{https://www.acb.com/robots.txt}, there is no information about scraping
 #' limitations and all robots are allowed to have complete access,
 #' the function also includes the command \code{Sys.sleep(2)}
 #' to pause between requests for 2 seconds. In this way, we don't bother the server 
@@ -393,7 +393,7 @@ scraping_games_acb <- function(type_league, nums, year, verbose = TRUE, accents 
            #stats[row,3] <- str_replace(stats[row,3], enti[!is.na(enti)], repl) # The problem 
            # with this sentence is that if there is the same accent in both the name and surname, 
            # for example, Nogues, Jose I. (accented e in Nogues and Jose) in 
-           # http://www.acb.com/fichas/LACB60017.php, only the first accent is rightly replaced, 
+           # https://www.acb.com/fichas/LACB60017.php, only the first accent is rightly replaced, 
            # so we have to use:
            stats[row,3] <- as.character(gsub(enti[!is.na(enti)], repl, stats[row,3]))
            

@@ -53,7 +53,7 @@ requests for 15 seconds. This is done by adding to the function the command
 \examples{
 \dontrun{
 # Not needed to scrape every time the package is checked, built and installed.
-# It takes 15 seconds as it is required in http://www.euroleague.net/robots.txt
+# It takes 15 seconds as it is required in https://www.euroleague.net/robots.txt
 df_bio <- scraping_rosters_euro("Euroleague", "005791", "2017", verbose = TRUE,
                                  r_user = "guillermo.vinue@uv.es")
 }

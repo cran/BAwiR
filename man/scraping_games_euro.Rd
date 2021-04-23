@@ -27,7 +27,7 @@ A data frame with the player game finder data.
 This function allows us to get all the player game finder data for 
 all the desired Euroleague and Eurocup seasons available from
 \url{https://www.euroleague.net/main/results/} and
-\url{https://www.eurocupbasketball.com/eurocup/games/results}, respectively.
+\url{https://www.eurocupbasketball.com/eurocup/games/results/}, respectively.
 }
 \details{
 See the examples in \code{\link{get_games_rosters}} to see the game numbers
@@ -47,7 +47,7 @@ requests for 15 seconds. This is done by adding to the function the command
 \examples{
 \dontrun{
 # Not needed to scrape every time the package is checked, built and installed.
-# It takes 15 seconds as it is required in http://www.euroleague.net/robots.txt
+# It takes 15 seconds as it is required in https://www.euroleague.net/robots.txt
 df1 <- do_scraping_games(competition = "Euroleague", nums = 1:2, 
                          year = "2017", verbose = TRUE, r_user = 
                          "guillermo.vinue@uv.es")

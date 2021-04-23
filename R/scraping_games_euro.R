@@ -6,7 +6,7 @@
 #' This function allows us to get all the player game finder data for 
 #' all the desired Euroleague and Eurocup seasons available from
 #' \url{https://www.euroleague.net/main/results/} and
-#' \url{https://www.eurocupbasketball.com/eurocup/games/results}, respectively. 
+#' \url{https://www.eurocupbasketball.com/eurocup/games/results/}, respectively. 
 #' 
 #' @usage 
 #' scraping_games_euro(competition, nums, year, verbose = TRUE,
@@ -48,7 +48,7 @@
 #' @examples 
 #' \dontrun{
 #' # Not needed to scrape every time the package is checked, built and installed.
-#' # It takes 15 seconds as it is required in http://www.euroleague.net/robots.txt
+#' # It takes 15 seconds as it is required in https://www.euroleague.net/robots.txt
 #' df1 <- do_scraping_games(competition = "Euroleague", nums = 1:2, 
 #'                          year = "2017", verbose = TRUE, r_user = 
 #'                          "guillermo.vinue@uv.es")
@@ -302,7 +302,7 @@ scraping_games_euro <- function(competition, nums, year, verbose = TRUE,
       print("Done")  
     }
   
-    # http://www.euroleague.net/robots.txt  
+    # https://www.euroleague.net/robots.txt  
     # https://www.eurocupbasketball.com/robots.txt
     # Crawl-delay asks to pause between requests for 15 seconds.
     Sys.sleep(15)  

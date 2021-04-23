@@ -1,6 +1,11 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.2.6 [2021-04-23]
+* The markdown and rmarkdown packages have been added in the 'Suggests' field of DESCRIPTION, as required by the CRAN maintainers.
+* Some links have been fixed, as required by the CRAN maintainers.
+* Submitted to CRAN.
+
 Version: 1.2.5 [2021-02-12]
 * In get_bubble_plot(), get_four_factors_plot(), get_heatmap_bb(), get_similar_teams() and get_similar_players(): order() on data frames is no longer called, as required by the CRAN maintainers.
 * Some links have been fixed, as required by the CRAN maintainers.
