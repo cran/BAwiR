@@ -5,8 +5,8 @@
 #' @description 
 #' This function allows us to get all the player game finder data for 
 #' all the desired Euroleague and Eurocup seasons available from
-#' \url{https://www.euroleague.net/main/results/} and
-#' \url{https://www.eurocupbasketball.com/eurocup/games/results/}, respectively. 
+#' \url{https://www.euroleague.net/main/results} and
+#' \url{https://www.eurocupbasketball.com/eurocup/games/results}, respectively. 
 #' 
 #' @usage 
 #' scraping_games_euro(competition, nums, year, verbose = TRUE,

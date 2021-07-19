@@ -26,8 +26,8 @@ A data frame with the player game finder data.
 \description{
 This function allows us to get all the player game finder data for 
 all the desired Euroleague and Eurocup seasons available from
-\url{https://www.euroleague.net/main/results/} and
-\url{https://www.eurocupbasketball.com/eurocup/games/results/}, respectively.
+\url{https://www.euroleague.net/main/results} and
+\url{https://www.eurocupbasketball.com/eurocup/games/results}, respectively.
 }
 \details{
 See the examples in \code{\link{get_games_rosters}} to see the game numbers

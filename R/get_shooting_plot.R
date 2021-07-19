@@ -35,8 +35,7 @@
 #'                   paste("Valencia", compet, "2017-2018", sep = " "), "en")
 #' }
 #' 
-#' @importFrom ggplot2 geom_segment theme_minimal
-#' @importFrom hrbrthemes scale_x_percent scale_color_ipsum
+#' @importFrom ggplot2 geom_segment theme_minimal scale_x_continuous
 #'
 #' @export
 
@@ -111,10 +110,12 @@ get_shooting_plot <- function(df_stats, team, type_shot, min_att, title, languag
     geom_text(aes(x = 110, y = Name, label = perc_sco), hjust = 1, 
               nudge_x = -0.01, nudge_y = 0.14, size = 5) +
     labs(x = NULL, y = NULL) +
-    scale_x_percent(breaks = seq(0,100,25), labels = c("0%", "25%", "50%", "75%", "100%")) +
-    scale_color_ipsum(name = NULL) + 
+    scale_x_continuous(breaks = seq(0, 100, 25), labels = c("0%", "25%", "50%", "75%", "100%")) +
+    #@importFrom hrbrthemes scale_x_percent scale_color_ipsum
+    #scale_x_percent(breaks = seq(0,100,25), labels = c("0%", "25%", "50%", "75%", "100%")) +
+    #scale_color_ipsum(name = NULL) + 
     theme_minimal(base_size = 17) +
-    theme(axis.text.x = element_text(hjust = c(0, 0.5, 0.5, 0.5, 1)),
+    theme(#axis.text.x = element_text(hjust = c(0, 0.5, 0.5, 0.5, 1)),
           legend.position = c(0.7, 1.025),
           legend.direction = "horizontal",
           legend.title = element_blank()) +

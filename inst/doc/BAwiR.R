@@ -1,27 +1,27 @@
-## ----setup, include=FALSE------------------------------------------------
+## ----setup, include=FALSE-----------------------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
 
-## ----packages, message=FALSE, eval=FALSE---------------------------------
+## ----packages, message=FALSE, eval=FALSE--------------------------------------
 #  # Firstly, load BAwiR and other packages that will be used in the paper:
 #  library(BAwiR) # 1.2
 #  library(tidyverse) # 1.2.1
 #  library(FSA) # 0.8.22
 #  library(gridExtra) # 2.3
 
-## ----figure 1, eval=FALSE------------------------------------------------
+## ----figure 1, eval=FALSE-----------------------------------------------------
 #  # Code for Figure 1:
 #  # Load the data_app_acb file with the ACB games from the 1985-1986 season to the 2017-2018 season:
 #  load(url("http://www.uv.es/vivigui/softw/data_app_acb.RData"))
 #  title <- " Number of Spanish and foreign players along the ACB seasons \n Data from www.acb.com"
 #  get_pop_pyramid(data_app_acb, title, "eng")
 
-## ----data, message=FALSE, eval=FALSE-------------------------------------
+## ----data, message=FALSE, eval=FALSE------------------------------------------
 #  # Create the data with games and players' info, add the advanced stats and compute the total numbers:
 #  df0 <- do_join_games_bio("ACB", acb_games_1718, acb_players_1718)
 #  df1 <- do_add_adv_stats(df0)
 #  df2 <- do_stats(df1, "Total", "2017-2018", "ACB", "Regular Season")
 
-## ----figure 2, eval=FALSE------------------------------------------------
+## ----figure 2, eval=FALSE-----------------------------------------------------
 #  # Code for Figure 2:
 #  df3 <- df2[which(df2$Position == "Center"), c("MP", "PTS", "Name", "CombinID")]
 #  df3 <- df3[df3$MP > 100,]
@@ -31,7 +31,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #    labs(x = colnames(df3)[1], y = colnames(df3)[2],
 #         title = "ACB 2017-2018, Regular Season. Total stats. Centers.")
 
-## ----table 2, eval=FALSE-------------------------------------------------
+## ----table 2, eval=FALSE------------------------------------------------------
 #  # Code for Table 2:
 #  df4 <- df3 %>%
 #    mutate(Player_info = paste("http://www.acb.com/jugador.php?id=", CombinID, sep = "")) %>%
@@ -39,7 +39,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #  df5 <- df4[order(df4[,1][[1]], decreasing = TRUE),]
 #  headtail(df5, 3)
 
-## ----figure 3, eval=FALSE------------------------------------------------
+## ----figure 3, eval=FALSE-----------------------------------------------------
 #  # Code for Figure 3:
 #  stats <- c("GP", "MP", "PTS", "FGPerc", "FTPerc", "TRB", "AST", "TOV", "PlusMinus", "PIR")
 #  descr_stats <- c("Games played", "Minutes played", "Points", "Field goals percentage",
@@ -62,7 +62,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #  
 #  grid.arrange(perc_plot_doncid, perc_plot_abalde, ncol = 2)
 
-## ----figure 4, message=FALSE, eval=FALSE---------------------------------
+## ----figure 4, message=FALSE, eval=FALSE--------------------------------------
 #  # Code for Figure 4:
 #  months <- c(df0 %>% distinct(Month))$Month
 #  months_order <- c("September", "October", "November", "December",  "January",
@@ -87,7 +87,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #  get_barplot_monthly_stats(df1_m1, "ACB 2017-2018, Regular Season. Monthly average stats.", 3) +
 #    scale_y_continuous(limits = c(min_val - 10, max_val + 10))
 
-## ----figure 5, message=FALSE, eval=FALSE---------------------------------
+## ----figure 5, message=FALSE, eval=FALSE--------------------------------------
 #  # Code for Figure 5:
 #  df0$Compet <- "ACB"
 #  plot_yearly <- get_stats_seasons(df0, "ACB", c("Doncic, Luka", "Abalde, Alberto"),
@@ -96,7 +96,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #    labs(title = "ACB 2017-2018, Regular Season. Yearly average stats.") +
 #    theme(strip.text.x = element_text(size = 15))
 
-## ----figure 6, message=FALSE, eval=FALSE---------------------------------
+## ----figure 6, message=FALSE, eval=FALSE--------------------------------------
 #  # Code for Figure 6:
 #  levels_stats <- list("Offensive" = c("PTS", "FG", "FGA", "FGPerc",
 #                                       "TwoP", "TwoPA", "TwoPPerc",
@@ -108,12 +108,12 @@ knitr::opts_chunk$set(echo = TRUE)
 #  get_heatmap_bb(df2, "Real_Madrid", levels_stats, "PlusMinus", 9,
 #                 paste("ACB", "2017-2018, Regular Season.", "Total stats.", sep = " "))
 
-## ----figure 7, eval=FALSE------------------------------------------------
+## ----figure 7, eval=FALSE-----------------------------------------------------
 #  # Code for Figure 7:
 #  get_shooting_plot(df2, "Real_Madrid", 3, 1, "ACB 2017-2018, Regular Season.", "en") +
 #    theme(plot.title = element_text(size = 15))
 
-## ----figure 8, eval=FALSE------------------------------------------------
+## ----figure 8, eval=FALSE-----------------------------------------------------
 #  # Code for Figure 8:
 #  df1_10 <- df1 %>%
 #    filter(Day <= 10)
@@ -123,17 +123,17 @@ knitr::opts_chunk$set(echo = TRUE)
 #                        c("Real_Madrid", "Valencia"), "en") +
 #    ggtitle("ACB 2017-2018, Regular Season.")
 
-## ----figure 9, eval=FALSE------------------------------------------------
+## ----figure 9, eval=FALSE-----------------------------------------------------
 #  # Code for Figure 9:
 #  df0$Compet <- "ACB"
 #  gg <- get_table_results(df0, "ACB", "2017-2018")
 #  gg$plot_teams
 
-## ----figure 10, eval=FALSE-----------------------------------------------
+## ----figure 10, eval=FALSE----------------------------------------------------
 #  # Code for Figure 10:
 #  get_map_nats(df2) +
 #    ggtitle("ACB 2017-2018, Regular Season.")
 
-## ----session info--------------------------------------------------------
+## ----session info-------------------------------------------------------------
 sessionInfo()
 

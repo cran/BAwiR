@@ -9,5 +9,5 @@ Games of the first seventeen days of the ACB 2017-2018 season.
 }
 \usage{acb_games_1718}
 \format{Data frame with 3939 rows and 38 columns.}
-\source{\url{http://www.acb.com/}}
+\source{\url{https://www.acb.com/}}
 \keyword{datasets}

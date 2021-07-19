@@ -1,6 +1,6 @@
-17e0b4f9f036f174dbf77b0dd9b671c3 *DESCRIPTION
-70cdf841763cb4d9e9f34eb5e0addc29 *NAMESPACE
-cc99e6d305bf06802d3565f6559b1d50 *NEWS
+b901c19d015981c22da9e83dbcd85b9f *DESCRIPTION
+654f2ef87fe4aace6700906eb3232b3b *NAMESPACE
+675b4db60607f43a136c2d06f9f0c302 *NEWS
 8a97224bc4ea0049f01306bcc06eb82d *R/capit_two_words.R
 bd7281c0647af6ed4b0665c3a892f22a *R/do_EPS.R
 1934acb7b00a0e3af9f9298fbdc9224f *R/do_OE.R
@@ -19,7 +19,7 @@ afba0f200a6f886ba680d263ca8a9748 *R/get_games_rosters.R
 d24413c39e3b0c243fcda8e1f8c8c672 *R/get_heatmap_bb.R
 4046184910045b9d70b5d21ce2b122a6 *R/get_map_nats.R
 384d8b298a9bdec1f68dd04e93a1d11f *R/get_pop_pyramid.R
-529ebf6246f77bfaff4b2e42c366dd68 *R/get_shooting_plot.R
+62b2c0516f642ea87fe1bc9a1992484c *R/get_shooting_plot.R
 548bbd054c93d0e5ef4e15fd690b41e1 *R/get_similar_players.R
 c70227e2ba73dc4c64ecf9f8ca033895 *R/get_similar_teams.R
 68456782ce4a110b2032230d4929cb8f *R/get_stats_seasons.R
@@ -27,7 +27,7 @@ c70227e2ba73dc4c64ecf9f8ca033895 *R/get_similar_teams.R
 120cbd3d2144539a1a95b76f94de35eb *R/join_players_bio_age_acb.R
 b9e29ce347492495229f707539298367 *R/join_players_bio_age_euro.R
 31fe83508bbb953b984b62dca18dafaa *R/scraping_games_acb.R
-c60f2c144cb5ddec7a11f0cf5c58baee *R/scraping_games_euro.R
+ad31f7a338b1d6e1ab08c9d4b847df88 *R/scraping_games_euro.R
 dc671195ba762017fb9269ff92ca0ae5 *R/scraping_rosters_acb.R
 c7f0849f5a5f0ab49d6614c334aea8be *R/scraping_rosters_euro.R
 27520d59738cf615c9b0d3467193c8b8 *build/vignette.rds
@@ -37,12 +37,12 @@ fe1021f63d1f120fed921cfbe32b89ed *data/eurocup_games_1718.RData
 d374aaaa13871ee9d88bcf7d0a6b2457 *data/eurocup_players_1718.RData
 0e897b89ec9d500ed8a95b1171f1de47 *data/euroleague_games_1718.RData
 08ea15d2675654b9ac25c3e08bb5cc97 *data/euroleague_players_1718.RData
-d8adec3cc0a5c927c09d2673561b806d *inst/doc/BAwiR.R
+5a636454853a52e51ceb9cc47ef3d0b8 *inst/doc/BAwiR.R
 95d82d2fb7942b37fa77537890a204c1 *inst/doc/BAwiR.Rmd
-be64c04ad81404bc25de6c3218b21bbe *inst/doc/BAwiR.html
-dd1b7d7e37239d506a266537d7fcfa0c *man/BAwiR-package.Rd
-32fda7698d1a9dbacdae53e496955f5a *man/acb_games_1718.Rd
-04dbae0256f279e35c065f7c517a0ea6 *man/acb_players_1718.Rd
+c51a8c487050857840d47dbbd5d7710e *inst/doc/BAwiR.html
+a019f5304dbbefa8da04d9adf8c62911 *man/BAwiR-package.Rd
+18f9146a7e5a08f2a3dfcf687978da60 *man/acb_games_1718.Rd
+761f28cc19393e5939a15a17c45c4a83 *man/acb_players_1718.Rd
 752e6f5486e5bcc1e18554ed82e768b2 *man/capit_two_words.Rd
 44b9c9ae3ed8930b4627f0f8b2ba2704 *man/do_EPS.Rd
 cfcbbb4e4a41cc037106c09f902c147b *man/do_OE.Rd
@@ -73,7 +73,7 @@ d32cb678879698593c3352b867e1bc2f *man/get_shooting_plot.Rd
 6b43c7ef90b55553b3bb74050a4c92ca *man/join_players_bio_age_acb.Rd
 0fff70fc02aafa2e4b29debcac35a47a *man/join_players_bio_age_euro.Rd
 c91867d99571b2223f602b8fd0d88306 *man/scraping_games_acb.Rd
-9ad8a103760770a4b687d0aba5d0c915 *man/scraping_games_euro.Rd
+5b7f04f05a0c5d33a0db8e701366d8de *man/scraping_games_euro.Rd
 12cd9fc8171e2b43d4a8092c2a7b6af8 *man/scraping_rosters_acb.Rd
 db09d1b3b214a1da8732830be1505d84 *man/scraping_rosters_euro.Rd
 95d82d2fb7942b37fa77537890a204c1 *vignettes/BAwiR.Rmd

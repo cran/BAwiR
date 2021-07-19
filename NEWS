@@ -1,6 +1,11 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.2.7 [2021-07-19]
+* scale_x_percent() and scale_color_ipsum() from the hrbrthemes package have been removed in get_shooting_plot() to avoid strong reverse dependencies with other packages. 
+* Some links have been fixed, as required by the CRAN maintainers.
+* Submitted to CRAN.
+
 Version: 1.2.6 [2021-04-23]
 * The markdown and rmarkdown packages have been added in the 'Suggests' field of DESCRIPTION, as required by the CRAN maintainers.
 * Some links have been fixed, as required by the CRAN maintainers.
