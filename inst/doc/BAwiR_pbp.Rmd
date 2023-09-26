@@ -1,0 +1,117 @@
+---
+title: "Analysis of Spanish play-by-play data"
+author: "Guillermo Vinue"
+date: "`r Sys.Date()`" 
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Analysis of Spanish play-by-play data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<!--This document contains all the needed R code to reproduce the results described in the paper *A Web Application for Interactive Visualization of European Basketball Data* ([https://doi.org/10.1089/big.2018.0124](https://doi.org/10.1089/big.2018.0124){target="_blank"}), which presents the dashboard available at [https://www.uv.es/vivigui/AppEuroACB.html](https://www.uv.es/vivigui/AppEuroACB.html){target="_blank"}.-->
+
+This document contains all the needed R code to reproduce the results described in the paper *A Basketball Big Data Platform for Box Score and Play-by-Play Data*, that has been submitted for publication. It presents the dashboard available at [https://www.uv.es/vivigui/AppPBP.html](https://www.uv.es/vivigui/AppPBP.html){target="_blank"}. This dashboard belongs to the platform available at [https://www.uv.es/vivigui/basketball_platform.html](https://www.uv.es/vivigui/basketball_platform.html){target="_blank"}.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages, message=FALSE, eval=FALSE}
+# Firstly, load BAwiR and other packages that will be used in the paper:
+library(BAwiR) # 1.3
+library(tidyverse) # 1.3.2
+```
+
+The following data file is an illustration of the type of play-by-play data available from the Spanish ACB league.
+
+```{r data, eval=FALSE}
+df0 <- acb_vbc_cz_pbp_2223
+
+day_num <- unique(acb_vbc_cz_pbp_2223$day)
+game_code <- unique(acb_vbc_cz_pbp_2223$game_code)
+```
+
+Do some first data processing:
+
+```{r processing, eval=FALSE}
+acb_games_2223_sl <- acb_vbc_cz_sl_2223 %>%
+  filter(period == "1C")
+
+df1 <- do_prepare_data(df0, day_num, 
+                      acb_games_2223_sl, acb_games_2223_info,
+                      game_code)
+```
+
+```{r lineups, eval=FALSE}
+# Lineups and sub-lineups:
+data_li <- do_lineup(df1, day_num, game_code, "Valencia Basket", FALSE) 
+data_subli <- do_sub_lineup(data_li, 4)
+```
+
+```{r possessions, eval=FALSE}
+# Possessions:
+data_poss <- do_possession(df1, "1C")  
+```
+
+```{r timeouts, eval=FALSE}
+# Timeouts:
+df1_to <- do_prepare_data_to(df0, TRUE, acb_games_2223_info, acb_games_2223_coach)
+data_to <- do_time_out_success(df1_to, day_num, game_code, 
+                               "Casademont Zaragoza_Porfirio Fisac", FALSE)
+```
+
+```{r periods, eval=FALSE}
+# Periods:
+df0_per <- df0
+
+rm_overtime <- TRUE # Decide if remove overtimes.
+if (rm_overtime) {
+  df0 <- df0 %>%
+    filter(!grepl("PR", period)) %>%
+    mutate(period = as.character(period))
+}
+  
+team_sel <- "Valencia Basket" # "Casademont Zaragoza"
+period_sel <- "1C"            # "4C"
+player_sel <- "Webb"          # "Mara"
+  
+df1 <- df0 %>%
+  filter(team == team_sel) %>%
+  filter(!action %in% c("D - Descalificante - No TL", "Altercado no TL")) 
+    
+df2 <- df1 %>%
+  filter(period == period_sel)
+    
+df0_inli_team <- acb_vbc_cz_sl_2223 %>% 
+  filter(team == team_sel, period == period_sel)
+  
+df3 <- do_prepare_data(df2, day_num, 
+                       df0_inli_team, acb_games_2223_info,
+                       game_code)
+                         
+data_per <- do_stats_per_period(df3, day_num, game_code, team_sel, period_sel, player_sel)
+
+# Clutch time:
+data_clutch <- do_clutch_time(acb_vbc_cz_pbp_2223)
+```
+
+```{r fouls, eval=FALSE}
+# Free throw fouls:
+data_ft_comm <- do_ft_fouls(df0, "comm")
+data_ft_rec <- do_ft_fouls(df0, "rec")
+
+# Offensive fouls:
+data_off_comm <- do_offensive_fouls(df0, "comm")
+data_off_rec <- do_offensive_fouls(df0, "rec")
+```
+
+```{r rebounds, eval=FALSE}
+# Offensive rebounds:
+df1_or <- do_prepare_data_or(df0, TRUE, acb_games_2223_info)
+data_or <- do_reb_off_success(df1_or, day_num, game_code, "Valencia Basket", FALSE)
+```
+
+```{r session info}
+sessionInfo()
+```

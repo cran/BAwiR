@@ -3,10 +3,10 @@
 #' @aliases scraping_games_euro
 #'
 #' @description 
-#' This function allows us to get all the player game finder data for 
+#' This function should allow us to get all the player game finder data for 
 #' all the desired Euroleague and Eurocup seasons available from
-#' \url{https://www.euroleague.net/main/results} and
-#' \url{https://www.eurocupbasketball.com/eurocup/games/results}, respectively. 
+#' \url{https://www.euroleaguebasketball.net/euroleague/game-center/} and
+#' \url{https://www.euroleaguebasketball.net/eurocup/game-center/}, respectively. 
 #' 
 #' @usage 
 #' scraping_games_euro(competition, nums, year, verbose = TRUE,
@@ -33,9 +33,8 @@
 #' contains two headers regarding the R platform and version used.
 #' 
 #' Furthermore, in the robots.txt file located at
-#' \url{https://www.euroleague.net/robots.txt} and 
-#' \url{https://www.eurocupbasketball.com/robots.txt}
-#' there is the Crawl-delay field which asks crawlers to pause between 
+#' \url{https://www.euroleaguebasketball.net/robots.txt}
+#' there is no Crawl-delay field. However, we assume crawlers to pause between 
 #' requests for 15 seconds. This is done by adding to the function the command
 #' \code{Sys.sleep(15)}.
 #' 
@@ -48,7 +47,7 @@
 #' @examples 
 #' \dontrun{
 #' # Not needed to scrape every time the package is checked, built and installed.
-#' # It takes 15 seconds as it is required in https://www.euroleague.net/robots.txt
+#' # It takes 15 seconds.
 #' df1 <- do_scraping_games(competition = "Euroleague", nums = 1:2, 
 #'                          year = "2017", verbose = TRUE, r_user = 
 #'                          "guillermo.vinue@uv.es")
@@ -302,9 +301,7 @@ scraping_games_euro <- function(competition, nums, year, verbose = TRUE,
       print("Done")  
     }
   
-    # https://www.euroleague.net/robots.txt  
-    # https://www.eurocupbasketball.com/robots.txt
-    # Crawl-delay asks to pause between requests for 15 seconds.
+    # Crawl-delay to pause between requests for 15 seconds.
     Sys.sleep(15)  
   } # End loop jorn.
 

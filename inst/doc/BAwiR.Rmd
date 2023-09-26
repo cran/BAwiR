@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This document contains all the needed R code to reproduce the results described in the paper *A Web Application for Interactive Visualization of European Basketball Data* ([https://doi.org/10.1089/big.2018.0124](https://doi.org/10.1089/big.2018.0124){target="_blank"}), which presents the dashboard available at [https://www.uv.es/vivigui/AppEuroACB.html](https://www.uv.es/vivigui/AppEuroACB.html){target="_blank"}.
+This document contains all the needed R code to reproduce the results described in the paper *A Web Application for Interactive Visualization of European Basketball Data* ([https://doi.org/10.1089/big.2018.0124](https://doi.org/10.1089/big.2018.0124){target="_blank"}), which presents the dashboard available at [https://www.uv.es/vivigui/AppEuroACB.html](https://www.uv.es/vivigui/AppEuroACB.html){target="_blank"}. This dashboard belongs to the platform available at [https://www.uv.es/vivigui/basketball_platform.html](https://www.uv.es/vivigui/basketball_platform.html){target="_blank"}.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -17,8 +17,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r packages, message=FALSE, eval=FALSE}
 # Firstly, load BAwiR and other packages that will be used in the paper:
-library(BAwiR) # 1.2
-library(tidyverse) # 1.2.1
+library(BAwiR) # 1.3
+library(tidyverse) # 1.3.2
 library(FSA) # 0.8.22
 library(gridExtra) # 2.3
 ```

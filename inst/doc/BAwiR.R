@@ -3,8 +3,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## ----packages, message=FALSE, eval=FALSE--------------------------------------
 #  # Firstly, load BAwiR and other packages that will be used in the paper:
-#  library(BAwiR) # 1.2
-#  library(tidyverse) # 1.2.1
+#  library(BAwiR) # 1.3
+#  library(tidyverse) # 1.3.2
 #  library(FSA) # 0.8.22
 #  library(gridExtra) # 2.3
 

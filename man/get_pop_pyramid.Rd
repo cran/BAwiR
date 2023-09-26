@@ -26,7 +26,7 @@ This aids in discussion of nationality imbalance.
  # Load the data_app_acb file with the ACB games 
  # from seasons 1985-1986 to 2017-2018:
  load(url("http://www.uv.es/vivigui/softw/data_app_acb.RData"))
- title <- " Number of Spanish and foreign players along the ACB seasons \\n Data from www.acb.com"
+ title <- " Number of Spanish and foreign players along the ACB seasons \n Data from www.acb.com"
  get_pop_pyramid(data_app_acb, title, "eng")
 }
 

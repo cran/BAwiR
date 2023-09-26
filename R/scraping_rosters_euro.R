@@ -4,11 +4,12 @@
 #' scraping_rosters_euro
 #' 
 #' @description
-#' This function allows us to obtain the basic information of each 
+#' This function should allow us to obtain the basic information of each 
 #' Euroleague/Eurocup player, including his birth date. Then, we will 
 #' be able to compute the age that each player had in the date that he 
 #' played each game. The websites used to collect information are
-#' \url{https://www.euroleague.net} and \url{https://www.eurocupbasketball.com}.
+#' \url{https://www.euroleaguebasketball.net/euroleague/} and 
+#' \url{https://www.euroleaguebasketball.net/eurocup/}.
 #' 
 #' @usage
 #' scraping_rosters_euro(competition, pcode, year, verbose = TRUE, 
@@ -41,10 +42,8 @@
 #' In addition to use the email address to stay identifiable, the function also 
 #' contains two headers regarding the R platform and version used.
 #' 
-#' Furthermore, in the robots.txt file located at
-#' \url{https://www.euroleague.net/robots.txt} and 
-#' \url{https://www.eurocupbasketball.com/robots.txt}
-#' there is the Crawl-delay field which asks crawlers to pause between 
+#' \url{https://www.euroleaguebasketball.net/robots.txt}
+#' there is no Crawl-delay field. However, we assume crawlers to pause between 
 #' requests for 15 seconds. This is done by adding to the function the command
 #' \code{Sys.sleep(15)}.
 #'
@@ -54,7 +53,7 @@
 #' @examples
 #' \dontrun{
 #' # Not needed to scrape every time the package is checked, built and installed.
-#' # It takes 15 seconds as it is required in https://www.euroleague.net/robots.txt
+#' # It takes 15 seconds.
 #' df_bio <- scraping_rosters_euro("Euroleague", "005791", "2017", verbose = TRUE,
 #'                                  r_user = "guillermo.vinue@uv.es")
 #' }
