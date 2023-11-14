@@ -1,6 +1,6 @@
-d2c327ff90bb21af9e61c7a59827bdaa *DESCRIPTION
-000842c7ab24f8597639e22a82a7aa37 *NAMESPACE
-ce5de40de5ee5df940428c7b27244486 *NEWS
+417cf5db7a2c01c1a013763c0893622a *DESCRIPTION
+53622474b595db897350fcec51be64eb *NAMESPACE
+96b9fce5b90cc4b96dd9ba9feae91fa3 *NEWS
 8a97224bc4ea0049f01306bcc06eb82d *R/capit_two_words.R
 bd7281c0647af6ed4b0665c3a892f22a *R/do_EPS.R
 1934acb7b00a0e3af9f9298fbdc9224f *R/do_OE.R
@@ -30,7 +30,7 @@ e70878241c09e0637ec40723599eb735 *R/get_barplot_monthly_stats.R
 afba0f200a6f886ba680d263ca8a9748 *R/get_games_rosters.R
 d24413c39e3b0c243fcda8e1f8c8c672 *R/get_heatmap_bb.R
 4046184910045b9d70b5d21ce2b122a6 *R/get_map_nats.R
-384d8b298a9bdec1f68dd04e93a1d11f *R/get_pop_pyramid.R
+b89b1e038c271f0769818b546756c8f2 *R/get_pop_pyramid.R
 62b2c0516f642ea87fe1bc9a1992484c *R/get_shooting_plot.R
 548bbd054c93d0e5ef4e15fd690b41e1 *R/get_similar_players.R
 c70227e2ba73dc4c64ecf9f8ca033895 *R/get_similar_teams.R
@@ -56,11 +56,11 @@ d374aaaa13871ee9d88bcf7d0a6b2457 *data/eurocup_players_1718.RData
 08ea15d2675654b9ac25c3e08bb5cc97 *data/euroleague_players_1718.RData
 d3daa191a10f9768d79c7d231a14c787 *inst/doc/BAwiR.R
 2f4aaedd5f808bb39bd828fbafeae101 *inst/doc/BAwiR.Rmd
-cefddc96daa656ed65083ce975b1af78 *inst/doc/BAwiR.html
+301b72d4e9931dbfa5e910bbee98b06b *inst/doc/BAwiR.html
 651eed6278dfb8e1247d645e709558ea *inst/doc/BAwiR_pbp.R
 b6bb15cb047ca98986c25dde17ab1801 *inst/doc/BAwiR_pbp.Rmd
-38e2f160fdb967cf459a5109cd19f7fc *inst/doc/BAwiR_pbp.html
-dc0a2ba810d8559ed6297190ae9757d2 *man/BAwiR-package.Rd
+efb698885fefb212f0fefdb0ae50252b *inst/doc/BAwiR_pbp.html
+ad2a5dbfb7ae6f19f9840d3c83b0c74c *man/BAwiR-package.Rd
 18f9146a7e5a08f2a3dfcf687978da60 *man/acb_games_1718.Rd
 b99c10c5cc836d702b181ce1b9840633 *man/acb_games_2223_coach.Rd
 a5c354cb9d4aa9b81c95195bd8234061 *man/acb_games_2223_info.Rd

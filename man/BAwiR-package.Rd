@@ -20,8 +20,8 @@ Please see Vinue (2020) <doi:10.1089/big.2018.0124>.
 \tabular{ll}{
 Package: BAwiR\cr
 Type: Package\cr
-Version: 1.3\cr
-Date: 2023-09-26\cr
+Version: 1.3.1\cr
+Date: 2023-11-14\cr
 License: GPL-2\cr
 LazyLoad: yes\cr
 LazyData: yes\cr

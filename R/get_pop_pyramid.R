@@ -28,7 +28,6 @@
 #'  get_pop_pyramid(data_app_acb, title, "eng")
 #' }
 #' 
-#' @importFrom ggthemes theme_few
 #' @importFrom ggplot2 guide_legend
 #' @importFrom dplyr count
 #'
@@ -76,8 +75,8 @@ get_pop_pyramid <- function(df, title, language) {
          title = title, 
          fill = guide_legend(title = "")) + 
     scale_y_continuous(breaks = seq(-270, 270, 30), labels = abs(seq(-270, 270, 30))) +
-    scale_x_discrete(limits = rev(levels(df1$Season))) + 
-    theme_few(base_size = 14)
+    scale_x_discrete(limits = rev(levels(df1$Season))) #+ 
+    #theme_few(base_size = 14) # @importFrom ggthemes theme_few
   
   return(g1)
 }

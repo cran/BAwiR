@@ -1,6 +1,10 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.3.1 [2023-11-14]
+* The use of the ggthemes package has been removed in order to fill with the CRAN willingness.
+* Submitted to CRAN.
+
 Version: 1.3 [2023-09-26]
 * This is an extended version of the package with a bunch of new functions developed to analyze the play-by-play data from the Spanish ACB league.
 * It accompanies the platform available at https://www.uv.es/vivigui/basketball_platform.html
