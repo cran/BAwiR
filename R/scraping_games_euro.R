@@ -8,6 +8,9 @@
 #' \url{https://www.euroleaguebasketball.net/euroleague/game-center/} and
 #' \url{https://www.euroleaguebasketball.net/eurocup/game-center/}, respectively. 
 #' 
+#' NOTE (2023): The Euroleague and Eurocup websites have changed their format, so 
+#' this function will need to be updated.
+#' 
 #' @usage 
 #' scraping_games_euro(competition, nums, year, verbose = TRUE,
 #'                     r_user = "guillermo.vinue@uv.es")

@@ -20,8 +20,8 @@ Please see Vinue (2020) <doi:10.1089/big.2018.0124>.
 \tabular{ll}{
 Package: BAwiR\cr
 Type: Package\cr
-Version: 1.3.1\cr
-Date: 2023-11-14\cr
+Version: 1.3.2\cr
+Date: 2024-01-09\cr
 License: GPL-2\cr
 LazyLoad: yes\cr
 LazyData: yes\cr
@@ -30,6 +30,7 @@ acb_games_1718: ACB games 2017-2018.\cr
 acb_games_2223_coach: ACB coaches in the 2022-2023 season.\cr
 acb_games_2223_info: ACB games 2022-2023, days and codes.\cr
 acb_players_1718: ACB players 2017-2018.\cr
+acb_shields: Shields of the ACB teams.\cr
 acb_vbc_cz_pbp_2223: ACB play-by-play data, 2022-2023, Valencia Basket-Casademont Zaragoza.\cr
 acb_vbc_cz_sl_2223: ACB starting lineups, 2022-2023, Valencia Basket-Casademont Zaragoza.\cr
 capit_two_words: Capitalize two-word strings.\cr
@@ -47,6 +48,7 @@ do_possession: Compute when possessions start.\cr
 do_prepare_data: Prepare ACB play-by-play data.\cr
 do_prepare_data_or: Prepare data for the offensive rebounds computation.\cr
 do_prepare_data_to: Prepare data for the timeouts computation.\cr
+do_process_acb_pbp: Processing of the ACB website play-by-play data.\cr
 do_reb_off_success: Check if scoring after offensive rebounds.\cr
 do_scraping_games: Player game finder data.\cr
 do_scraping_rosters: Players profile data.\cr
