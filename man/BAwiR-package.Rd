@@ -14,14 +14,14 @@ Play-by-play data are also available for the Spanish league. Methods for analysi
 2D plots, circular plots of players' percentiles, plots of players' monthly/yearly stats, team heatmaps, 
 team shooting plots, team four factors plots, cross-tables with the results of regular season games,
 maps of nationalities, combinations of lineups, possessions-related variables, timeouts, performance by periods, personal fouls and offensive rebounds. 
-Please see Vinue (2020) <doi:10.1089/big.2018.0124>.    
+Please see Vinue (2020) <doi:10.1089/big.2018.0124> and Vinue (2024) <doi:10.1089/big.2023.0177>.    
 }
 \details{
 \tabular{ll}{
 Package: BAwiR\cr
 Type: Package\cr
-Version: 1.3.2\cr
-Date: 2024-01-09\cr
+Version: 1.3.3\cr
+Date: 2024-04-16\cr
 License: GPL-2\cr
 LazyLoad: yes\cr
 LazyData: yes\cr
@@ -82,7 +82,9 @@ scraping_rosters_acb: ACB players' profile.\cr
 scraping_rosters_euro: Euroleague and Eurocup players' profile.\cr
 }
 \references{
-Vinue, G., (2020). A Web Application for Interactive Visualization of European Basketball Data, Big Data 8(1), 70-86. http://doi.org/10.1089/big.2018.0124, https://www.uv.es/vivigui/AppEuroACB.html
+Vinue, G., (2020). A Web Application for Interactive Visualization of European Basketball Data, Big Data 8(1), 70-86. https://doi.org/10.1089/big.2018.0124, https://www.uv.es/vivigui/AppEuroACB.html
+
+Vinue, G., (2024). A Basketball Big Data Platform for Box Score and Play-by-Play Data, Big Data (), -. https://doi.org/10.1089/big.2018.0124, https://www.uv.es/vivigui/basketball_platform.html
 }
 \author{
 Guillermo Vinue <Guillermo.Vinue@uv.es>, <guillermovinue@gmail.com>

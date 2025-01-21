@@ -69,7 +69,7 @@
 #' @export
 
 do_stats_per_period <- function(data, day_num, game_code, team_sel, period_sel, player_sel) {
-  action <- player <- points <- time_point <- NULL
+  action <- player <- period <- points <- time_point <- NULL
   
   data0 <- data %>%
     filter(!(time_point == "10:00" & action %in% c("Sale de la pista", "Entra a pista"))) %>%
@@ -81,7 +81,8 @@ do_stats_per_period <- function(data, day_num, game_code, team_sel, period_sel, 
       action == "Triple anotado" ~ 3))
   
   data1 <- data0 %>%
-    filter(player == player_sel)
+    filter(player == player_sel) %>%
+    filter(period == period_sel)
   
   if (nrow(data1) == 0) {
     data_res <- NULL

@@ -1,6 +1,6 @@
-e143efb1a51cfe390e41308328a7ad21 *DESCRIPTION
+0fd6940acd2d00601b70f3901a9f6d69 *DESCRIPTION
 de7b3662e7e276f9d53199ae1833997b *NAMESPACE
-495483ebbcea422b37117ab1605cdaba *NEWS
+3c4c49e560fb1b8e912c2f22b57a3604 *NEWS
 8a97224bc4ea0049f01306bcc06eb82d *R/capit_two_words.R
 bd7281c0647af6ed4b0665c3a892f22a *R/do_EPS.R
 1934acb7b00a0e3af9f9298fbdc9224f *R/do_OE.R
@@ -21,7 +21,7 @@ da3a226aaef25ae3e24caf29eb501d66 *R/do_possession.R
 947fd2720d0fba015590d162a3d23e39 *R/do_scraping_games.R
 a966b9f5ef870272a6dffc5c816f39d3 *R/do_scraping_rosters.R
 235802e011ecc7f81c0e7bec322ea986 *R/do_stats.R
-0fa18c82834b7169371734d07542c46b *R/do_stats_per_period.R
+e781975eb0809fa1a3b0688875635914 *R/do_stats_per_period.R
 e39bd278716740a6af511f3edcab63bf *R/do_stats_teams.R
 2bc90dccdbf368d7e4908747b4cc2c6d *R/do_sub_lineup.R
 9da6ece204941069b91b5313bf49f5b4 *R/do_time_out_success.R
@@ -44,7 +44,7 @@ e1b0b377fc5061762782652f1d79f13d *R/scraping_games_acb.R
 e259a7958943f7d2baa7ec1426711eca *R/scraping_games_euro.R
 dc671195ba762017fb9269ff92ca0ae5 *R/scraping_rosters_acb.R
 540449b079b81d48f74d98d132af33ac *R/scraping_rosters_euro.R
-81d4482ad4c2103272a16ab6133ca8a2 *build/vignette.rds
+13eafd382f7be5473f2650d87a118d55 *build/vignette.rds
 b5c99cacfc4910fc99c63acff66cdcd2 *data/acb_games_1718.RData
 f78aeefdecb8c0e988a7a17773ddc2ab *data/acb_games_2223_coach.RData
 2ced380375480e91cab79b9c248c3663 *data/acb_games_2223_info.RData
@@ -56,13 +56,13 @@ fe1021f63d1f120fed921cfbe32b89ed *data/eurocup_games_1718.RData
 d374aaaa13871ee9d88bcf7d0a6b2457 *data/eurocup_players_1718.RData
 0e897b89ec9d500ed8a95b1171f1de47 *data/euroleague_games_1718.RData
 08ea15d2675654b9ac25c3e08bb5cc97 *data/euroleague_players_1718.RData
-d3daa191a10f9768d79c7d231a14c787 *inst/doc/BAwiR.R
+aadbec3197eaafff7ecbd80d7ce13bbc *inst/doc/BAwiR.R
 2f4aaedd5f808bb39bd828fbafeae101 *inst/doc/BAwiR.Rmd
-6bfaf460640e76fb99c53cb81e5ab45b *inst/doc/BAwiR.html
-651eed6278dfb8e1247d645e709558ea *inst/doc/BAwiR_pbp.R
+4d3c49e39d33e50afcf5e1f6c6c30c19 *inst/doc/BAwiR.html
+c19cebd683e9050c547c188598674d18 *inst/doc/BAwiR_pbp.R
 b6bb15cb047ca98986c25dde17ab1801 *inst/doc/BAwiR_pbp.Rmd
-ab61222d0d20b186e341a77970a45d37 *inst/doc/BAwiR_pbp.html
-37a751853e004ee8ca80d47c98a8371e *man/BAwiR-package.Rd
+96d9bfc71597440da83814f37a1ab970 *inst/doc/BAwiR_pbp.html
+1287c7d15239f998bc981296ea6492b9 *man/BAwiR-package.Rd
 18f9146a7e5a08f2a3dfcf687978da60 *man/acb_games_1718.Rd
 b99c10c5cc836d702b181ce1b9840633 *man/acb_games_2223_coach.Rd
 a5c354cb9d4aa9b81c95195bd8234061 *man/acb_games_2223_info.Rd
