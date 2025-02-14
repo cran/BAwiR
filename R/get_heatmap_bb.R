@@ -45,7 +45,7 @@
 #' @importFrom stats reorder
 #' @importFrom reshape2 melt
 #' @importFrom ggplot2 ggplot aes geom_tile scale_fill_gradientn scale_x_discrete scale_y_discrete
-#' @importFrom ggplot2 element_blank element_text theme_grey theme geom_text ggtitle
+#' @importFrom ggplot2 element_blank element_text theme_grey theme geom_text ggtitle annotate
 #' @importFrom scales rescale
 #'
 #' @export
@@ -124,8 +124,8 @@ get_heatmap_bb <- function(df_stats, team, levels_stats = NULL, stat_ord, base_s
     gg <- gg +
       geom_vline(xintercept = c(1.5, 4.5, 7.5, 10.5, 13.5)) +
       # This is to box the columns related to all shots.
-      geom_segment(aes(x = 1.5, xend = 13.5, y = 0.5, yend = 0.5)) +
-      geom_segment(aes(x = 1.5, xend = 13.5, y = nrow(df1) + 0.5, yend = nrow(df1) + 0.5)) 
+      annotate("segment", x = 1.5, xend = 13.5, y = 0.5, yend = 0.5) +
+      annotate("segment", x = 1.5, xend = 13.5, y = nrow(df1) + 0.5, yend = nrow(df1) + 0.5) 
   }
   
   if (length(levels_stats) == 1 & any(names(levels_stats) != "Offensive")) {

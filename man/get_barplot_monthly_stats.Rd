@@ -29,8 +29,7 @@ df <- do_join_games_bio(compet, acb_games_1718, acb_players_1718)
 df1 <- do_add_adv_stats(df)
 
 months <- c(df \%>\% distinct(Month))$Month
-months_order <- c("September", "October", "November", "December", 
-                  "January", "February", "March", "April", "May", "June")
+months_order <- c("septiembre", "octubre", "noviembre", "diciembre", "enero")
 months_plot <- match(months_order, months)
 months_plot1 <- months_plot[!is.na(months_plot)]
 months_plot2 <- months[months_plot1]
@@ -49,9 +48,12 @@ stats <- c("GP", "MP", "PTS", "FGA", "FGPerc", "ThreePA",
            "TRB", "ORB", "AST", "TOV", "STL")
            
 df3_m1 <- df3_m \%>\%
-  select(1:5, stats, 46:50)
-get_barplot_monthly_stats(df3_m1, paste("; ACB", "2017-2018", "Average", sep = " ; "), 
-                          2.5)
+  select(1:5, stats, 46:50) \%>\%
+  mutate(Month = plyr::mapvalues(Month, 
+                                 from = c("octubre", "noviembre", "diciembre", "enero"),
+                                 to = c("October", "November", "December", "January")))
+  
+get_barplot_monthly_stats(df3_m1, paste("ACB", "2017-2018", "Average", sep = " ; "), 2.5)
 
 # For all teams and players:
 teams <- as.character(sort(unique(df1$Team)))
@@ -64,12 +66,15 @@ filter(Team == teams[13]) \%>\%
  arrange(Month)
 
 df3_m1 <- df3_m \%>\%
-  select(1:5, stats, 46:50)
+  select(1:5, stats, 46:50) \%>\%
+  mutate(Month = plyr::mapvalues(Month, 
+                                 from = c("octubre", "noviembre", "diciembre", "enero"),
+                                 to = c("October", "November", "December", "January")))
 
 for (i in unique(df3_m1$Name)) {
   print(i)
   print(get_barplot_monthly_stats(df3_m1 \%>\% filter(Name == i), 
-                                  paste(" ; ACB", "2017-2018", "Average", sep = " ; "), 
+                                  paste("ACB", "2017-2018", "Average", sep = " ; "), 
                                   2.5))
 }
 }

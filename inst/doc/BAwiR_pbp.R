@@ -3,8 +3,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## ----packages, message=FALSE, eval=FALSE--------------------------------------
 # # Firstly, load BAwiR and other packages that will be used in the paper:
-# library(BAwiR) # 1.3
-# library(tidyverse) # 1.3.2
+# library(BAwiR)
+# library(tidyverse)
 
 ## ----data, eval=FALSE---------------------------------------------------------
 # df0 <- acb_vbc_cz_pbp_2223

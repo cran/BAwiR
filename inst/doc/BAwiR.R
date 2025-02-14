@@ -3,10 +3,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## ----packages, message=FALSE, eval=FALSE--------------------------------------
 # # Firstly, load BAwiR and other packages that will be used in the paper:
-# library(BAwiR) # 1.3
-# library(tidyverse) # 1.3.2
-# library(FSA) # 0.8.22
-# library(gridExtra) # 2.3
+# library(BAwiR)
+# library(tidyverse)
+# library(FSA)
+# library(gridExtra)
 
 ## ----figure 1, eval=FALSE-----------------------------------------------------
 # # Code for Figure 1:
@@ -36,7 +36,8 @@ knitr::opts_chunk$set(echo = TRUE)
 # df4 <- df3 %>%
 #   mutate(Player_info = paste("http://www.acb.com/jugador.php?id=", CombinID, sep = "")) %>%
 #   select(-CombinID)
-# df5 <- df4[order(df4[,1][[1]], decreasing = TRUE),]
+# df5 <- df4 %>%
+#   arrange(-MP)
 # headtail(df5, 3)
 
 ## ----figure 3, eval=FALSE-----------------------------------------------------
@@ -65,8 +66,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## ----figure 4, message=FALSE, eval=FALSE--------------------------------------
 # # Code for Figure 4:
 # months <- c(df0 %>% distinct(Month))$Month
-# months_order <- c("September", "October", "November", "December",  "January",
-#                   "February", "March", "April", "May", "June")
+# months_order <- c("septiembre", "octubre", "noviembre", "diciembre", "enero")
 # months_plot <- match(months_order, months)
 # months_plot1 <- months_plot[!is.na(months_plot)]
 # months_plot2 <- months[months_plot1]
@@ -81,7 +81,11 @@ knitr::opts_chunk$set(echo = TRUE)
 # 
 # df1_m1 <- df1_m %>%
 #   select(1:5, stats, 46:50) %>%
-#   select(-EPS)
+#   select(-EPS) %>%
+#   mutate(Month = plyr::mapvalues(Month,
+#                                  from = c("octubre", "noviembre", "diciembre", "enero"),
+#                                  to = c("October", "November", "December", "January")))
+# 
 # max_val <- max(df1_m1[,colnames(df1_m1) %in% stats])
 # min_val <- min(df1_m1[,colnames(df1_m1) %in% stats])
 # get_barplot_monthly_stats(df1_m1, "ACB 2017-2018, Regular Season. Monthly average stats.", 3) +

@@ -1,6 +1,10 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.3.4 [2025-02-14]
+* Correction of some typos.
+* Submitted to CRAN.
+
 Version: 1.3.3 [2025-01-21]
 * A new paper related to the package has been published, so its doi link has been added to the DESCRIPTION file.
 * Submitted to CRAN.

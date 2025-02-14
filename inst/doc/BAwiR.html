@@ -12,7 +12,7 @@
 
 <meta name="author" content="Guillermo Vinue" />
 
-<meta name="date" content="2025-01-21" />
+<meta name="date" content="2025-02-14" />
 
 <title>Visualization of European basketball data</title>
 
@@ -341,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Visualization of European basketball
 data</h1>
 <h4 class="author">Guillermo Vinue</h4>
-<h4 class="date">2025-01-21</h4>
+<h4 class="date">2025-02-14</h4>
 
 
 
@@ -351,10 +351,10 @@ Visualization of European Basketball Data</em> (<a href="https://doi.org/10.1089
 presents the dashboard available at <a href="https://www.uv.es/vivigui/AppEuroACB.html" target="_blank">https://www.uv.es/vivigui/AppEuroACB.html</a>. This
 dashboard belongs to the platform available at <a href="https://www.uv.es/vivigui/basketball_platform.html" target="_blank">https://www.uv.es/vivigui/basketball_platform.html</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Firstly, load BAwiR and other packages that will be used in the paper:</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(BAwiR) <span class="co"># 1.3</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># 1.3.2</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(FSA) <span class="co"># 0.8.22</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(gridExtra) <span class="co"># 2.3</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(BAwiR) </span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">library</span>(FSA) </span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(gridExtra) </span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Code for Figure 1:</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># Load the data_app_acb file with the ACB games from the 1985-1986 season to the 2017-2018 season:</span></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">load</span>(<span class="fu">url</span>(<span class="st">&quot;http://www.uv.es/vivigui/softw/data_app_acb.RData&quot;</span>))</span>
@@ -376,8 +376,9 @@ dashboard belongs to the platform available at <a href="https://www.uv.es/vivigu
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>df4 <span class="ot">&lt;-</span> df3 <span class="sc">%&gt;%</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Player_info =</span> <span class="fu">paste</span>(<span class="st">&quot;http://www.acb.com/jugador.php?id=&quot;</span>, CombinID, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>CombinID)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>df5 <span class="ot">&lt;-</span> df4[<span class="fu">order</span>(df4[,<span class="dv">1</span>][[<span class="dv">1</span>]], <span class="at">decreasing =</span> <span class="cn">TRUE</span>),]</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">headtail</span>(df5, <span class="dv">3</span>)</span></code></pre></div>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>df5 <span class="ot">&lt;-</span> df4 <span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>MP)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">headtail</span>(df5, <span class="dv">3</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Code for Figure 3:</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>stats <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;GP&quot;</span>, <span class="st">&quot;MP&quot;</span>, <span class="st">&quot;PTS&quot;</span>, <span class="st">&quot;FGPerc&quot;</span>, <span class="st">&quot;FTPerc&quot;</span>, <span class="st">&quot;TRB&quot;</span>, <span class="st">&quot;AST&quot;</span>, <span class="st">&quot;TOV&quot;</span>, <span class="st">&quot;PlusMinus&quot;</span>, <span class="st">&quot;PIR&quot;</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>descr_stats <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Games played&quot;</span>, <span class="st">&quot;Minutes played&quot;</span>, <span class="st">&quot;Points&quot;</span>, <span class="st">&quot;Field goals percentage&quot;</span>, </span>
@@ -401,27 +402,30 @@ dashboard belongs to the platform available at <a href="https://www.uv.es/vivigu
 <span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="fu">grid.arrange</span>(perc_plot_doncid, perc_plot_abalde, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Code for Figure 4:</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>months <span class="ot">&lt;-</span> <span class="fu">c</span>(df0 <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(Month))<span class="sc">$</span>Month</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>months_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;September&quot;</span>, <span class="st">&quot;October&quot;</span>, <span class="st">&quot;November&quot;</span>, <span class="st">&quot;December&quot;</span>,  <span class="st">&quot;January&quot;</span>, </span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>                  <span class="st">&quot;February&quot;</span>, <span class="st">&quot;March&quot;</span>, <span class="st">&quot;April&quot;</span>, <span class="st">&quot;May&quot;</span>, <span class="st">&quot;June&quot;</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>months_plot <span class="ot">&lt;-</span> <span class="fu">match</span>(months_order, months)</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>months_plot1 <span class="ot">&lt;-</span> months_plot[<span class="sc">!</span><span class="fu">is.na</span>(months_plot)]</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>months_plot2 <span class="ot">&lt;-</span> months[months_plot1]</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>df1_m <span class="ot">&lt;-</span> df1 <span class="sc">%&gt;%</span></span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>              <span class="fu">filter</span>(Player.x <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Doncic, Luka&quot;</span>, <span class="st">&quot;Abalde, Alberto&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>              <span class="fu">group_by</span>(Month) <span class="sc">%&gt;%</span></span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>              <span class="fu">do</span>(<span class="fu">do_stats</span>(., <span class="st">&quot;Average&quot;</span>, <span class="st">&quot;2017-2018&quot;</span>, <span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;Regular Season&quot;</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>              <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>              <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">factor</span>(Month, <span class="at">levels =</span> months_plot2)) <span class="sc">%&gt;%</span></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>              <span class="fu">arrange</span>(Month)</span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>df1_m1 <span class="ot">&lt;-</span> df1_m <span class="sc">%&gt;%</span> </span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, stats, <span class="dv">46</span><span class="sc">:</span><span class="dv">50</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>EPS)</span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>max_val <span class="ot">&lt;-</span> <span class="fu">max</span>(df1_m1[,<span class="fu">colnames</span>(df1_m1) <span class="sc">%in%</span> stats])</span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>min_val <span class="ot">&lt;-</span> <span class="fu">min</span>(df1_m1[,<span class="fu">colnames</span>(df1_m1) <span class="sc">%in%</span> stats])</span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="fu">get_barplot_monthly_stats</span>(df1_m1, <span class="st">&quot;ACB 2017-2018, Regular Season. Monthly average stats.&quot;</span>, <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(min_val <span class="sc">-</span> <span class="dv">10</span>, max_val <span class="sc">+</span> <span class="dv">10</span>))</span></code></pre></div>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>months_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;septiembre&quot;</span>, <span class="st">&quot;octubre&quot;</span>, <span class="st">&quot;noviembre&quot;</span>, <span class="st">&quot;diciembre&quot;</span>, <span class="st">&quot;enero&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>months_plot <span class="ot">&lt;-</span> <span class="fu">match</span>(months_order, months)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>months_plot1 <span class="ot">&lt;-</span> months_plot[<span class="sc">!</span><span class="fu">is.na</span>(months_plot)]</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>months_plot2 <span class="ot">&lt;-</span> months[months_plot1]</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>df1_m <span class="ot">&lt;-</span> df1 <span class="sc">%&gt;%</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>              <span class="fu">filter</span>(Player.x <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Doncic, Luka&quot;</span>, <span class="st">&quot;Abalde, Alberto&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>              <span class="fu">group_by</span>(Month) <span class="sc">%&gt;%</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>              <span class="fu">do</span>(<span class="fu">do_stats</span>(., <span class="st">&quot;Average&quot;</span>, <span class="st">&quot;2017-2018&quot;</span>, <span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;Regular Season&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>              <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>              <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">factor</span>(Month, <span class="at">levels =</span> months_plot2)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>              <span class="fu">arrange</span>(Month)</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>df1_m1 <span class="ot">&lt;-</span> df1_m <span class="sc">%&gt;%</span> </span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, stats, <span class="dv">46</span><span class="sc">:</span><span class="dv">50</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>EPS) <span class="sc">%&gt;%</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> plyr<span class="sc">::</span><span class="fu">mapvalues</span>(Month, </span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>                                 <span class="at">from =</span> <span class="fu">c</span>(<span class="st">&quot;octubre&quot;</span>, <span class="st">&quot;noviembre&quot;</span>, <span class="st">&quot;diciembre&quot;</span>, <span class="st">&quot;enero&quot;</span>),</span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>                                 <span class="at">to =</span> <span class="fu">c</span>(<span class="st">&quot;October&quot;</span>, <span class="st">&quot;November&quot;</span>, <span class="st">&quot;December&quot;</span>, <span class="st">&quot;January&quot;</span>)))</span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>max_val <span class="ot">&lt;-</span> <span class="fu">max</span>(df1_m1[,<span class="fu">colnames</span>(df1_m1) <span class="sc">%in%</span> stats])</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>min_val <span class="ot">&lt;-</span> <span class="fu">min</span>(df1_m1[,<span class="fu">colnames</span>(df1_m1) <span class="sc">%in%</span> stats])</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="fu">get_barplot_monthly_stats</span>(df1_m1, <span class="st">&quot;ACB 2017-2018, Regular Season. Monthly average stats.&quot;</span>, <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(min_val <span class="sc">-</span> <span class="dv">10</span>, max_val <span class="sc">+</span> <span class="dv">10</span>))</span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Code for Figure 5:</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>df0<span class="sc">$</span>Compet <span class="ot">&lt;-</span> <span class="st">&quot;ACB&quot;</span></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>plot_yearly <span class="ot">&lt;-</span> <span class="fu">get_stats_seasons</span>(df0, <span class="st">&quot;ACB&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;Doncic, Luka&quot;</span>, <span class="st">&quot;Abalde, Alberto&quot;</span>), </span>
@@ -484,7 +488,7 @@ dashboard belongs to the platform available at <a href="https://www.uv.es/vivigu
 ##  [5] cachem_1.1.0      knitr_1.49        htmltools_0.5.8.1 rmarkdown_2.29   
 ##  [9] lifecycle_1.0.4   cli_3.6.3         sass_0.4.9        jquerylib_0.1.4  
 ## [13] compiler_4.3.3    tools_4.3.3       evaluate_1.0.1    bslib_0.8.0      
-## [17] yaml_2.3.10       rlang_1.1.4       jsonlite_1.8.9</code></pre>
+## [17] yaml_2.3.10       rlang_1.1.5       jsonlite_1.8.9</code></pre>
 
 
 

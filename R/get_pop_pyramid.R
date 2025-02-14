@@ -71,11 +71,10 @@ get_pop_pyramid <- function(df, title, language) {
               subset(df1, df1$Nationality_1 == cat2), 
               size = 4, hjust = -0.1) +
     coord_flip() +
-    labs(x = xlab, y = ylab, 
-         title = title, 
-         fill = guide_legend(title = "")) + 
+    labs(x = xlab, y = ylab, title = title) + 
     scale_y_continuous(breaks = seq(-270, 270, 30), labels = abs(seq(-270, 270, 30))) +
-    scale_x_discrete(limits = rev(levels(df1$Season))) #+ 
+    scale_x_discrete(limits = rev(levels(df1$Season))) + 
+    theme(legend.title = element_blank()) #+ 
     #theme_few(base_size = 14) # @importFrom ggthemes theme_few
   
   return(g1)
