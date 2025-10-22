@@ -9,7 +9,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This document contains all the needed R code to reproduce the results described in the paper *A Web Application for Interactive Visualization of European Basketball Data* ([https://doi.org/10.1089/big.2018.0124](https://doi.org/10.1089/big.2018.0124){target="_blank"}), which presents the dashboard available at [https://www.uv.es/vivigui/AppEuroACB.html](https://www.uv.es/vivigui/AppEuroACB.html){target="_blank"}. This dashboard belongs to the platform available at [https://www.uv.es/vivigui/basketball_platform.html](https://www.uv.es/vivigui/basketball_platform.html){target="_blank"}.
+This document contains all the needed R code to reproduce the results described in the paper *A Web Application for Interactive Visualization of European Basketball Data* ([https://doi.org/10.1089/big.2018.0124](https://doi.org/10.1089/big.2018.0124){target="_blank"}).
+
+<!--, which presents the dashboard available at [https://www.uv.es/vivigui/AppEuroACB.html](https://www.uv.es/vivigui/AppEuroACB.html){target="_blank"}. This dashboard belongs to the platform available at [https://www.uv.es/vivigui/basketball_platform.html](https://www.uv.es/vivigui/basketball_platform.html){target="_blank"}. -->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -66,7 +68,7 @@ descr_stats <- c("Games played", "Minutes played", "Points", "Field goals percen
                  "Free throws percentage", "Total rebounds", "Assists", "Turnovers", 
                  "Plus/minus", "Performance index rating")
 df2_1 <- df2 %>% 
-  select(1:5, stats, 46:49)
+  select(1:5, all_of(stats), 46:49)
 
 perc_plot_doncid <- get_bubble_plot(df2_1, "Doncic, Luka", descr_stats, 3, 7, 8) +
                         theme(strip.text.x = element_blank()) +
@@ -100,7 +102,7 @@ df1_m <- df1 %>%
               arrange(Month)
 
 df1_m1 <- df1_m %>% 
-  select(1:5, stats, 46:50) %>% 
+  select(1:5, all_of(stats), 46:50) %>% 
   select(-EPS) %>%
   mutate(Month = plyr::mapvalues(Month, 
                                  from = c("octubre", "noviembre", "diciembre", "enero"),

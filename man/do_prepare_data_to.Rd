@@ -31,7 +31,7 @@ preparation. This function does this data processing.
 is provided in \url{https://www.uv.es/vivigui/docs/basketball_dictionary.xlsx}.
 
 2. The \strong{game_code} column allows us to detect the source website, for example,
-\url{https://jv.acb.com/es/103389/jugadas}.
+\url{https://live.acb.com/es/partidos/103389/jugadas}.
 }
 \examples{
 df0 <- acb_vbc_cz_pbp_2223

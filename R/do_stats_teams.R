@@ -27,11 +27,15 @@
 #' 
 #' @examples 
 #' compet <- "ACB"
+#' 
 #' df <- do_join_games_bio(compet, acb_games_1718, acb_players_1718)
 #' df$Compet <- compet
+#' 
 #' df_teams <- do_stats_teams(df, "2017-2018", "ACB", "Regular Season")
+#' 
 #' # Total statistics:
 #' #df_teams$df_team_total
+#' 
 #' # Average statistics:
 #' #df_teams$df_team_mean
 #' 
@@ -45,7 +49,7 @@ do_stats_teams <- function(df_games, season, competition, type_season){
   GP <- GS <- MP <- Team <-   Game <- Type <- PTSrv <- PTSrv_mean <- NULL
   FGPerc <- FGA <- FG <- TwoPPerc <- TwoPA <- TwoP <- NULL
   ThreePPerc <- ThreePA <- ThreeP <- FTPerc <- FTA <- NULL
-  FT <- EFGPerc <- PTS <- NULL
+  FT <- EFGPerc <- PTS <- ThreeRate <- FRate <- NULL
   
   # Get the total statistics for every player:
   if (type_season == "All") {
@@ -89,7 +93,8 @@ do_stats_teams <- function(df_games, season, competition, type_season){
               Season, Compet, Type_season, Type_stats)) %>%
     select(-GP, -GS, -MP, -contains("Perc")) %>%
     group_by(Team) %>%
-    summarise_all(sum) #%>%
+    summarise_all(sum) %>%
+    ungroup()
   
   df_team1 <- left_join(df_team, games_played) %>%
     rename(GP = n)
@@ -149,12 +154,14 @@ do_stats_teams <- function(df_games, season, competition, type_season){
 
   df_team3 <- left_join(df_team2, df_defense) %>%
     select(-PTSrv_mean) %>%
-    select(Team, GP, PTS, PTSrv, everything())
+    select(Team, GP, PTS, PTSrv, everything()) %>%
+    select(-ThreeRate, -FRate)
 
   df_team_mean3 <- left_join(df_team_mean2, df_defense) %>%
     select(-PTSrv) %>%
     select(Team, GP, PTS, PTSrv_mean, everything()) %>%
-    rename(PTSrv = PTSrv_mean)
+    rename(PTSrv = PTSrv_mean)  %>%
+    select(-ThreeRate, -FRate)
       
   return(list(df_team_total = df_team3, df_team_mean = df_team_mean3))
 }

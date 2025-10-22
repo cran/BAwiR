@@ -9,9 +9,9 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-<!--This document contains all the needed R code to reproduce the results described in the paper *A Web Application for Interactive Visualization of European Basketball Data* ([https://doi.org/10.1089/big.2018.0124](https://doi.org/10.1089/big.2018.0124){target="_blank"}), which presents the dashboard available at [https://www.uv.es/vivigui/AppEuroACB.html](https://www.uv.es/vivigui/AppEuroACB.html){target="_blank"}.-->
+This document contains all the needed R code to reproduce the results described in the paper *A Basketball Big Data Platform for Box Score and Play-by-Play Data* ([https://doi.org/10.1089/big.2023.0177](https://doi.org/10.1089/big.2023.0177){target="_blank"}).
 
-This document contains all the needed R code to reproduce the results described in the paper *A Basketball Big Data Platform for Box Score and Play-by-Play Data* ([https://doi.org/10.1089/big.2023.0177](https://doi.org/10.1089/big.2023.0177){target="_blank"}), which presents the dashboard available at [https://www.uv.es/vivigui/AppPBP.html](https://www.uv.es/vivigui/AppPBP.html){target="_blank"}. This dashboard belongs to the platform available at [https://www.uv.es/vivigui/basketball_platform.html](https://www.uv.es/vivigui/basketball_platform.html){target="_blank"}.
+<!--, which presents the dashboard available at [https://www.uv.es/vivigui/AppPBP.html](https://www.uv.es/vivigui/AppPBP.html){target="_blank"}. This dashboard belongs to the platform available at [https://www.uv.es/vivigui/basketball_platform.html](https://www.uv.es/vivigui/basketball_platform.html){target="_blank"}.-->
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -28,8 +28,8 @@ The following data file is an illustration of the type of play-by-play data avai
 ```{r data, eval=FALSE}
 df0 <- acb_vbc_cz_pbp_2223
 
-day_num <- unique(acb_vbc_cz_pbp_2223$day)
-game_code <- unique(acb_vbc_cz_pbp_2223$game_code)
+day_num <- unique(df0$day)
+game_code <- unique(df0$game_code)
 ```
 
 Do some first data processing:
@@ -63,37 +63,22 @@ data_to <- do_time_out_success(df1_to, day_num, game_code,
 
 ```{r periods, eval=FALSE}
 # Periods:
-df0_per <- df0
-
-rm_overtime <- TRUE # Decide if remove overtimes.
-if (rm_overtime) {
-  df0 <- df0 %>%
-    filter(!grepl("PR", period)) %>%
-    mutate(period = as.character(period))
-}
-  
 team_sel <- "Valencia Basket" # "Casademont Zaragoza"
 period_sel <- "1C"            # "4C"
 player_sel <- "Webb"          # "Mara"
+
+pre_per <- do_preproc_period(acb_vbc_cz_pbp_2223, team_sel, period_sel, acb_vbc_cz_sl_2223)
   
-df1 <- df0 %>%
-  filter(team == team_sel) %>%
-  filter(!action %in% c("D - Descalificante - No TL", "Altercado no TL")) 
-    
-df2 <- df1 %>%
-  filter(period == period_sel)
-    
-df0_inli_team <- acb_vbc_cz_sl_2223 %>% 
-  filter(team == team_sel, period == period_sel)
+df2 <- pre_per$df2
+df0_inli_team <- pre_per$df0_inli_team
   
-df3 <- do_prepare_data(df2, day_num, 
-                       df0_inli_team, acb_games_2223_info,
-                       game_code)
+df3 <- do_prepare_data(df2, day_num, df0_inli_team, acb_games_2223_info, game_code)
                          
 data_per <- do_stats_per_period(df3, day_num, game_code, team_sel, period_sel, player_sel)
 
 # Clutch time:
-data_clutch <- do_clutch_time(acb_vbc_cz_pbp_2223)
+data_clutch <- do_clutch_time(df0) 
+# If no rows, that means that the game did not have clutch time.
 ```
 
 ```{r fouls, eval=FALSE}

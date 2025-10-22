@@ -99,7 +99,7 @@ do_lineup <- function(data, day_num, game_code, team_sel, verbose) {
       if (length(lineup) == 4) {
         if (team_sel == "Monbus Obradoiro") {
           lineup <- c(lineup, "Scrubb")
-        }else if (team_sel == "R\\u00edo Breog\\u00e1n") {
+        }else if (team_sel == "R\u00edo Breog\u00e1n") {
           lineup <- c(lineup, "Quintela")
         }
       }
@@ -183,7 +183,7 @@ do_lineup <- function(data, day_num, game_code, team_sel, verbose) {
       if (length(lineup) == 4) {
         if (team_sel == "Monbus Obradoiro") {
           lineup <- c(lineup, "Scrubb")
-        }else if (team_sel == "R\\u00edo Breog\\u00e1n") {
+        }else if (team_sel == "R\u00edo Breog\u00e1n") {
           lineup <- c(lineup, "Quintela")
         }
       }
@@ -191,7 +191,9 @@ do_lineup <- function(data, day_num, game_code, team_sel, verbose) {
       nr <- nrow(data2)
       nper <- unique(data2$period)
       
-      if (grepl("PR", data2$period[nr]) & data2$period[nr] != data2$period[nr - 1]) {
+      # In the season 2024-2025 overtimes were labelled with PR1, PR2, etc, but in 
+      # the season 2025-206, they are labelled with 5C, 6C, etc.
+      if (grepl("PR|5|6", data2$period[nr]) & data2$period[nr] != data2$period[nr - 1]) {
         data2$time_point[nr] <- "00:00"
       }
       
@@ -201,10 +203,15 @@ do_lineup <- function(data, day_num, game_code, team_sel, verbose) {
         # For the case when the replacement has been done in the next period. 
         # See for example i=13 of Real Madrid in 103350. 
         # The same lineup is between "04:25" of 3C and "08:05" of 4C.
-        if (grepl("PR", data2$period[nr]) & data2$period[nr] != data2$period[nr - 1]) {
+        if (grepl("PR|5|6", data2$period[nr]) & data2$period[nr] != data2$period[nr - 1]) {
           time_seconds <- period_to_seconds(ms(data2$time_point[1])) - period_to_seconds(ms(data2$time_point[nr]))
         }else{
-          aux <- period_to_seconds(ms("10:00") - ms(data2$time_point[nr]))
+          if (grepl("PR|5|6", data2$period[nr])) {
+            aux <- period_to_seconds(ms("05:00") - ms(data2$time_point[nr]))
+          }else{
+            aux <- period_to_seconds(ms("10:00") - ms(data2$time_point[nr])) 
+          }
+          
           time_seconds <- period_to_seconds(ms(data2$time_point[1])) + aux 
         }
       }

@@ -26,7 +26,7 @@
 #' is provided in \url{https://www.uv.es/vivigui/docs/basketball_dictionary.xlsx}.
 #' 
 #' 2. The \strong{game_code} column allows us to detect the source website, for example,
-#' \url{https://jv.acb.com/es/103389/jugadas}.
+#' \url{https://live.acb.com/es/partidos/103389/jugadas}.
 #' 
 #' @author 
 #' Guillermo Vinue
@@ -52,12 +52,12 @@ do_prepare_data <- function(data, day_num, data_gsl, data_ginfo, game_code_excel
   local_score <- visitor_score <- day <- game_code <- game <- action <- NULL
   
   # Correct names:
-  data$player[which(data$player == "Fern\\u00e1ndez_Juan")] <- "Fern\\u00e1ndez"
-  data$player[which(data$player == "Fern\\u00e1ndez_J")] <- "Fern\\u00e1ndez"
-  data$player[which(data$player == "Garc\\u00eda_J")] <- "Garc\\u00eda"
-  data$player[which(data$player == "Rodr\\u00edguez_S")] <- "Rodr\\u00edguez"
-  data$player[which(data$player == "Garc\\u00eda_S")] <- "Garc\\u00eda"
-  data$player[which(data$player == "D\\u00edaz_A")] <- "D\\u00edaz"
+  data$player[which(data$player == "Fern\u00e1ndez_Juan")] <- "Fern\u00e1ndez"
+  data$player[which(data$player == "Fern\u00e1ndez_J")] <- "Fern\u00e1ndez"
+  data$player[which(data$player == "Garc\u00eda_J")] <- "Garc\u00eda"
+  data$player[which(data$player == "Rodr\u00edguez_S")] <- "Rodr\u00edguez"
+  data$player[which(data$player == "Garc\u00eda_S")] <- "Garc\u00eda"
+  data$player[which(data$player == "D\u00edaz_A")] <- "D\u00edaz"
   data$player[which(data$player == "Diop_I")] <- "Diop"
   data$player[which(data$player == "Diop_K")] <- "Diop"
 
@@ -82,12 +82,12 @@ do_prepare_data <- function(data, day_num, data_gsl, data_ginfo, game_code_excel
     select(-game) %>%
     filter(!action %in% c("Instant Replay", "Tiempo Muerto de TV", 
                           "IR - Challenge entrenador local", "IR - Challenge entrenador visitante",
-                          "IR - Revisi\\u00f3n del tipo de falta", "IR - Revisi\\u00f3n reloj de posesi\\u00f3n",
-                          "IR - Revisi\\u00f3n acci\\u00f3n jugador", 
-                          "IR - Revisi\\u00f3n \\u00faltimo jugador en tocar bal\\u00f3n",
-                          "IR - Revisi\\u00f3n por enfrentamiento", "IR - Revisi\\u00f3n de una violaci\\u00f3n", 
-                          "IR - Revisi\\u00f3n del reloj de partido", "IR - Revisi\\u00f3n de la validez de una canasta", 
-                          "IR - Comprobaci\\u00f3n del tipo de tiro convertido"))
+                          "IR - Revisi\u00f3n del tipo de falta", "IR - Revisi\u00f3n reloj de posesi\u00f3n",
+                          "IR - Revisi\u00f3n acci\u00f3n jugador", 
+                          "IR - Revisi\u00f3n \u00faltimo jugador en tocar bal\u00f3n",
+                          "IR - Revisi\u00f3n por enfrentamiento", "IR - Revisi\u00f3n de una violaci\u00f3n", 
+                          "IR - Revisi\u00f3n del reloj de partido", "IR - Revisi\u00f3n de la validez de una canasta", 
+                          "IR - Comprobaci\u00f3n del tipo de tiro convertido"))
   
   return(data4)
 }

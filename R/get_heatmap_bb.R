@@ -46,7 +46,6 @@
 #' @importFrom reshape2 melt
 #' @importFrom ggplot2 ggplot aes geom_tile scale_fill_gradientn scale_x_discrete scale_y_discrete
 #' @importFrom ggplot2 element_blank element_text theme_grey theme geom_text ggtitle annotate
-#' @importFrom scales rescale
 #'
 #' @export
 
@@ -112,7 +111,7 @@ get_heatmap_bb <- function(df_stats, team, levels_stats = NULL, stat_ord, base_s
   
   gg <- ggplot(df.s, aes(Variable, Name)) + 
     geom_tile(aes(fill = rescaleoffset), colour = "white") + 
-    scale_fill_gradientn(colours = colorends, values = rescale(gradientends)) + 
+    scale_fill_gradientn(colours = colorends, values = scales::rescale(gradientends)) + 
     scale_x_discrete("", expand = c(0, 0)) + 
     scale_y_discrete("", expand = c(0, 0)) + 
     theme_grey(base_size = base_size) +

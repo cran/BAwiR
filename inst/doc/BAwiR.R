@@ -47,7 +47,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #                  "Free throws percentage", "Total rebounds", "Assists", "Turnovers",
 #                  "Plus/minus", "Performance index rating")
 # df2_1 <- df2 %>%
-#   select(1:5, stats, 46:49)
+#   select(1:5, all_of(stats), 46:49)
 # 
 # perc_plot_doncid <- get_bubble_plot(df2_1, "Doncic, Luka", descr_stats, 3, 7, 8) +
 #                         theme(strip.text.x = element_blank()) +
@@ -80,7 +80,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #               arrange(Month)
 # 
 # df1_m1 <- df1_m %>%
-#   select(1:5, stats, 46:50) %>%
+#   select(1:5, all_of(stats), 46:50) %>%
 #   select(-EPS) %>%
 #   mutate(Month = plyr::mapvalues(Month,
 #                                  from = c("octubre", "noviembre", "diciembre", "enero"),

@@ -50,7 +50,7 @@
 #'            "TRB", "ORB", "AST", "TOV", "STL")
 #'            
 #' df3_m1 <- df3_m %>%
-#'   select(1:5, stats, 46:50) %>%
+#'   select(1:5, all_of(stats), 46:50) %>%
 #'   mutate(Month = plyr::mapvalues(Month, 
 #'                                  from = c("octubre", "noviembre", "diciembre", "enero"),
 #'                                  to = c("October", "November", "December", "January")))
@@ -68,7 +68,7 @@
 #'  arrange(Month)
 #' 
 #' df3_m1 <- df3_m %>%
-#'   select(1:5, stats, 46:50) %>%
+#'   select(1:5, all_of(stats), 46:50) %>%
 #'   mutate(Month = plyr::mapvalues(Month, 
 #'                                  from = c("octubre", "noviembre", "diciembre", "enero"),
 #'                                  to = c("October", "November", "December", "January")))

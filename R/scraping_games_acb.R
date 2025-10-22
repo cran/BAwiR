@@ -40,7 +40,6 @@
 #' }                           
 #'
 #' @importFrom rvest html_nodes html_text
-#' @importFrom readr parse_number
 #' @importFrom stringi stri_replace_all_charclass
 #' @importFrom dplyr across mutate_at vars relocate
 #'
@@ -84,8 +83,8 @@ scraping_games_acb <- function(code, game_id, season = "2020-2021", type_season 
     url_res <- url_html %>%
       html_nodes(xpath = './/h6[@class="colorweb_4 bg_azul_oscuro roboto_bold"]') %>%
       html_text()
-    res <- paste(parse_number(url_res), collapse = " - ")
-    teams <- paste(gsub(paste(parse_number(url_res), collapse = "|"), "", url_res), collapse = "-")
+    res <- paste(readr::parse_number(url_res), collapse = " - ")
+    teams <- paste(gsub(paste(readr::parse_number(url_res), collapse = "|"), "", url_res), collapse = "-")
     teams1 <- stri_replace_all_charclass(teams, "\\p{WHITE_SPACE}", "")
     teams_sep <- strsplit(teams1, "-")[[1]]
     

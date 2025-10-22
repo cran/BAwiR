@@ -4,7 +4,8 @@
 \alias{get_shooting_plot}
 \title{Shooting plot}
 \usage{
-get_shooting_plot(df_stats, team, type_shot, min_att, title, language)
+get_shooting_plot(df_stats, team, type_shot, min_att, title, language, 
+                         size_summ = 5, size_add = 16)
 }
 \arguments{
 \item{df_stats}{Data frame with the statistics.}
@@ -21,6 +22,10 @@ be represented in the plot.}
 
 \item{language}{Language labels. Current options are 'en' for English
 and 'es' for Spanish.}
+
+\item{size_summ}{Size of the text summarizing the total shots and the percentage.}
+
+\item{size_add}{Size of the additional axis and legends.}
 }
 \value{
 Graphical device.
@@ -36,8 +41,7 @@ compet <- "ACB"
 df <- do_join_games_bio(compet, acb_games_1718, acb_players_1718)
 df1 <- do_add_adv_stats(df)
 df2 <- do_stats(df1, "Total", "2017-2018", compet, "Regular Season")
-get_shooting_plot(df2, "Valencia", 3, 1, 
-                  paste("Valencia", compet, "2017-2018", sep = " "), "en")
+get_shooting_plot(df2, "Valencia", 3, 1, paste("Valencia", compet, "2017-2018", sep = " "), "en")
 }
 
 }

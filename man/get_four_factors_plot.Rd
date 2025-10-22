@@ -28,12 +28,15 @@ Once computed the team's factors and its rankings with
 \examples{
 \dontrun{
 df <- do_join_games_bio("ACB", acb_games_1718, acb_players_1718)
+
 df1 <- do_add_adv_stats(df)
+
 team <- "Valencia"
+
 df_four_factors <- do_four_factors_df(df1, team)
+
 # If only one team is represented the ranking between parentheses is just one.
-get_four_factors_plot(df_four_factors$df_rank, 
-                      df_four_factors$df_no_rank, team, "en")
+get_four_factors_plot(df_four_factors$df_rank, df_four_factors$df_no_rank, team, "en")
 }
 
 }

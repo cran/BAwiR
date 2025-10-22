@@ -9,8 +9,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ## ----data, eval=FALSE---------------------------------------------------------
 # df0 <- acb_vbc_cz_pbp_2223
 # 
-# day_num <- unique(acb_vbc_cz_pbp_2223$day)
-# game_code <- unique(acb_vbc_cz_pbp_2223$game_code)
+# day_num <- unique(df0$day)
+# game_code <- unique(df0$game_code)
 
 ## ----processing, eval=FALSE---------------------------------------------------
 # acb_games_2223_sl <- acb_vbc_cz_sl_2223 %>%
@@ -37,37 +37,22 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## ----periods, eval=FALSE------------------------------------------------------
 # # Periods:
-# df0_per <- df0
-# 
-# rm_overtime <- TRUE # Decide if remove overtimes.
-# if (rm_overtime) {
-#   df0 <- df0 %>%
-#     filter(!grepl("PR", period)) %>%
-#     mutate(period = as.character(period))
-# }
-# 
 # team_sel <- "Valencia Basket" # "Casademont Zaragoza"
 # period_sel <- "1C"            # "4C"
 # player_sel <- "Webb"          # "Mara"
 # 
-# df1 <- df0 %>%
-#   filter(team == team_sel) %>%
-#   filter(!action %in% c("D - Descalificante - No TL", "Altercado no TL"))
+# pre_per <- do_preproc_period(acb_vbc_cz_pbp_2223, team_sel, period_sel, acb_vbc_cz_sl_2223)
 # 
-# df2 <- df1 %>%
-#   filter(period == period_sel)
+# df2 <- pre_per$df2
+# df0_inli_team <- pre_per$df0_inli_team
 # 
-# df0_inli_team <- acb_vbc_cz_sl_2223 %>%
-#   filter(team == team_sel, period == period_sel)
-# 
-# df3 <- do_prepare_data(df2, day_num,
-#                        df0_inli_team, acb_games_2223_info,
-#                        game_code)
+# df3 <- do_prepare_data(df2, day_num, df0_inli_team, acb_games_2223_info, game_code)
 # 
 # data_per <- do_stats_per_period(df3, day_num, game_code, team_sel, period_sel, player_sel)
 # 
 # # Clutch time:
-# data_clutch <- do_clutch_time(acb_vbc_cz_pbp_2223)
+# data_clutch <- do_clutch_time(df0)
+# # If no rows, that means that the game did not have clutch time.
 
 ## ----fouls, eval=FALSE--------------------------------------------------------
 # # Free throw fouls:

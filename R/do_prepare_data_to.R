@@ -26,7 +26,7 @@
 #' is provided in \url{https://www.uv.es/vivigui/docs/basketball_dictionary.xlsx}.
 #' 
 #' 2. The \strong{game_code} column allows us to detect the source website, for example,
-#' \url{https://jv.acb.com/es/103389/jugadas}.
+#' \url{https://live.acb.com/es/partidos/103389/jugadas}.
 #' 
 #' @author 
 #' Guillermo Vinue
@@ -72,12 +72,12 @@ do_prepare_data_to <- function(data, rm_overtime, data_ginfo, data_gcoach) {
     select(-game) %>%
     filter(!action %in% c("Entra a pista", "Sale de la pista", "Instant Replay", "Tiempo Muerto de TV", 
                           "IR - Challenge entrenador local", "IR - Challenge entrenador visitante",
-                          "IR - Revisi\\u00f3n del tipo de falta", "IR - Revisi\\u00f3n reloj de posesi\\u00f3n",
-                          "IR - Revisi\\u00f3n acci\\u00f3n jugador", 
-                          "IR - Revisi\\u00f3n \\u00faltimo jugador en tocar bal\\u00f3n",
-                          "IR - Revisi\\u00f3n por enfrentamiento", "IR - Revisi\\u00f3n de una violaci\\u00f3n", 
-                          "IR - Revisi\\u00f3n del reloj de partido", "IR - Revisi\\u00f3n de la validez de una canasta", 
-                          "IR - Comprobaci\\u00f3n del tipo de tiro convertido")) %>%
+                          "IR - Revisi\u00f3n del tipo de falta", "IR - Revisi\u00f3n reloj de posesi\u00f3n",
+                          "IR - Revisi\u00f3n acci\u00f3n jugador", 
+                          "IR - Revisi\u00f3n \u00faltimo jugador en tocar bal\u00f3n",
+                          "IR - Revisi\u00f3n por enfrentamiento", "IR - Revisi\u00f3n de una violaci\u00f3n", 
+                          "IR - Revisi\u00f3n del reloj de partido", "IR - Revisi\u00f3n de la validez de una canasta", 
+                          "IR - Comprobaci\u00f3n del tipo de tiro convertido")) %>%
     mutate(points = case_when(
       action == "Tiro Libre anotado" ~ 1,
       action == "Mate" ~ 2,

@@ -91,7 +91,7 @@ get_table_results <- function(df, competition, season){
     mutate(Win_num = as.character(Win_num))
   
   gg <- ggplot(data = df41, aes(x = Visitor, y = Local, fill = Win_num)) + 
-    geom_tile(colour = "white",size = 0.2) +
+    geom_tile(colour = "white", linewidth = 0.2) +
     labs(title = paste("Regular Season", competition, season, sep = " ")) +
     theme(axis.ticks = element_blank(),
           legend.title = element_blank(),

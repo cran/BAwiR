@@ -28,12 +28,15 @@
 #' @examples 
 #' \dontrun{
 #' df <- do_join_games_bio("ACB", acb_games_1718, acb_players_1718)
+#' 
 #' df1 <- do_add_adv_stats(df)
+#' 
 #' team <- "Valencia"
+#' 
 #' df_four_factors <- do_four_factors_df(df1, team)
+#' 
 #' # If only one team is represented the ranking between parentheses is just one.
-#' get_four_factors_plot(df_four_factors$df_rank, 
-#'                       df_four_factors$df_no_rank, team, "en")
+#' get_four_factors_plot(df_four_factors$df_rank, df_four_factors$df_no_rank, team, "en")
 #' }
 #' 
 #' @importFrom ggplot2 facet_wrap labs scale_color_grey guides
@@ -76,13 +79,19 @@ get_four_factors_plot <- function(df_rank, df_no_rank, team, language) {
                          rep("Turnover percentage", length(team)),
                          rep("Offensive rebound percentage", length(team)), 
                          rep("Free throws per field goal attempted", length(team))), 2)
+    
     subtitle_plot <- "Team ranking for each factor between parentheses"  
+    
+    df_no_rank21$Type <- factor(df_no_rank21$Type)
+    levels(df_no_rank21$Type) <- c("Defense", "Offense")
   }else if (language == "es") {
     descr_stats <- rep(c(rep("Porcentaje efectivo en tiros de campo", length(team)), 
                          rep("Porcentaje de balones perdidos", length(team)),
                          rep("Porcentaje de rebotes ofensivos", length(team)), 
                          rep("Tiros libres anotados por cada tiro de campo intentado", length(team))), 2)
+    
     subtitle_plot <- "Ranking del equipo en cada factor entre parentesis" 
+    
     df_no_rank21$Type <- factor(df_no_rank21$Type)
     levels(df_no_rank21$Type) <- c("Defensa", "Ataque")
    }  

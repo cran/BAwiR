@@ -103,7 +103,7 @@ do_time_out_success <- function(data, day_num, game_code, team_sel, verbose) {
         if (data$period[j] == data$period[j - 1]) {
           if (data$team[j] == team_sel) {
             to_pos_after <- c(to_pos_after, j)
-          }else if (data$team[j] != team_sel & grepl("Falta Personal|T\\u00e9cnica", 
+          }else if (data$team[j] != team_sel & grepl("Falta Personal|T\u00e9cnica", 
                                                      data$action[j])) {
             to_pos_after <- c(to_pos_after, j)
           }else{

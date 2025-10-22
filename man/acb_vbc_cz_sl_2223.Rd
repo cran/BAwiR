@@ -12,7 +12,7 @@ from the ACB 2022-2023 season.
 The \strong{action} column refers to starting lineup (\emph{Quinteto inicial}, in Spanish).
 The initial score in each period does not really matter for the creation of this data set.
 The \strong{game_code} column allows us to detect the source website, for example,
-\url{https://jv.acb.com/es/103389/jugadas}.
+\url{https://live.acb.com/es/partidos/103389/jugadas}.
 }
 \usage{acb_vbc_cz_sl_2223}
 \format{Data frame with 40 rows and 9 columns.}

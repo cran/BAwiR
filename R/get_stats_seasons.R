@@ -31,12 +31,17 @@
 #' @examples 
 #' \dontrun{
 #' competition <- "ACB"
+#' 
 #' df <- do_join_games_bio("ACB", acb_games_1718, acb_players_1718)
 #' df$Compet <- competition
+#' 
 #' player <- "Carroll, Jaycee"
+#' 
 #' variabs <- c("GP", "MP", "PTS", "EFGPerc", "TRB", "AST", "TOV", "PIR")
+#' 
 #' plot_yearly <- get_stats_seasons(df, competition, player, variabs, "All", TRUE, TRUE)
 #' plot_yearly$gg
+#' 
 #' # There are only games from the regular season in this demo data frame.
 #' plot_yearly1 <- get_stats_seasons(df, competition, player, variabs, "Regular Season", 
 #'                                   TRUE, TRUE)

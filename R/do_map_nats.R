@@ -29,8 +29,6 @@
 #' 
 #' @seealso 
 #' \code{\link{get_map_nats}}  
-#'         
-#' @importFrom rworldmap getMap
 #'                  
 #' @export
 
@@ -38,7 +36,7 @@ do_map_nats <- function(df_stats){
   
   countr_num <- table(df_stats$Nationality)
   countr_num <- countr_num[countr_num != 0]
-  worldMap <- getMap() 
+  worldMap <- rworldmap::getMap() 
   leng <- length(worldMap$NAME)
   
   df_all <- data.frame()

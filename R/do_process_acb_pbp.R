@@ -35,7 +35,7 @@
 #' is provided in \url{https://www.uv.es/vivigui/docs/basketball_dictionary.xlsx}.
 #' 
 #' 2. The \strong{game_code} column allows us to detect the source website, for example,
-#' \url{https://jv.acb.com/es/103389/jugadas}.
+#' \url{https://live.acb.com/es/partidos/103389/jugadas}.
 #' 
 #' @author
 #' Guillermo Vinue
@@ -73,14 +73,13 @@
 #'                                 period, acb_shields, FALSE)
 #' }
 #' 
-#' @importFrom qdapRegex ex_between 
 #' @importFrom stringr str_match_all    
 #'
 #' @export
 
 do_process_acb_pbp <- function(game_elem, day, game_code, period, acb_shields, verbose) {
   # "Final del Partido", "Inicio del Partido"
-  game_data <- ex_between(game_elem, "Final de Periodo", "Inicio de Periodo")[[1]]
+  game_data <- qdapRegex::ex_between(game_elem, "Final de Periodo", "Inicio de Periodo")[[1]]
   
   remove_obs <- ifelse(period != "4C", 1, c(1, 2))
   game_data_per <- str_split(game_data, period)[[1]][-remove_obs]
@@ -110,12 +109,12 @@ do_process_acb_pbp <- function(game_elem, day, game_code, period, acb_shields, v
     if (length(game_data_per_ij) < 5) {
       if (game_data_per_ij[2] %in% c("Instant Replay", "Tiempo Muerto de TV", 
                                      "IR - Challenge entrenador local", "IR - Challenge entrenador visitante",
-                                     "IR - Revisi\\u00f3n del tipo de falta", "IR - Revisi\\u00f3n reloj de posesi\\u00f3n",
-                                     "IR - Revisi\\u00f3n acci\\u00f3n jugador", 
-                                     "IR - Revisi\\u00f3n \\u00faltimo jugador en tocar bal\\u00f3n",
-                                     "IR - Revisi\\u00f3n por enfrentamiento", "IR - Revisi\\u00f3n de una violaci\\u00f3n", 
-                                     "IR - Revisi\\u00f3n del reloj de partido", "IR - Revisi\\u00f3n de la validez de una canasta", 
-                                     "IR - Comprobaci\\u00f3n del tipo de tiro convertido")) {
+                                     "IR - Revisi\u00f3n del tipo de falta", "IR - Revisi\u00f3n reloj de posesi\u00f3n",
+                                     "IR - Revisi\u00f3n acci\u00f3n jugador", 
+                                     "IR - Revisi\u00f3n \u00faltimo jugador en tocar bal\u00f3n",
+                                     "IR - Revisi\u00f3n por enfrentamiento", "IR - Revisi\u00f3n de una violaci\u00f3n", 
+                                     "IR - Revisi\u00f3n del reloj de partido", "IR - Revisi\u00f3n de la validez de una canasta", 
+                                     "IR - Comprobaci\u00f3n del tipo de tiro convertido")) {
         if (i == 1) {
           # For the case when the first play of the quarter is an instant replay, see for example the second
           # quarter of http://jv.acb.com/es/103363/jugadas

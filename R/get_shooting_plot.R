@@ -7,7 +7,8 @@
 #' player of the same team, together with the scoring percentage. 
 #' The players are sortered by percentage.
 #' 
-#' @usage get_shooting_plot(df_stats, team, type_shot, min_att, title, language)
+#' @usage get_shooting_plot(df_stats, team, type_shot, min_att, title, language, 
+#'                          size_summ = 5, size_add = 16)
 #' 
 #' @param df_stats Data frame with the statistics.
 #' @param team Team.
@@ -18,6 +19,8 @@
 #' @param title Plot title.
 #' @param language Language labels. Current options are 'en' for English
 #' and 'es' for Spanish.
+#' @param size_summ Size of the text summarizing the total shots and the percentage.
+#' @param size_add Size of the additional axis and legends.
 #' 
 #' @return 
 #' Graphical device.
@@ -31,15 +34,15 @@
 #' df <- do_join_games_bio(compet, acb_games_1718, acb_players_1718)
 #' df1 <- do_add_adv_stats(df)
 #' df2 <- do_stats(df1, "Total", "2017-2018", compet, "Regular Season")
-#' get_shooting_plot(df2, "Valencia", 3, 1, 
-#'                   paste("Valencia", compet, "2017-2018", sep = " "), "en")
+#' get_shooting_plot(df2, "Valencia", 3, 1, paste("Valencia", compet, "2017-2018", sep = " "), "en")
 #' }
 #' 
 #' @importFrom ggplot2 geom_segment theme_minimal scale_x_continuous
+#' @importFrom stats setNames
 #'
 #' @export
 
-get_shooting_plot <- function(df_stats, team, type_shot, min_att, title, language){
+get_shooting_plot <- function(df_stats, team, type_shot, min_att, title, language, size_summ = 5, size_add = 16){
   Team <- Name <- FT <- FTA <- TwoP <- TwoPA <- ThreeP <- ThreePA <- NULL
   total_att <- total_sco <- perc_sco <- perc_no_sco <- total_no_sco <- NULL
   
@@ -97,20 +100,15 @@ get_shooting_plot <- function(df_stats, team, type_shot, min_att, title, languag
   df_tm$Name <- factor(df_tm$Name, levels = df_tm$Name)
   
   gg <- ggplot(df_tm) +
-    geom_segment(aes(0, Name, xend = perc_sco, yend = Name, color = color1), 
-                 size = 13) +
-    geom_segment(aes(perc_sco, Name, xend = perc_sco + perc_no_sco, yend = Name, 
-                     color = color2), size = 13) +
-    geom_text(aes(x = 1, y = Name, label = total_sco), hjust = 0, 
-              nudge_x = 0.01, size = 7) +
-    geom_text(aes(x = 99, y = Name, label = total_no_sco), hjust = 1, 
-              nudge_x = -0.01, size = 7) +
-    geom_text(aes(x = 104, y = Name, label = total_att), hjust = 1, 
-              nudge_x = -0.01, nudge_y = 0.14, size = 5) +
-    geom_text(aes(x = 110, y = Name, label = perc_sco), hjust = 1, 
-              nudge_x = -0.01, nudge_y = 0.14, size = 5) +
-    labs(x = NULL, y = NULL) +
+    geom_segment(aes(0, Name, xend = perc_sco, yend = Name, color = color1), linewidth = 13) +
+    geom_segment(aes(perc_sco, Name, xend = perc_sco + perc_no_sco, yend = Name, color = color2), linewidth = 13) +
+    geom_text(aes(x = 1, y = Name, label = total_sco), hjust = 0, nudge_x = 0.01, size = 7) +
+    geom_text(aes(x = 99, y = Name, label = total_no_sco), hjust = 1, nudge_x = -0.01, size = 7) +
+    geom_text(aes(x = 104, y = Name, label = total_att), hjust = 1, nudge_x = -0.01, nudge_y = 0.14, size = size_summ) +
+    geom_text(aes(x = 110, y = Name, label = perc_sco), hjust = 1, nudge_x = -0.01, nudge_y = 0.14, size = size_summ) +
+    labs(x = NULL, y = NULL, color = "") +
     scale_x_continuous(breaks = seq(0, 100, 25), labels = c("0%", "25%", "50%", "75%", "100%")) +
+    scale_color_manual(breaks = c(color1, color2), values = setNames(c("#00BFC4", "#F8766D"), c(color1, color2))) +
     #@importFrom hrbrthemes scale_x_percent scale_color_ipsum
     #scale_x_percent(breaks = seq(0,100,25), labels = c("0%", "25%", "50%", "75%", "100%")) +
     #scale_color_ipsum(name = NULL) + 
@@ -118,7 +116,9 @@ get_shooting_plot <- function(df_stats, team, type_shot, min_att, title, languag
     theme(#axis.text.x = element_text(hjust = c(0, 0.5, 0.5, 0.5, 1)),
           legend.position = c(0.7, 1.025),
           legend.direction = "horizontal",
-          legend.title = element_blank()) +
+          #legend.title = element_blank(),
+          axis.text = element_text(size = size_add),
+          legend.text = element_text(size = size_add)) +
     ggtitle(paste(capit_two_words(team), title, sep = " "))
   
   return(gg)  

@@ -28,7 +28,7 @@ do_clutch_time <- function(data) {
   
   # Check if there were overtimes after the fourth period:
   per_type <- unique(data$period)
-  per_sel <- per_type[grep("4C|PR", per_type)]
+  per_sel <- per_type[grep("4C|5C|6C|PR", per_type)]
   
   data_cl <- data.frame()
   for (k in per_sel) {

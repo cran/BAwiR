@@ -9,7 +9,7 @@ Game codes, games and days from the ACB 2022-2023 season.
 }
 \note{
 The \strong{game_code} column allows us to detect the source website, for example,
-\url{https://jv.acb.com/es/103389/jugadas}.
+\url{https://live.acb.com/es/partidos/103389/jugadas}.
 }
 \usage{acb_games_2223_info}
 \format{Data frame with 306 rows and 3 columns.}

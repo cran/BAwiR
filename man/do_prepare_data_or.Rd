@@ -11,7 +11,7 @@ do_prepare_data_or(data, rm_overtime, data_ginfo)
 
 \item{rm_overtime}{Logical. Decide to remove overtimes or not.}
 
-\item{data_ginfo}{Games' basic information.}
+\item{data_ginfo}{Games' basic information. If NULL, nothing to add.}
 }
 \value{
 Data frame. Each row represents the action happened in the game. 
@@ -27,7 +27,7 @@ specifical data preparation. This function does this data processing.
 is provided in \url{https://www.uv.es/vivigui/docs/basketball_dictionary.xlsx}.
 
 2. The \strong{game_code} column allows us to detect the source website, for example,
-\url{https://jv.acb.com/es/103389/jugadas}.
+\url{https://live.acb.com/es/partidos/103389/jugadas}.
 }
 \examples{
 df0 <- acb_vbc_cz_pbp_2223

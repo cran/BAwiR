@@ -7,7 +7,8 @@
 #' The four factors are Effective Field Goal Percentage (EFGP), 
 #' Turnover Percentage (TOVP), Offensive Rebound Percentage (ORBP) and
 #' Free Throws Rate (FTRate). They are well defined at 
-#' \url{http://www.rawbw.com/~deano/articles/20040601_roboscout.htm} and 
+#' \url{http://www.rawbw.com/~deano/articles/20040601_roboscout.htm},
+#' \url{https://www.nbastuffer.com/analytics101/four-factors/} and 
 #' \url{https://www.basketball-reference.com/about/factors.html}.
 #' 
 #' As a summary, EFGP is a measure of shooting efficiency; TOVP is
@@ -60,7 +61,9 @@
 #' 
 #' @examples 
 #' df <- do_join_games_bio("ACB", acb_games_1718, acb_players_1718)
+#' 
 #' df1 <- do_add_adv_stats(df)
+#' 
 #' # When only one team is selected the rankings between parentheses
 #' # do not reflect the real rankings regarding all the league teams.
 #' # The rankings are computed with respect to the number of teams 

@@ -50,7 +50,7 @@ do_ft_fouls <- function(data, type) {
   if (type == "comm") {
     df0 <- data %>%
       filter(grepl("TL)", action)) %>%
-      filter(!grepl("T\\u00e9cnica", action)) %>%
+      filter(!grepl("T\u00e9cnica", action)) %>%
       mutate(n_ft_char = gsub("\\)", "", gsub(".*\\(", "", action)), .after = action) %>%
       mutate(n_ft_given = case_when(
         grepl("1TL", action) ~ 1,
@@ -74,7 +74,7 @@ do_ft_fouls <- function(data, type) {
   
   if (type == "rec") {
     data <- data %>%
-      filter(!grepl("T\\u00e9cnica", action))
+      filter(!grepl("T\u00e9cnica", action))
     
     df2 <- data.frame()
     for (i in paste0("(", 1:3, "TL)")) {

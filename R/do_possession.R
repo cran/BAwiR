@@ -30,7 +30,7 @@
 #' is provided in \url{https://www.uv.es/vivigui/docs/basketball_dictionary.xlsx}.
 #' 
 #' 3. The \strong{game_code} column allows us to detect the source website, for example,
-#' \url{https://jv.acb.com/es/103389/jugadas}.
+#' \url{https://live.acb.com/es/partidos/103389/jugadas}.
 #' 
 #' @author 
 #' Guillermo Vinue
@@ -67,7 +67,7 @@ do_possession <- function(data, period_sel) {
                           "Sale de la pista", "Entra a pista")) %>%
     filter(period == period_sel) %>%
     filter(!(player == team & action != "Rebote Defensivo")) %>%
-    mutate(possession = ifelse(action %in% c("Salto ganado", "Rebote Defensivo", "Recuperaci\\u00f3n"), 
+    mutate(possession = ifelse(action %in% c("Salto ganado", "Rebote Defensivo", "Recuperaci\u00f3n"), 
                               "inicio", NA), 
            .after = action)
   
@@ -101,8 +101,8 @@ do_possession <- function(data, period_sel) {
   si2 <- which(grepl("Tiro de", data1$action) & data1$team != lag(data1$team) & lag(data1$action) != "Falta Personal")
   si3 <- which(grepl("Triple", data1$action) & data1$team != lag(data1$team) & lag(data1$action) != "Falta Personal")
   si4 <- which(grepl("Tiro Libre", data1$action) & data1$team != lead(data1$team)) + 1
-  si5 <- which(data1$action == "P\\u00e9rdida" & lead(data1$action) != "Recuperaci\\u00f3n") + 1
-  si6 <- which(data1$action == "P\\u00e9rdida" & data1$team != lag(data1$team))
+  si5 <- which(data1$action == "P\u00e9rdida" & lead(data1$action) != "Recuperaci\u00f3n") + 1
+  si6 <- which(data1$action == "P\u00e9rdida" & data1$team != lag(data1$team))
   si7 <- which(data1$action == "Falta Personal (2TL)" & data1$team == lag(data1$team)) + 1
   si8 <- which(data1$action == "Falta en Ataque" & data1$team != lag(data1$team))
   si9 <- which(data1$action == "Falta Recibida" & !grepl("Falta Personal", lag(data1$action)))

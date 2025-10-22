@@ -29,36 +29,20 @@ of the game.
 }
 \note{
 The \strong{game_code} column allows us to detect the source website, for example,
-\url{https://jv.acb.com/es/103389/jugadas}.
+\url{https://live.acb.com/es/partidos/103389/jugadas}.
 }
 \examples{
-library(dplyr)
-df0 <- acb_vbc_cz_pbp_2223
-
 day_num <- unique(acb_vbc_cz_pbp_2223$day)
 game_code <- unique(acb_vbc_cz_pbp_2223$game_code)
 
-# Remove overtimes:
-rm_overtime <- TRUE
-if (rm_overtime) {
- df0 <- df0 \%>\%
-   filter(!grepl("PR", period)) \%>\%
-   mutate(period = as.character(period))
-}
+team_sel <- "Valencia Basket"
+period_sel <- "1C"
+player_sel <- "Webb" 
  
-team_sel <- "Valencia Basket" # "Casademont Zaragoza"
-period_sel <- "1C"            # "4C"
-player_sel <- "Webb"          # "Mara"
+pre_per <- do_preproc_period(acb_vbc_cz_pbp_2223, team_sel, period_sel, acb_vbc_cz_sl_2223)
  
-df1 <- df0 \%>\%
-  filter(team == team_sel) \%>\%
-  filter(!action \%in\% c("D - Descalificante - No TL", "Altercado no TL")) 
-   
-df2 <- df1 \%>\%
-  filter(period == period_sel)
-   
-df0_inli_team <- acb_vbc_cz_sl_2223 \%>\% 
-   filter(team == team_sel, period == period_sel)
+df2 <- pre_per$df2
+df0_inli_team <- pre_per$df0_inli_team
  
 df3 <- do_prepare_data(df2, day_num, 
                        df0_inli_team, acb_games_2223_info,

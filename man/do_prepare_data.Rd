@@ -32,7 +32,7 @@ unnecessary information.
 is provided in \url{https://www.uv.es/vivigui/docs/basketball_dictionary.xlsx}.
 
 2. The \strong{game_code} column allows us to detect the source website, for example,
-\url{https://jv.acb.com/es/103389/jugadas}.
+\url{https://live.acb.com/es/partidos/103389/jugadas}.
 }
 \examples{
 library(dplyr)

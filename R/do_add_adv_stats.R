@@ -41,6 +41,7 @@
 #' 
 #' @examples 
 #' df <- do_join_games_bio("ACB", acb_games_1718, acb_players_1718)
+#' 
 #' df1 <- do_add_adv_stats(df)
 #'           
 #' @importFrom magrittr %>%            
@@ -94,7 +95,7 @@ do_add_adv_stats <- function(df) {
     mutate(EFGPerc = ifelse(FGA == 0, 0, (FG + 0.5 * ThreeP) / FGA)) %>% # Effective Field Goal Percentage.
     mutate(EFGPerc = round(EFGPerc * 100)) %>%
     mutate(EFGPerc = ifelse(EFGPerc > 100, 100, EFGPerc)) %>% # FG = 1 ; Three = 1 --> (1 + 0.5 * 1) / 1 > 1
-    mutate(ThreeRate = ifelse(FGA == 0, 0, round(ThreePA / FGA, 1))) %>% # 3-Point Attempt Rate.
+    mutate(ThreeRate = ifelse(FGA == 0, 0, round((ThreePA / FGA) * 100, 1))) %>% # 3-Point Attempt Rate.
     mutate(FRate = ifelse(FGA == 0, 0, round(FT / FGA, 1))) %>% # Free Throw Attempt Rate.
     mutate(STL_TOV = ifelse(TOV == 0, STL, round(STL / TOV, 1))) %>% # Steal to Turnover Ratio.
     mutate(AST_TOV = ifelse(TOV == 0, AST, round(AST / TOV, 1))) %>% # Assist to Turnover Ratio.

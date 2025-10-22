@@ -1,6 +1,10 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.4 [2025-10-22]
+* This is an extended version of the package with a bunch of new functions developed to analyze the shooting data from the Spanish ACB league.
+* Submitted to CRAN.
+
 Version: 1.3.4 [2025-02-14]
 * Correction of some typos.
 * Submitted to CRAN.

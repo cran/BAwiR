@@ -12,7 +12,7 @@
 
 <meta name="author" content="Guillermo Vinue" />
 
-<meta name="date" content="2025-02-14" />
+<meta name="date" content="2025-10-22" />
 
 <title>Analysis of Spanish play-by-play data</title>
 
@@ -340,16 +340,14 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Analysis of Spanish play-by-play data</h1>
 <h4 class="author">Guillermo Vinue</h4>
-<h4 class="date">2025-02-14</h4>
+<h4 class="date">2025-10-22</h4>
 
 
 
-<!--This document contains all the needed R code to reproduce the results described in the paper *A Web Application for Interactive Visualization of European Basketball Data* ([https://doi.org/10.1089/big.2018.0124](https://doi.org/10.1089/big.2018.0124){target="_blank"}), which presents the dashboard available at [https://www.uv.es/vivigui/AppEuroACB.html](https://www.uv.es/vivigui/AppEuroACB.html){target="_blank"}.-->
 <p>This document contains all the needed R code to reproduce the results
 described in the paper <em>A Basketball Big Data Platform for Box Score
-and Play-by-Play Data</em> (<a href="https://doi.org/10.1089/big.2023.0177" target="_blank">https://doi.org/10.1089/big.2023.0177</a>), which
-presents the dashboard available at <a href="https://www.uv.es/vivigui/AppPBP.html" target="_blank">https://www.uv.es/vivigui/AppPBP.html</a>. This
-dashboard belongs to the platform available at <a href="https://www.uv.es/vivigui/basketball_platform.html" target="_blank">https://www.uv.es/vivigui/basketball_platform.html</a>.</p>
+and Play-by-Play Data</em> (<a href="https://doi.org/10.1089/big.2023.0177" target="_blank">https://doi.org/10.1089/big.2023.0177</a>).</p>
+<!--, which presents the dashboard available at [https://www.uv.es/vivigui/AppPBP.html](https://www.uv.es/vivigui/AppPBP.html){target="_blank"}. This dashboard belongs to the platform available at [https://www.uv.es/vivigui/basketball_platform.html](https://www.uv.es/vivigui/basketball_platform.html){target="_blank"}.-->
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Firstly, load BAwiR and other packages that will be used in the paper:</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(BAwiR) </span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span></code></pre></div>
@@ -357,8 +355,8 @@ dashboard belongs to the platform available at <a href="https://www.uv.es/vivigu
 play-by-play data available from the Spanish ACB league.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>df0 <span class="ot">&lt;-</span> acb_vbc_cz_pbp_2223</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>day_num <span class="ot">&lt;-</span> <span class="fu">unique</span>(acb_vbc_cz_pbp_2223<span class="sc">$</span>day)</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>game_code <span class="ot">&lt;-</span> <span class="fu">unique</span>(acb_vbc_cz_pbp_2223<span class="sc">$</span>game_code)</span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>day_num <span class="ot">&lt;-</span> <span class="fu">unique</span>(df0<span class="sc">$</span>day)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>game_code <span class="ot">&lt;-</span> <span class="fu">unique</span>(df0<span class="sc">$</span>game_code)</span></code></pre></div>
 <p>Do some first data processing:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>acb_games_2223_sl <span class="ot">&lt;-</span> acb_vbc_cz_sl_2223 <span class="sc">%&gt;%</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">filter</span>(period <span class="sc">==</span> <span class="st">&quot;1C&quot;</span>)</span>
@@ -376,37 +374,22 @@ play-by-play data available from the Spanish ACB league.</p>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>data_to <span class="ot">&lt;-</span> <span class="fu">do_time_out_success</span>(df1_to, day_num, game_code, </span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>                               <span class="st">&quot;Casademont Zaragoza_Porfirio Fisac&quot;</span>, <span class="cn">FALSE</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Periods:</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>df0_per <span class="ot">&lt;-</span> df0</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>rm_overtime <span class="ot">&lt;-</span> <span class="cn">TRUE</span> <span class="co"># Decide if remove overtimes.</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="cf">if</span> (rm_overtime) {</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  df0 <span class="ot">&lt;-</span> df0 <span class="sc">%&gt;%</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">&quot;PR&quot;</span>, period)) <span class="sc">%&gt;%</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">period =</span> <span class="fu">as.character</span>(period))</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>}</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>team_sel <span class="ot">&lt;-</span> <span class="st">&quot;Valencia Basket&quot;</span> <span class="co"># &quot;Casademont Zaragoza&quot;</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>period_sel <span class="ot">&lt;-</span> <span class="st">&quot;1C&quot;</span>            <span class="co"># &quot;4C&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>player_sel <span class="ot">&lt;-</span> <span class="st">&quot;Webb&quot;</span>          <span class="co"># &quot;Mara&quot;</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>pre_per <span class="ot">&lt;-</span> <span class="fu">do_preproc_period</span>(acb_vbc_cz_pbp_2223, team_sel, period_sel, acb_vbc_cz_sl_2223)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  </span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> pre_per<span class="sc">$</span>df2</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>df0_inli_team <span class="ot">&lt;-</span> pre_per<span class="sc">$</span>df0_inli_team</span>
 <span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  </span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>team_sel <span class="ot">&lt;-</span> <span class="st">&quot;Valencia Basket&quot;</span> <span class="co"># &quot;Casademont Zaragoza&quot;</span></span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>period_sel <span class="ot">&lt;-</span> <span class="st">&quot;1C&quot;</span>            <span class="co"># &quot;4C&quot;</span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>player_sel <span class="ot">&lt;-</span> <span class="st">&quot;Webb&quot;</span>          <span class="co"># &quot;Mara&quot;</span></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>  </span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>df1 <span class="ot">&lt;-</span> df0 <span class="sc">%&gt;%</span></span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>  <span class="fu">filter</span>(team <span class="sc">==</span> team_sel) <span class="sc">%&gt;%</span></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>action <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;D - Descalificante - No TL&quot;</span>, <span class="st">&quot;Altercado no TL&quot;</span>)) </span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>    </span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> df1 <span class="sc">%&gt;%</span></span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>  <span class="fu">filter</span>(period <span class="sc">==</span> period_sel)</span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>    </span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>df0_inli_team <span class="ot">&lt;-</span> acb_vbc_cz_sl_2223 <span class="sc">%&gt;%</span> </span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>  <span class="fu">filter</span>(team <span class="sc">==</span> team_sel, period <span class="sc">==</span> period_sel)</span>
-<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>  </span>
-<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> <span class="fu">do_prepare_data</span>(df2, day_num, </span>
-<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>                       df0_inli_team, acb_games_2223_info,</span>
-<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a>                       game_code)</span>
-<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>                         </span>
-<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a>data_per <span class="ot">&lt;-</span> <span class="fu">do_stats_per_period</span>(df3, day_num, game_code, team_sel, period_sel, player_sel)</span>
-<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a></span>
-<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="co"># Clutch time:</span></span>
-<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a>data_clutch <span class="ot">&lt;-</span> <span class="fu">do_clutch_time</span>(acb_vbc_cz_pbp_2223)</span></code></pre></div>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> <span class="fu">do_prepare_data</span>(df2, day_num, df0_inli_team, acb_games_2223_info, game_code)</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>                         </span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>data_per <span class="ot">&lt;-</span> <span class="fu">do_stats_per_period</span>(df3, day_num, game_code, team_sel, period_sel, player_sel)</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co"># Clutch time:</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>data_clutch <span class="ot">&lt;-</span> <span class="fu">do_clutch_time</span>(df0) </span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co"># If no rows, that means that the game did not have clutch time.</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Free throw fouls:</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>data_ft_comm <span class="ot">&lt;-</span> <span class="fu">do_ft_fouls</span>(df0, <span class="st">&quot;comm&quot;</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>data_ft_rec <span class="ot">&lt;-</span> <span class="fu">do_ft_fouls</span>(df0, <span class="st">&quot;rec&quot;</span>)</span>
@@ -440,11 +423,11 @@ play-by-play data available from the Spanish ACB league.</p>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] digest_0.6.37     R6_2.5.1          fastmap_1.2.0     xfun_0.50        
-##  [5] cachem_1.1.0      knitr_1.49        htmltools_0.5.8.1 rmarkdown_2.29   
-##  [9] lifecycle_1.0.4   cli_3.6.3         sass_0.4.9        jquerylib_0.1.4  
-## [13] compiler_4.3.3    tools_4.3.3       evaluate_1.0.1    bslib_0.8.0      
-## [17] yaml_2.3.10       rlang_1.1.5       jsonlite_1.8.9</code></pre>
+##  [1] digest_0.6.37     R6_2.6.1          fastmap_1.2.0     xfun_0.52        
+##  [5] cachem_1.1.0      knitr_1.50        htmltools_0.5.8.1 rmarkdown_2.29   
+##  [9] lifecycle_1.0.4   cli_3.6.5         sass_0.4.10       jquerylib_0.1.4  
+## [13] compiler_4.3.3    tools_4.3.3       evaluate_1.0.3    bslib_0.9.0      
+## [17] yaml_2.3.10       rlang_1.1.6       jsonlite_2.0.0</code></pre>
 
 
 
