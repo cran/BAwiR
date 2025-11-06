@@ -25,6 +25,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # # Code for Figure 2:
 # df3 <- df2[which(df2$Position == "Center"), c("MP", "PTS", "Name", "CombinID")]
 # df3 <- df3[df3$MP > 100,]
+# 
 # ggplot(df3, aes(x = c(df3[,1])[[1]], y = c(df3[,2])[[1]], group = Name)) +
 #   geom_point() +
 #   geom_text(aes(label = Name), size = 2, vjust = -0.8) +
@@ -36,6 +37,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # df4 <- df3 %>%
 #   mutate(Player_info = paste("http://www.acb.com/jugador.php?id=", CombinID, sep = "")) %>%
 #   select(-CombinID)
+# 
 # df5 <- df4 %>%
 #   arrange(-MP)
 # headtail(df5, 3)
@@ -43,9 +45,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ## ----figure 3, eval=FALSE-----------------------------------------------------
 # # Code for Figure 3:
 # stats <- c("GP", "MP", "PTS", "FGPerc", "FTPerc", "TRB", "AST", "TOV", "PlusMinus", "PIR")
+# 
 # descr_stats <- c("Games played", "Minutes played", "Points", "Field goals percentage",
 #                  "Free throws percentage", "Total rebounds", "Assists", "Turnovers",
 #                  "Plus/minus", "Performance index rating")
+# 
 # df2_1 <- df2 %>%
 #   select(1:5, all_of(stats), 46:49)
 # 
@@ -96,6 +100,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # df0$Compet <- "ACB"
 # plot_yearly <- get_stats_seasons(df0, "ACB", c("Doncic, Luka", "Abalde, Alberto"),
 #                                  stats[1:4], "Regular Season", TRUE, FALSE)
+# 
 # plot_yearly$gg +
 #   labs(title = "ACB 2017-2018, Regular Season. Yearly average stats.") +
 #   theme(strip.text.x = element_text(size = 15))
@@ -109,6 +114,7 @@ knitr::opts_chunk$set(echo = TRUE)
 #                      "Defensive" = c("DRB", "STL", "PF"),
 #                      "Other" = c("GP", "MP", "TRB", "PlusMinus", "PIR"),
 #                      "Advanced" = c("EFGPerc", "PPS"))
+# 
 # get_heatmap_bb(df2, "Real_Madrid", levels_stats, "PlusMinus", 9,
 #                paste("ACB", "2017-2018, Regular Season.", "Total stats.", sep = " "))
 
@@ -121,8 +127,11 @@ knitr::opts_chunk$set(echo = TRUE)
 # # Code for Figure 8:
 # df1_10 <- df1 %>%
 #   filter(Day <= 10)
+# 
 # teams <- as.character(rev(sort(unique(df2$Team))))
-# df_four_factors <- do_four_factors_df(df1_10, teams)
+# 
+# df_four_factors <- do_four_factors_df(df1_10, teams, NULL)
+# 
 # get_four_factors_plot(df_four_factors$df_rank, df_four_factors$df_no_rank,
 #                       c("Real_Madrid", "Valencia"), "en") +
 #   ggtitle("ACB 2017-2018, Regular Season.")

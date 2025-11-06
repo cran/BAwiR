@@ -11,7 +11,7 @@
 #' 
 #' @param data Source play-by-play data from a given game.
 #' @param rm_overtime Logical. Decide to remove overtimes or not.
-#' @param data_ginfo Games' basic information.
+#' @param data_ginfo Games' basic information. If NULL, nothing to do.
 #' @param data_gcoach Coach of each team in each day.
 #' 
 #' @return 
@@ -49,13 +49,17 @@ do_prepare_data_to <- function(data, rm_overtime, data_ginfo, data_gcoach) {
   
   if (rm_overtime) {
     data <- data %>%
-      filter(!grepl("PR", period)) %>%
+      filter(!grepl("PR|5|6", period)) %>%
       mutate(period = as.character(period))
   }
   
   # Join with games' information to find out later on which team was local 
   # and which team was visitor:
-  data1 <- left_join(data, data_ginfo, by = c("game_code", "day"))
+  if (!is.null(data_ginfo)) {
+    data1 <- left_join(data, data_ginfo, by = c("game_code", "day"))
+  }else{
+    data1 <- data
+  }
   
   # Extract all unique actions:
   #sort(unique(data1$action))
@@ -66,10 +70,16 @@ do_prepare_data_to <- function(data, rm_overtime, data_ginfo, data_gcoach) {
   # "Mate" indicates the same as "Tiro de 2 anotado", i.e., two points scored.
   
   # Process data:
-  data2 <- data1 %>%
-    mutate(local = gsub("-.*", "", game)) %>%
-    mutate(visitor = gsub(".*-", "", game)) %>%
-    select(-game) %>%
+  if ("game" %in% colnames(data1)) {
+    data2 <- data1 %>%
+      mutate(local = gsub("-.*", "", game)) %>%
+      mutate(visitor = gsub(".*-", "", game)) %>%
+      select(-game) 
+  }else{
+    data2 <- data1
+  }
+  
+  data2 <- data2 %>%
     filter(!action %in% c("Entra a pista", "Sale de la pista", "Instant Replay", "Tiempo Muerto de TV", 
                           "IR - Challenge entrenador local", "IR - Challenge entrenador visitante",
                           "IR - Revisi\u00f3n del tipo de falta", "IR - Revisi\u00f3n reloj de posesi\u00f3n",
@@ -95,9 +105,7 @@ do_prepare_data_to <- function(data, rm_overtime, data_ginfo, data_gcoach) {
   
   data4 <- data3 %>%
     unite(team, c("team", "coach"), sep = "_", remove = FALSE) %>%
-    mutate(player = ifelse(action == "Tiempo Muerto",
-                           paste0(player, "_", coach),
-                           player)) %>%
+    mutate(player = ifelse(action == "Tiempo Muerto", paste0(player, "_", coach), player)) %>%
     select(-coach)
   
   return(data4)

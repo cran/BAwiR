@@ -63,13 +63,12 @@ do_possession <- function(data, period_sel) {
   # Two main situations with start possession:
   # First one:
   data1 <- data %>%
-    filter(!action %in% c("Quinteto inicial", "Salto perdido", "Tiempo Muerto",
-                          "Sale de la pista", "Entra a pista")) %>%
+    filter(!action %in% c("Quinteto inicial", "Salto perdido", "Tiempo Muerto", "Sale de la pista", "Entra a pista")) %>%
     filter(period == period_sel) %>%
     filter(!(player == team & action != "Rebote Defensivo")) %>%
-    mutate(possession = ifelse(action %in% c("Salto ganado", "Rebote Defensivo", "Recuperaci\u00f3n"), 
-                              "inicio", NA), 
-           .after = action)
+    mutate(possession = ifelse(action %in% c("Salto ganado", "Rebote Defensivo", "Recuperaci\u00f3n"), "inicio", NA), 
+           .after = action) %>%
+    distinct() # There are duplicated rows.
   
   if (period_sel != "1C") {
     data1$possession[1] <- "inicio"
@@ -94,6 +93,10 @@ do_possession <- function(data, period_sel) {
   wh <- which(data1$action == "Asistencia" & data1$team != lead(data1$team))
   data1$possession[wh + 1] <- "inicio"
   
+  # Discard personal fouls because they are not needed and add noise:
+  data1 <- data1 %>%
+    filter(!grepl("Falta Personal", action))
+  
   # Other situations with start possession:
   # si1 : Check if any dunk came after no assist, for example,
   # when finishing an offensive rebound with a direct dunk.
@@ -105,12 +108,12 @@ do_possession <- function(data, period_sel) {
   si6 <- which(data1$action == "P\u00e9rdida" & data1$team != lag(data1$team))
   si7 <- which(data1$action == "Falta Personal (2TL)" & data1$team == lag(data1$team)) + 1
   si8 <- which(data1$action == "Falta en Ataque" & data1$team != lag(data1$team))
-  si9 <- which(data1$action == "Falta Recibida" & !grepl("Falta Personal", lag(data1$action)))
+  si9 <- which(data1$action == "Falta Recibida" & !grepl("Falta Personal|Falta Antideportiva", lag(data1$action)) & data1$team != lag(data1$team))
   
   data1$possession[c(si1, si2, si3, si4, si5, si6, si7, si8, si9)] <- "inicio"   
   
   # Correct some inaccuracies, when they are not in the first row:
-  data1$possession[which(data1$action == "Tiro Libre fallado" & data1$possession == "inicio")] <- NA
+  #data1$possession[which(data1$action == "Tiro Libre fallado" & data1$possession == "inicio")] <- NA
   data1$possession[which(data1$action == "Falta Personal (1TL)" & data1$possession == "inicio")] <- NA
 
   if (is.na(data1$possession[1])) {
@@ -172,6 +175,11 @@ do_possession <- function(data, period_sel) {
       action == "Tiro de 2 anotado" ~ 2,
       action == "Triple anotado" ~ 3),
       .after = possession)
+  
+  # Correct minutes so that all have five characters:
+  data5 <- data5 %>%
+    mutate(time_start = ifelse(nchar(time_start) < 5, paste0("0", time_start), time_start)) %>%
+    mutate(time_end = ifelse(nchar(time_end) < 5, paste0("0", time_end), time_end))
   
   return(data5)
 }

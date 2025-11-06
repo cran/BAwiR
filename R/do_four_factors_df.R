@@ -7,8 +7,7 @@
 #' The four factors are Effective Field Goal Percentage (EFGP), 
 #' Turnover Percentage (TOVP), Offensive Rebound Percentage (ORBP) and
 #' Free Throws Rate (FTRate). They are well defined at 
-#' \url{http://www.rawbw.com/~deano/articles/20040601_roboscout.htm},
-#' \url{https://www.nbastuffer.com/analytics101/four-factors/} and 
+#' \url{http://www.rawbw.com/~deano/articles/20040601_roboscout.htm} and
 #' \url{https://www.basketball-reference.com/about/factors.html}.
 #' 
 #' As a summary, EFGP is a measure of shooting efficiency; TOVP is
@@ -16,13 +15,15 @@
 #' \url{https://www.nba.com/thunder/news/stats101.html} to read about 
 #' the 0.44 coefficient; ORBP measures how many rebounds were offensive 
 #' from the total of available rebounds; Finally, FTRate is a measure of both 
-#' how often a team gets to the line and how often they make them.
+#' how often a team gets to the line.
 #' 
-#' @usage do_four_factors_df(df_games, teams)
+#' @usage do_four_factors_df(df_games, teams, data_team_reb_tov)
 #' 
 #' @param df_games Data frame with the games, players info, advanced stats and
 #' eventually recoded teams names.
 #' @param teams Teams names.
+#' @param data_team_reb_tov Additional data with rebounds and turnovers 
+#' directly assigned to teams. Nothing to do if NULL.
 #' 
 #' @details 
 #' Instead of defining the Offensive and Defensive Rebound Percentage
@@ -68,26 +69,46 @@
 #' # do not reflect the real rankings regarding all the league teams.
 #' # The rankings are computed with respect to the number of teams 
 #' # passed as an argument.
-#' df_four_factors <- do_four_factors_df(df1, "Valencia")
+#' df_four_factors <- do_four_factors_df(df1, "Valencia", NULL)
 #' 
 #' @importFrom dplyr summarise bind_rows
 #'
 #' @export
 
-do_four_factors_df <- function(df_games, teams) {
+do_four_factors_df <- function(df_games, teams, data_team_reb_tov) {
   GameID <- Day <- Game <- Team <- Player.x <- FG <- FGA <- ThreeP <- FT <- FTA <- NULL 
   DRB <- ORB <- TOV <- Type <- EFGP <- TOVP <- ORBP <- FTRate <- NULL
+  period <- day <- game_code <- team <- drb <- orb <- tov <- NULL
 
+  if (!is.null(data_team_reb_tov)) {
+    data_add <- data_team_reb_tov %>%
+      filter(period == "All") %>%
+      select(Day = day, game_code, Team = team, DRB = drb, ORB = orb, TOV = tov) %>%
+      mutate(Player.x = "Equipo", FG = 0, FGA = 0, ThreeP = 0, FT = 0, FTA = 0, .after = Team) 
+  }else{
+    data_add <- NULL
+  }
+  
   df5 <- data.frame()
   for (i in teams) {
-    #team_GameID <- unique(df_games$GameID[df_games$Team == i])
     team_Game <- unique(df_games$Game[df_games$Team == i])
-    df2 <- df_games %>%
-      #ungroup() %>%
-      #filter(grepl(i, Game)) %>%
-      #filter(GameID %in% team_GameID) %>%
-      filter(Game %in% team_Game) %>%
-      select(Day, Game, Team, Player.x, FG, FGA, ThreeP, FT, FTA, DRB, ORB, TOV) %>%
+    
+    if (!is.null(data_add)) {
+      df2_0 <- df_games %>%
+        filter(Game %in% team_Game) %>%
+        select(Day, game_code, Team, Player.x, FG, FGA, ThreeP, FT, FTA, DRB, ORB, TOV) 
+    
+      data_add_0 <- data_add %>%
+        filter(game_code %in% unique(df2_0$game_code))
+      
+      df2_1 <- bind_rows(df2_0, data_add_0) 
+    }else{
+      df2_1 <- df_games %>%
+        filter(Game %in% team_Game) %>%
+        select(Day, Game, Team, Player.x, FG, FGA, ThreeP, FT, FTA, DRB, ORB, TOV)
+    }
+    
+    df2 <- df2_1 %>%
       group_by(Team) %>%
       mutate(Type = ifelse(Team == i, "Offense", "Defense")) %>%
       ungroup()
@@ -99,7 +120,7 @@ do_four_factors_df <- function(df_games, teams) {
                 ORB = sum(ORB),
                 DRB = sum(DRB), 
                 ORBP = NA,
-                FTRate = sum(FT) / sum(FGA)) %>%
+                FTRate = sum(FTA) / sum(FGA)) %>%
       ungroup()
     df3$ORBP[1] <- df3$ORB[1] / (df3$ORB[1] + df3$DRB[2])
     df3$ORBP[2] <- df3$ORB[2] / (df3$ORB[2] + df3$DRB[1])
@@ -109,7 +130,7 @@ do_four_factors_df <- function(df_games, teams) {
       mutate(EFGP = round(EFGP * 100, 2),
              TOVP = round(TOVP * 100, 2),
              ORBP = round(ORBP * 100, 2),
-             FTRate = round(FTRate, 2)) %>%
+             FTRate = round(FTRate * 100, 2)) %>%
       mutate(Team = i) %>%
       select(Team, everything())
     

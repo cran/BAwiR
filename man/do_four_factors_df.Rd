@@ -4,13 +4,16 @@
 \alias{do_four_factors_df}
 \title{Four factors data frame}
 \usage{
-do_four_factors_df(df_games, teams)
+do_four_factors_df(df_games, teams, data_team_reb_tov)
 }
 \arguments{
 \item{df_games}{Data frame with the games, players info, advanced stats and
 eventually recoded teams names.}
 
 \item{teams}{Teams names.}
+
+\item{data_team_reb_tov}{Additional data with rebounds and turnovers 
+directly assigned to teams. Nothing to do if NULL.}
 }
 \value{
 A list with two data frames, \code{df_rank} and \code{df_no_rank}. 
@@ -31,8 +34,7 @@ This function computes team's offense and defense four factors.
 The four factors are Effective Field Goal Percentage (EFGP), 
 Turnover Percentage (TOVP), Offensive Rebound Percentage (ORBP) and
 Free Throws Rate (FTRate). They are well defined at 
-\url{http://www.rawbw.com/~deano/articles/20040601_roboscout.htm},
-\url{https://www.nbastuffer.com/analytics101/four-factors/} and 
+\url{http://www.rawbw.com/~deano/articles/20040601_roboscout.htm} and
 \url{https://www.basketball-reference.com/about/factors.html}.
 
 As a summary, EFGP is a measure of shooting efficiency; TOVP is
@@ -40,7 +42,7 @@ the percentage of possessions where the team missed the ball, see
 \url{https://www.nba.com/thunder/news/stats101.html} to read about 
 the 0.44 coefficient; ORBP measures how many rebounds were offensive 
 from the total of available rebounds; Finally, FTRate is a measure of both 
-how often a team gets to the line and how often they make them.
+how often a team gets to the line.
 }
 \details{
 Instead of defining the Offensive and Defensive Rebound Percentage
@@ -66,7 +68,7 @@ df1 <- do_add_adv_stats(df)
 # do not reflect the real rankings regarding all the league teams.
 # The rankings are computed with respect to the number of teams 
 # passed as an argument.
-df_four_factors <- do_four_factors_df(df1, "Valencia")
+df_four_factors <- do_four_factors_df(df1, "Valencia", NULL)
 
 }
 \seealso{

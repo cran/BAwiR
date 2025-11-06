@@ -12,7 +12,7 @@
 
 <meta name="author" content="Guillermo Vinue" />
 
-<meta name="date" content="2025-10-22" />
+<meta name="date" content="2025-11-06" />
 
 <title>Visualization of European basketball data</title>
 
@@ -341,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Visualization of European basketball
 data</h1>
 <h4 class="author">Guillermo Vinue</h4>
-<h4 class="date">2025-10-22</h4>
+<h4 class="date">2025-11-06</h4>
 
 
 
@@ -366,39 +366,43 @@ Visualization of European Basketball Data</em> (<a href="https://doi.org/10.1089
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Code for Figure 2:</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> df2[<span class="fu">which</span>(df2<span class="sc">$</span>Position <span class="sc">==</span> <span class="st">&quot;Center&quot;</span>), <span class="fu">c</span>(<span class="st">&quot;MP&quot;</span>, <span class="st">&quot;PTS&quot;</span>, <span class="st">&quot;Name&quot;</span>, <span class="st">&quot;CombinID&quot;</span>)]</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>df3 <span class="ot">&lt;-</span> df3[df3<span class="sc">$</span>MP <span class="sc">&gt;</span> <span class="dv">100</span>,]</span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">ggplot</span>(df3, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">c</span>(df3[,<span class="dv">1</span>])[[<span class="dv">1</span>]], <span class="at">y =</span> <span class="fu">c</span>(df3[,<span class="dv">2</span>])[[<span class="dv">1</span>]], <span class="at">group =</span> Name)) <span class="sc">+</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> Name), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">colnames</span>(df3)[<span class="dv">1</span>], <span class="at">y =</span> <span class="fu">colnames</span>(df3)[<span class="dv">2</span>], </span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;ACB 2017-2018, Regular Season. Total stats. Centers.&quot;</span>)</span></code></pre></div>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">ggplot</span>(df3, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">c</span>(df3[,<span class="dv">1</span>])[[<span class="dv">1</span>]], <span class="at">y =</span> <span class="fu">c</span>(df3[,<span class="dv">2</span>])[[<span class="dv">1</span>]], <span class="at">group =</span> Name)) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> Name), <span class="at">size =</span> <span class="dv">2</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">colnames</span>(df3)[<span class="dv">1</span>], <span class="at">y =</span> <span class="fu">colnames</span>(df3)[<span class="dv">2</span>], </span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;ACB 2017-2018, Regular Season. Total stats. Centers.&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Code for Table 2:</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>df4 <span class="ot">&lt;-</span> df3 <span class="sc">%&gt;%</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Player_info =</span> <span class="fu">paste</span>(<span class="st">&quot;http://www.acb.com/jugador.php?id=&quot;</span>, CombinID, <span class="at">sep =</span> <span class="st">&quot;&quot;</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>CombinID)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>df5 <span class="ot">&lt;-</span> df4 <span class="sc">%&gt;%</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>MP)</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">headtail</span>(df5, <span class="dv">3</span>)</span></code></pre></div>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>df5 <span class="ot">&lt;-</span> df4 <span class="sc">%&gt;%</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>MP)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">headtail</span>(df5, <span class="dv">3</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Code for Figure 3:</span></span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>stats <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;GP&quot;</span>, <span class="st">&quot;MP&quot;</span>, <span class="st">&quot;PTS&quot;</span>, <span class="st">&quot;FGPerc&quot;</span>, <span class="st">&quot;FTPerc&quot;</span>, <span class="st">&quot;TRB&quot;</span>, <span class="st">&quot;AST&quot;</span>, <span class="st">&quot;TOV&quot;</span>, <span class="st">&quot;PlusMinus&quot;</span>, <span class="st">&quot;PIR&quot;</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>descr_stats <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Games played&quot;</span>, <span class="st">&quot;Minutes played&quot;</span>, <span class="st">&quot;Points&quot;</span>, <span class="st">&quot;Field goals percentage&quot;</span>, </span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>                 <span class="st">&quot;Free throws percentage&quot;</span>, <span class="st">&quot;Total rebounds&quot;</span>, <span class="st">&quot;Assists&quot;</span>, <span class="st">&quot;Turnovers&quot;</span>, </span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>                 <span class="st">&quot;Plus/minus&quot;</span>, <span class="st">&quot;Performance index rating&quot;</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>df2_1 <span class="ot">&lt;-</span> df2 <span class="sc">%&gt;%</span> </span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">all_of</span>(stats), <span class="dv">46</span><span class="sc">:</span><span class="dv">49</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>perc_plot_doncid <span class="ot">&lt;-</span> <span class="fu">get_bubble_plot</span>(df2_1, <span class="st">&quot;Doncic, Luka&quot;</span>, descr_stats, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">8</span>) <span class="sc">+</span></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>                        <span class="fu">theme</span>(<span class="at">strip.text.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>                        <span class="fu">ggtitle</span>(<span class="at">label =</span> <span class="st">&quot;Doncic, Luka&quot;</span>,</span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>                                <span class="at">subtitle =</span> <span class="st">&quot;ACB 2017-2018, Regular Season. Total stats.&quot;</span>) <span class="sc">+</span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>                        <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>))</span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>perc_plot_abalde <span class="ot">&lt;-</span> <span class="fu">get_bubble_plot</span>(df2_1, <span class="st">&quot;Abalde, Alberto&quot;</span>, descr_stats, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">8</span>) <span class="sc">+</span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>                        <span class="fu">theme</span>(<span class="at">strip.text.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>                        <span class="fu">ggtitle</span>(<span class="at">label =</span> <span class="st">&quot;Abalde, Alberto&quot;</span>,</span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>                                <span class="at">subtitle =</span> <span class="st">&quot;ACB 2017-2018, Regular Season. Total stats.&quot;</span>) <span class="sc">+</span></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>                        <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>))</span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a></span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="fu">grid.arrange</span>(perc_plot_doncid, perc_plot_abalde, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>descr_stats <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Games played&quot;</span>, <span class="st">&quot;Minutes played&quot;</span>, <span class="st">&quot;Points&quot;</span>, <span class="st">&quot;Field goals percentage&quot;</span>, </span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>                 <span class="st">&quot;Free throws percentage&quot;</span>, <span class="st">&quot;Total rebounds&quot;</span>, <span class="st">&quot;Assists&quot;</span>, <span class="st">&quot;Turnovers&quot;</span>, </span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>                 <span class="st">&quot;Plus/minus&quot;</span>, <span class="st">&quot;Performance index rating&quot;</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>df2_1 <span class="ot">&lt;-</span> df2 <span class="sc">%&gt;%</span> </span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="fu">all_of</span>(stats), <span class="dv">46</span><span class="sc">:</span><span class="dv">49</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>perc_plot_doncid <span class="ot">&lt;-</span> <span class="fu">get_bubble_plot</span>(df2_1, <span class="st">&quot;Doncic, Luka&quot;</span>, descr_stats, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">8</span>) <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>                        <span class="fu">theme</span>(<span class="at">strip.text.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>                        <span class="fu">ggtitle</span>(<span class="at">label =</span> <span class="st">&quot;Doncic, Luka&quot;</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>                                <span class="at">subtitle =</span> <span class="st">&quot;ACB 2017-2018, Regular Season. Total stats.&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>                        <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>))</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>perc_plot_abalde <span class="ot">&lt;-</span> <span class="fu">get_bubble_plot</span>(df2_1, <span class="st">&quot;Abalde, Alberto&quot;</span>, descr_stats, <span class="dv">3</span>, <span class="dv">7</span>, <span class="dv">8</span>) <span class="sc">+</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>                        <span class="fu">theme</span>(<span class="at">strip.text.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>                        <span class="fu">ggtitle</span>(<span class="at">label =</span> <span class="st">&quot;Abalde, Alberto&quot;</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>                                <span class="at">subtitle =</span> <span class="st">&quot;ACB 2017-2018, Regular Season. Total stats.&quot;</span>) <span class="sc">+</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>                        <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>))</span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="fu">grid.arrange</span>(perc_plot_doncid, perc_plot_abalde, <span class="at">ncol =</span> <span class="dv">2</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Code for Figure 4:</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>months <span class="ot">&lt;-</span> <span class="fu">c</span>(df0 <span class="sc">%&gt;%</span> <span class="fu">distinct</span>(Month))<span class="sc">$</span>Month</span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>months_order <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;septiembre&quot;</span>, <span class="st">&quot;octubre&quot;</span>, <span class="st">&quot;noviembre&quot;</span>, <span class="st">&quot;diciembre&quot;</span>, <span class="st">&quot;enero&quot;</span>)</span>
@@ -429,9 +433,10 @@ Visualization of European Basketball Data</em> (<a href="https://doi.org/10.1089
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>df0<span class="sc">$</span>Compet <span class="ot">&lt;-</span> <span class="st">&quot;ACB&quot;</span></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>plot_yearly <span class="ot">&lt;-</span> <span class="fu">get_stats_seasons</span>(df0, <span class="st">&quot;ACB&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;Doncic, Luka&quot;</span>, <span class="st">&quot;Abalde, Alberto&quot;</span>), </span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>                                 stats[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="st">&quot;Regular Season&quot;</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>plot_yearly<span class="sc">$</span>gg <span class="sc">+</span> </span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;ACB 2017-2018, Regular Season. Yearly average stats.&quot;</span>) <span class="sc">+</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>))</span></code></pre></div>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>plot_yearly<span class="sc">$</span>gg <span class="sc">+</span> </span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;ACB 2017-2018, Regular Season. Yearly average stats.&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>))</span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Code for Figure 6:</span></span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>levels_stats <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;Offensive&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;PTS&quot;</span>, <span class="st">&quot;FG&quot;</span>, <span class="st">&quot;FGA&quot;</span>, <span class="st">&quot;FGPerc&quot;</span>, </span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>                                     <span class="st">&quot;TwoP&quot;</span>, <span class="st">&quot;TwoPA&quot;</span>, <span class="st">&quot;TwoPPerc&quot;</span>,</span>
@@ -440,19 +445,23 @@ Visualization of European Basketball Data</em> (<a href="https://doi.org/10.1089
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>                     <span class="st">&quot;Defensive&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;DRB&quot;</span>, <span class="st">&quot;STL&quot;</span>, <span class="st">&quot;PF&quot;</span>),</span>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>                     <span class="st">&quot;Other&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;GP&quot;</span>, <span class="st">&quot;MP&quot;</span>, <span class="st">&quot;TRB&quot;</span>, <span class="st">&quot;PlusMinus&quot;</span>, <span class="st">&quot;PIR&quot;</span>),</span>
 <span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>                     <span class="st">&quot;Advanced&quot;</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&quot;EFGPerc&quot;</span>, <span class="st">&quot;PPS&quot;</span>))</span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="fu">get_heatmap_bb</span>(df2, <span class="st">&quot;Real_Madrid&quot;</span>, levels_stats, <span class="st">&quot;PlusMinus&quot;</span>, <span class="dv">9</span>, </span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>               <span class="fu">paste</span>(<span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;2017-2018, Regular Season.&quot;</span>, <span class="st">&quot;Total stats.&quot;</span>, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="fu">get_heatmap_bb</span>(df2, <span class="st">&quot;Real_Madrid&quot;</span>, levels_stats, <span class="st">&quot;PlusMinus&quot;</span>, <span class="dv">9</span>, </span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>               <span class="fu">paste</span>(<span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;2017-2018, Regular Season.&quot;</span>, <span class="st">&quot;Total stats.&quot;</span>, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>))</span></code></pre></div>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Code for Figure 7:</span></span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">get_shooting_plot</span>(df2, <span class="st">&quot;Real_Madrid&quot;</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="st">&quot;ACB 2017-2018, Regular Season.&quot;</span>, <span class="st">&quot;en&quot;</span>) <span class="sc">+</span></span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>))</span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Code for Figure 8:</span></span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>df1_10 <span class="ot">&lt;-</span> df1 <span class="sc">%&gt;%</span> </span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">filter</span>(Day <span class="sc">&lt;=</span> <span class="dv">10</span>) </span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>teams <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="fu">rev</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(df2<span class="sc">$</span>Team))))</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>df_four_factors <span class="ot">&lt;-</span> <span class="fu">do_four_factors_df</span>(df1_10, teams)</span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">get_four_factors_plot</span>(df_four_factors<span class="sc">$</span>df_rank, df_four_factors<span class="sc">$</span>df_no_rank, </span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>                      <span class="fu">c</span>(<span class="st">&quot;Real_Madrid&quot;</span>, <span class="st">&quot;Valencia&quot;</span>), <span class="st">&quot;en&quot;</span>) <span class="sc">+</span></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;ACB 2017-2018, Regular Season.&quot;</span>)</span></code></pre></div>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>teams <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="fu">rev</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(df2<span class="sc">$</span>Team))))</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>df_four_factors <span class="ot">&lt;-</span> <span class="fu">do_four_factors_df</span>(df1_10, teams, <span class="cn">NULL</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="fu">get_four_factors_plot</span>(df_four_factors<span class="sc">$</span>df_rank, df_four_factors<span class="sc">$</span>df_no_rank, </span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>                      <span class="fu">c</span>(<span class="st">&quot;Real_Madrid&quot;</span>, <span class="st">&quot;Valencia&quot;</span>), <span class="st">&quot;en&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;ACB 2017-2018, Regular Season.&quot;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Code for Figure 9:</span></span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>df0<span class="sc">$</span>Compet <span class="ot">&lt;-</span> <span class="st">&quot;ACB&quot;</span></span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>gg <span class="ot">&lt;-</span> <span class="fu">get_table_results</span>(df0, <span class="st">&quot;ACB&quot;</span>, <span class="st">&quot;2017-2018&quot;</span>)</span>

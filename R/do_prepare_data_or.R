@@ -58,7 +58,7 @@ do_prepare_data_or <- function(data, rm_overtime, data_ginfo) {
   
   if (rm_overtime) {
     data <- data %>%
-      filter(!grepl("PR", period)) %>%
+      filter(!grepl("PR|5|6", period)) %>%
       mutate(period = as.character(period))
   }
   

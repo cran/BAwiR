@@ -42,6 +42,14 @@ shots_stats <- do_shots_stats(df1, df0)
 
 do_viz_shots_scatter(shots_stats, "all", FALSE) 
 do_viz_shots_scatter(shots_stats, "all", TRUE)
+
+df1 <- do_filter_data(df0, "2024-2025", "", "", "", "", "D. Ennis")
+
+shots_stats <- do_shots_stats(df1, df0) 
+
+do_viz_shots_scatter(shots_stats, "player", FALSE) 
+do_viz_shots_scatter(shots_stats, "player", TRUE)
+do_viz_shots_scatter(shots_stats, "player", TRUE, language = "Spanish")
 }
 
 }

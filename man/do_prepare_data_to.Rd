@@ -11,7 +11,7 @@ do_prepare_data_to(data, rm_overtime, data_ginfo, data_gcoach)
 
 \item{rm_overtime}{Logical. Decide to remove overtimes or not.}
 
-\item{data_ginfo}{Games' basic information.}
+\item{data_ginfo}{Games' basic information. If NULL, nothing to do.}
 
 \item{data_gcoach}{Coach of each team in each day.}
 }

@@ -259,5 +259,10 @@ do_lineup <- function(data, day_num, game_code, team_sel, verbose) {
                                     round((24 * plus_minus) / time_seconds, 2)), 
            .after = plus_minus)
     
+  # Correct minutes so that all have five characters:
+  data_res1 <- data_res1 %>%
+    mutate(time_in = ifelse(nchar(time_in) < 5, paste0("0", time_in), time_in))  %>%
+    mutate(time_out = ifelse(nchar(time_out) < 5, paste0("0", time_out), time_out))
+  
   return(data_res1)
 }

@@ -41,6 +41,14 @@
 #' 
 #' do_viz_shots_scatter(shots_stats, "all", FALSE) 
 #' do_viz_shots_scatter(shots_stats, "all", TRUE)
+#' 
+#' df1 <- do_filter_data(df0, "2024-2025", "", "", "", "", "D. Ennis")
+#' 
+#' shots_stats <- do_shots_stats(df1, df0) 
+#' 
+#' do_viz_shots_scatter(shots_stats, "player", FALSE) 
+#' do_viz_shots_scatter(shots_stats, "player", TRUE)
+#' do_viz_shots_scatter(shots_stats, "player", TRUE, language = "Spanish")
 #' }
 #' 
 #' @importFrom ggpubr background_image
@@ -51,6 +59,8 @@
 
 do_viz_shots_scatter <- function(shots_stats, type, draw, size_lab_box = 2.8, size_lab_court = 3, 
                                  size_point = 3, language = "English") {
+  outcome <- NULL
+  
   all_shots <- shots_stats$all_shots
    
   summary_shots <- shots_stats$summary_shots
@@ -100,6 +110,22 @@ do_viz_shots_scatter <- function(shots_stats, type, draw, size_lab_box = 2.8, si
   all_shots <- all_shots %>%
     mutate(pos_x = ifelse(pos_x > 13000, 12990, pos_x))
   
+  if (language == "English") {
+    leg_col_manual <- c("2pt_made" = "darkgreen", "2pt_missed" = "red", "3pt_made" = "darkgreen", "3pt_missed" = "red")
+    leg_sha_manual <- c("2pt_made" = 8, "2pt_missed" = 8, "3pt_made" = 17, "3pt_missed" = 17)
+  }else{
+    all_shots <- all_shots %>%
+      mutate(play_type = plyr::mapvalues(play_type, 
+                                         from = c("2pt_made", "2pt_missed", "3pt_made", "3pt_missed"),
+                                         to = c("2pt_anotado", "2pt_fallado", "3pt_anotado", "3pt_fallado"))) %>%
+      mutate(outcome = plyr::mapvalues(outcome, 
+                                       from = c("made", "missed"),
+                                       to = c("anotado", "fallado")))
+    
+    leg_col_manual <- c("2pt_anotado" = "darkgreen", "2pt_fallado" = "red", "3pt_anotado" = "darkgreen", "3pt_fallado" = "red")
+    leg_sha_manual <- c("2pt_anotado" = 8, "2pt_fallado" = 8, "3pt_anotado" = 17, "3pt_fallado" = 17)
+  }
+  
   gg <- ggplot(data = all_shots, aes(x = pos_x, y = pos_y)) +
     background_image(parquet) +
     geom_text(data = summary_shots, aes(x = pos_x, y = pos_y, label = perc), size = size_lab_box) 
@@ -108,8 +134,8 @@ do_viz_shots_scatter <- function(shots_stats, type, draw, size_lab_box = 2.8, si
     gg <- gg +
       #geom_text(data = summary_shots_zone, aes(x = pos_x, y = pos_y, label = summary), size = 3) +
       geom_point(aes(colour = play_type, shape = play_type), size = size_point, alpha = 0.4) +
-      scale_color_manual(values = c("2pt_made" = "darkgreen", "2pt_missed" = "red", "3pt_made" = "darkgreen", "3pt_missed" = "red")) +
-      scale_shape_manual(values = c("2pt_made" = 8, "2pt_missed" = 8, "3pt_made" = 17, "3pt_missed" = 17)) 
+      scale_color_manual(values = leg_col_manual) +
+      scale_shape_manual(values = leg_sha_manual) 
   }else{
     gg <- gg +
       geom_text(data = summary_shots_zone, aes(x = pos_x, y = pos_y, label = summary, color = location_color), size = size_lab_court) +

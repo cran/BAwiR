@@ -40,6 +40,10 @@
 #' 
 #' do_viz_shots_gradient(df1, "player", "none", df0)
 #' do_viz_shots_gradient(df1, "player", "fg", df0)
+#' 
+#' df1 <- do_filter_data(df0, "2024-2025", "Valencia Basket", "", "", "", "")
+#' 
+#' do_viz_shots_gradient(df1, "team", "none", df0)
 #' }
 #' 
 #' @importFrom dplyr anti_join full_join
@@ -144,9 +148,17 @@ do_viz_shots_gradient <- function(data_filter, type, metric, data_shots_zones, l
     background_image(parquet) 
   
   if (metric == "none") {
+    if (language == "English") {
+      leg_tit <- "Shot Frequency \n"
+      leg_lab <- c("lower", "higher")
+    }else{
+      leg_tit <- "Frecuencia de tiro \n"
+      leg_lab <- c("menor", "mayor")
+    }
+    
     gg <- gg +
       stat_density_2d(geom = "raster", aes(fill = after_stat(density / max(density))), contour = FALSE) + 
-      scale_fill_viridis_c("Shot Frequency \n", limits = c(0, 1), breaks = c(0, 1), labels = c("lower", "higher"),
+      scale_fill_viridis_c(leg_tit, limits = c(0, 1), breaks = c(0, 1), labels = leg_lab,
                            option = "inferno", guide = guide_colorbar(barwidth = 2)) #+
       #theme(legend.position = "bottom") 
   }else{
@@ -165,6 +177,12 @@ do_viz_shots_gradient <- function(data_filter, type, metric, data_shots_zones, l
         scale_color_viridis_c(limits = range_legend, breaks = ceiling(seq(range_legend[1], range_legend[2], length.out = 5)),
                               option = "viridis")
     }
+  }
+  
+  if (language == "English") {
+    leg_col <- "Difference between \n player and league \n"
+  }else{
+    leg_col <- "Diferencia entre \n el jugador y la liga \n"
   }
 
   gg <- gg +
@@ -211,7 +229,7 @@ do_viz_shots_gradient <- function(data_filter, type, metric, data_shots_zones, l
     # ---
     # 3PT LEFT: 
     annotate("segment", x = 7000, y = -2000, xend = 7700, yend = -2000, color = "black", linewidth = 1.2) +
-    labs(x = "", y = "", title = title_plot, color = "Difference between \n player and league") +
+    labs(x = "", y = "", title = title_plot, color = leg_col) +
     theme(legend.text = element_text(size = 15),
           legend.title = element_text(size = 15),
           axis.text = element_blank(),

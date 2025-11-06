@@ -28,10 +28,12 @@ are 0 or just the denominator is 0, the function returns a 0.
 df <- do_join_games_bio("ACB", acb_games_1718, acb_players_1718)
 
 df1 <- do_add_adv_stats(df)
+
 # Players with OE = 0:
 # df1[55, c("Player.x", "FG", "AST", "FGA", "ORB", "TOV")]
 # Player.x     FG  AST  FGA  ORB  TOV
 # Triguero, J.  0    0    0    0    0
+
 # OE can be greater than 1, for example:
 # df1[17, c("Player.x", "FG", "AST", "FGA", "ORB", "TOV")]
 # Player.x        FG  AST  FGA  ORB  TOV

@@ -39,6 +39,10 @@ df1 <- do_filter_data(df0, "2024-2025", "", "", "", "", "D. Ennis")
 
 do_viz_shots_gradient(df1, "player", "none", df0)
 do_viz_shots_gradient(df1, "player", "fg", df0)
+
+df1 <- do_filter_data(df0, "2024-2025", "Valencia Basket", "", "", "", "")
+
+do_viz_shots_gradient(df1, "team", "none", df0)
 }
 
 }

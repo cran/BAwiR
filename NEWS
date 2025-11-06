@@ -1,6 +1,10 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.4.1 [2025-11-06]
+* Incorporation of donut charts for the usage of possessions, plots for the rosters age profiles and some minor modifications regarding other functions.
+* Submitted to CRAN.
+
 Version: 1.4 [2025-10-22]
 * This is an extended version of the package with a bunch of new functions developed to analyze the shooting data from the Spanish ACB league.
 * Submitted to CRAN.

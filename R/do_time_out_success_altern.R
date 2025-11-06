@@ -1,18 +1,20 @@
-#' Check if timeouts resulted in scoring
+#' Alternative timeouts
 #' 
-#' @aliases do_time_out_success
+#' @aliases do_time_out_success_altern
 #'
 #' @description 
-#' For each team, locate the position of timeouts and check if they 
-#' resulted in scoring points.
+#' This is an alternative to \code{\link{do_time_out_success}} from season 2025-2026
+#' because to my best of knowledge the timeouts are not directly collected from
+#' web scraping and I have to check manually when they were called.
 #' 
 #' @usage 
-#' do_time_out_success(data, day_num, game_code, team_sel, verbose)
+#' do_time_out_success_altern(data, day_num, game_code, team_sel, data_to_list, verbose)
 #' 
 #' @param data Prepared data from a given game.
 #' @param day_num Day number.
 #' @param game_code Game code.
 #' @param team_sel One of the teams' names involved in the game.
+#' @param data_to_list List with all the timeouts called from all coaches.
 #' @param verbose Logical. Decide if information of the computations
 #' must be provided or not.
 #' 
@@ -32,29 +34,17 @@
 #' Guillermo Vinue
 #' 
 #' @seealso 
-#' \code{\link{do_prepare_data_to}}
-#' 
-#' @examples 
-#' df0 <- acb_vbc_cz_pbp_2223
-#' 
-#' day_num <- unique(acb_vbc_cz_pbp_2223$day)
-#' game_code <- unique(acb_vbc_cz_pbp_2223$game_code)
-#' 
-#' df1 <- do_prepare_data_to(df0, TRUE, acb_games_2223_info, acb_games_2223_coach)
-#' 
-#' # sort(unique(df1$team))
-#' # "Casademont Zaragoza_Porfirio Fisac" "Valencia Basket_Alex Mumbru"
-#' 
-#' df2 <- do_time_out_success(df1, day_num, game_code, 
-#'                            "Casademont Zaragoza_Porfirio Fisac", FALSE)
-#' #df2
-#'
-#' @importFrom dplyr pull
+#' \code{\link{do_time_out_success}}
 #'
 #' @export
 
-do_time_out_success <- function(data, day_num, game_code, team_sel, verbose) {
-  period <- time_point <- NULL
+do_time_out_success_altern <- function(data, day_num, game_code, team_sel, data_to_list, verbose) {
+  period <- time_point <- row_number <- team <- points <- NULL
+  
+  data1 <- data %>%
+    group_by(period) %>%
+    mutate(row_number = match(time_point, unique(time_point)), .after = time_point) %>%
+    ungroup()
   
   # Locate the position of time outs:
   to_pos_aux <- which(data$player == team_sel & data$action == "Tiempo Muerto")
@@ -92,34 +82,23 @@ do_time_out_success <- function(data, day_num, game_code, team_sel, verbose) {
     times_succ <- 0 # To accumulate the times that a time out generated some points, i.e., was successful.
     
     for (i in 1:length(to_pos)) {
-      to_pos_after <- c()
-      # In the following loop, :nrow(data) is just for closing the set of rows to consider.
-      # This especially works for the case when the time out is close to the end, see for
-      # example row 527 of 14/103384.
-      for (j in (to_pos[i] + 1):nrow(data)) {
-        if (verbose) cat("ROW: ", j, "\n")
-        
-        # This first "if" is to avoid cases where actions are from different periods
-        if (data$period[j] == data$period[j - 1]) {
-          if (data$team[j] == team_sel) {
-            to_pos_after <- c(to_pos_after, j)
-          }else if (data$team[j] != team_sel & grepl("Falta Personal|T\u00e9cnica", data$action[j])) {
-            to_pos_after <- c(to_pos_after, j)
-          }else{
-            break()
-          } 
-        }else{
-          break()
-        } 
-      }
+      bl_pos <- data1[to_pos[i], c("period", "row_number")]
+
+      to_pos_after_points <- data1 %>%
+        filter(period == bl_pos$period, row_number == bl_pos$row_number + 1, team == team_sel) %>%
+        select(points) %>%
+        pull()
       
-      to_pos_after_points <- data[to_pos_after, "points"]$points
       to_pos_after_points_nona <- to_pos_after_points[!is.na(to_pos_after_points)]
       
       if (length(to_pos_after_points_nona) != 0) {
         # sum() just in case there were more than one action with points, such as foul plus free throw.
         points_scored <- points_scored + sum(to_pos_after_points_nona)
         times_succ <- times_succ + 1
+        
+        data_to_list$points[i] <- sum(to_pos_after_points_nona)
+      }else{
+        data_to_list$points[i] <- 0
       }
     }
     
@@ -134,5 +113,5 @@ do_time_out_success <- function(data, day_num, game_code, team_sel, verbose) {
                        points_scored = points_scored) 
   }
   
-  return(data_res)
+  return(list(to_summ = data_res, to_list = data_to_list))
 }

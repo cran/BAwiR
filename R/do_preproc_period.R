@@ -36,7 +36,7 @@ do_preproc_period <- function(data, team_sel, period_sel, data_sl) {
   rm_overtime <- TRUE
   if (rm_overtime) {
     df0 <- df0 %>%
-      filter(!grepl("PR", period)) %>%
+      filter(!grepl("PR|5|6", period)) %>%
       mutate(period = as.character(period))
   }
     
