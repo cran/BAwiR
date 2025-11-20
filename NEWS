@@ -1,6 +1,12 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.4.2 [2025-11-20]
+* Minor modifications in the plot for the rosters age profiles. 
+* In do_possession_stats() the number of possessions and points for all rivals of each team are added.
+* Incorporation of get_sticker() to create a player's sticker with efficiency, context and usage statistics.
+* Submitted to CRAN.
+
 Version: 1.4.1 [2025-11-06]
 * Incorporation of donut charts for the usage of possessions, plots for the rosters age profiles and some minor modifications regarding other functions.
 * Submitted to CRAN.
@@ -92,10 +98,10 @@ Version: 1.1 [2018-05-09]
 * get_pop_pyramid_acb() has been corrected to be in line with ggplot2 updates.
 * get_map_nats() is not interactive anymore in order to harmonize with all other functions. This feature is just in the web application.
 * These new functions have been added:
-  - do_stats_teams() Total and average statistics for every team.
-  - get_similar_teams() Similar teams to archetypoids.
-  - get_stats_seasons() Season-by-season average players' stats.
-  - get_table_results() Cross table of league results.
+  - do_stats_teams(): Total and average statistics for every team.
+  - get_similar_teams(): Similar teams to archetypoids.
+  - get_stats_seasons(): Season-by-season average players' stats.
+  - get_table_results(): Cross table of league results.
 * Submitted to CRAN.
 
 Version: 1.0 [2018-01-25]

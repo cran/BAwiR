@@ -57,6 +57,7 @@
 do_possession_stats <- function(data_possess, season = "2025-2026") {
   day <- game_code <- team <- period <- possession <- NULL
   ortg <- drtg <- pace <- possessions <- points <- poss_num <- NULL 
+  possessions_rival <- points_rival <- NULL
   
   # Count possessions:
   res_posses <- data_possess %>% 
@@ -76,13 +77,16 @@ do_possession_stats <- function(data_possess, season = "2025-2026") {
   
   # Get ratings:
   df1 <- df0 %>%
-    group_by(day, game_code, team) %>%
+    # I group by day and game_code to be able to compute drtg.
+    group_by(day, game_code, team) %>% 
     summarise(possessions = sum(poss_num), 
               points = sum(points)) %>%
     ungroup() %>%
     mutate(ortg = (points / possessions) * 100) %>%
     group_by(day, game_code) %>%
     mutate(drtg = rev(ortg)) %>%
+    mutate(possessions_rival = rev(possessions)) %>%
+    mutate(points_rival = rev(points)) %>%
     mutate(pace = 40 * ((sum(possessions)) / (2 * (200 / 5)))) %>% # Same as sum(possessions) / 2
     ungroup()
   
@@ -91,7 +95,10 @@ do_possession_stats <- function(data_possess, season = "2025-2026") {
     summarise(ortg = mean(ortg),
               drtg = mean(drtg),
               pace = mean(pace),
-              possessions = sum(possessions)) %>%
+              possessions = sum(possessions),
+              points = sum(points),
+              possessions_rival = sum(possessions_rival),
+              points_rival = sum(points_rival)) %>%
     ungroup() %>%
     mutate(netrtg = ortg - drtg, .after = drtg) %>%
     mutate_if(is.numeric, round, 2)

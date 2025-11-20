@@ -32,8 +32,11 @@
 #' \dontrun{
 #' compet <- "ACB"
 #' df <- do_join_games_bio(compet, acb_games_1718, acb_players_1718)
+#' 
 #' df1 <- do_add_adv_stats(df)
+#' 
 #' df2 <- do_stats(df1, "Total", "2017-2018", compet, "Regular Season")
+#' 
 #' get_shooting_plot(df2, "Valencia", 3, 1, paste("Valencia", compet, "2017-2018", sep = " "), "en")
 #' }
 #' 
@@ -105,7 +108,7 @@ get_shooting_plot <- function(df_stats, team, type_shot, min_att, title, languag
     geom_text(aes(x = 1, y = Name, label = total_sco), hjust = 0, nudge_x = 0.01, size = 7) +
     geom_text(aes(x = 99, y = Name, label = total_no_sco), hjust = 1, nudge_x = -0.01, size = 7) +
     geom_text(aes(x = 104, y = Name, label = total_att), hjust = 1, nudge_x = -0.01, nudge_y = 0.14, size = size_summ) +
-    geom_text(aes(x = 110, y = Name, label = perc_sco), hjust = 1, nudge_x = -0.01, nudge_y = 0.14, size = size_summ) +
+    geom_text(aes(x = 110, y = Name, label = perc_sco), hjust = 0, nudge_x = -0.01, nudge_y = 0.14, size = size_summ) +
     labs(x = NULL, y = NULL, color = "") +
     scale_x_continuous(breaks = seq(0, 100, 25), labels = c("0%", "25%", "50%", "75%", "100%")) +
     scale_color_manual(breaks = c(color1, color2), values = setNames(c("#00BFC4", "#F8766D"), c(color1, color2))) +

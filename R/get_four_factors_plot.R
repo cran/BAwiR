@@ -33,7 +33,7 @@
 #' 
 #' team <- "Valencia"
 #' 
-#' df_four_factors <- do_four_factors_df(df1, team)
+#' df_four_factors <- do_four_factors_df(df1, team, NULL)
 #' 
 #' # If only one team is represented the ranking between parentheses is just one.
 #' get_four_factors_plot(df_four_factors$df_rank, df_four_factors$df_no_rank, team, "en")
@@ -58,7 +58,7 @@ get_four_factors_plot <- function(df_rank, df_no_rank, team, language) {
     #select(-Team)
   
   df_rank2 <- melt(df_rank1, id = c("Team", "Type"))
-  levels(df_rank2$variable) <- c("EFG%", "TOV%", "ORB%", "FTR")
+  levels(df_rank2$variable) <- c("EFG%", "TOV%", "ORB%", "FTR%")
   
   # Data frame without ranking:
   df_no_rank1 <- df_no_rank %>%
@@ -66,7 +66,7 @@ get_four_factors_plot <- function(df_rank, df_no_rank, team, language) {
     #select(-Team)
   
   df_no_rank2 <- melt(df_no_rank1, id = c("Team", "Type"))
-  levels(df_no_rank2$variable) <- c("EFG%", "TOV%", "ORB%", "FTR")
+  levels(df_no_rank2$variable) <- c("EFG%", "TOV%", "ORB%", "FTR%")
   
   #df_no_rank21 <- df_no_rank2[order(df_no_rank2$Type),]
   #df_rank21 <- df_rank2[order(df_rank2$Type),]

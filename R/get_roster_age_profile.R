@@ -27,23 +27,34 @@
 #' @importFrom ggplot2 annotation_custom arrow
 #' @importFrom grid rasterGrob
 #' @importFrom ggpubr ggarrange
+#' @importFrom dplyr row_number
 #'
 #' @export
 
 get_roster_age_profile <- function(data_age_team, team_sel, language) {
   age_current <- age_join <- games <- minutes <- NULL
-  player <- team_name <- team_shield <- value <- NULL
-  
+  player <- player1 <- team_name <- team_shield <- value <- NULL
   
   data_team <- data_age_team %>%
     filter(team_name == team_sel) %>%
     filter(!is.na(age_join))
   
+  num_play <- length(unique(data_team$player))
+  
+  # Distinguish between players in different eras:
+  data_team <- data_team %>%
+    group_by(player) %>%
+    mutate(player1 = if (n() > 1) paste0(player, "_", row_number()) else player) %>%
+    ungroup() %>%
+    select(-player) %>%
+    rename(player = player1) %>%
+    select(player, everything())
+  
   data_team1 <- data_team %>%
     select(-minutes, -team_name, -team_shield) %>%
     pivot_longer(!c(player, games), names_to = "variable", values_to = "value") 
   
-  xlims <- c(floor(range(data_team$age_join)[1]), ceiling(range(data_team$age_join)[2]) + 1)
+  xlims <- c(floor(range(data_team$age_join)[1]), ceiling(range(data_team$age_current)[2]) + 1)
   
   if (language == "en") {
     ann_lab1 <- "Age at time of joining club"
@@ -75,28 +86,28 @@ get_roster_age_profile <- function(data_age_team, team_sel, language) {
   gg1 <- ggplot(data_team, aes(x = age_current, y = games, color = "red")) +
     geom_point(aes(x = age_current), size = 3) +
     geom_line(data_team1, mapping = aes(x = value, y = games, group = player), linewidth = 1.2) +
-    ggrepel::geom_label_repel(aes(label = player), color = "black", max.overlaps = 20, label.size = 0.15) +
+    ggrepel::geom_label_repel(aes(label = player), color = "black", max.overlaps = 30, label.size = 0.15) +
     scale_x_continuous(breaks = seq(xlims[1], xlims[2], 2)) +
     scale_y_continuous(limits = c(0, upper_limit), breaks = seq(0, upper_limit, by = 50)) +
     annotate("segment", 
              x = data_team[max_game, "age_join"]$age_join, 
              y = data_team[max_game, "games"]$games, 
              xend = data_team[max_game, "age_join"]$age_join, 
-             yend = ceiling(data_team[max_game, "games"]$games / 10) * 10 + 7,
+             yend = ceiling(data_team[max_game, "games"]$games / 10) * 10 + 4,
              arrow = arrow(type = "closed", length = unit(0.01, "npc"))) +
     annotate("segment", 
              x = data_team[max_game, "age_current"]$age_current, 
              y = data_team[max_game, "games"]$games, 
              xend = data_team[max_game, "age_current"]$age_current, 
-             yend = ceiling(data_team[max_game, "games"]$games / 10) * 10 + 7,
+             yend = ceiling(data_team[max_game, "games"]$games / 10) * 10 + 4,
              arrow = arrow(type = "closed", length = unit(0.01, "npc"))) +
     annotate("text", 
              x = data_team[max_game, "age_join"]$age_join, 
-             y = ceiling(data_team[max_game, "games"]$games / 10) * 10 + 10,
+             y = ceiling(data_team[max_game, "games"]$games / 10) * 10 + 7,
              label = ann_lab1, size = 4, color = "red") +
     annotate("text", 
              x = data_team[max_game, "age_current"]$age_current, 
-             y = ceiling(data_team[max_game, "games"]$games / 10) * 10 + 10, 
+             y = ceiling(data_team[max_game, "games"]$games / 10) * 10 + 7, 
              label = ann_lab2, size = 4, color = "red") +
     labs(x = x_lab, 
          y = y_lab,
@@ -108,7 +119,7 @@ get_roster_age_profile <- function(data_age_team, team_sel, language) {
           axis.text = element_text(size = 16),
           axis.title = element_text(size = 16))
   
-  label_info <- paste0(paste(label_info1, nrow(data_team)), "\n",
+  label_info <- paste0(paste(label_info1, num_play), "\n",
                        paste(label_info2, round(mean(data_team$age_current), 2), lab_yr), "\n",
                        paste(label_info3, round(mean(data_team$age_current - data_team$age_join), 2), lab_yr))
   
