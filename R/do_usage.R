@@ -58,68 +58,82 @@ do_usage <- function(data_possess, season = "2025-2026") {
     filter(!grepl("Falta Personal|Falta Antideportiva|Rebote Ofensivo|Descalificado del partido", action)) %>%
     mutate(action = plyr::mapvalues(action, from = "Mate", to = "Tiro de 2 anotado")) 
   
-  # Remove drawn personal fouls that are misleading:
-  misl_pf <- which(data_possess$action == "Falta Recibida" & 
-                     is.na(data_possess$possession) & 
-                     lag(data_possess$possession) == "inicio" & 
-                     lead(data_possess$possession) == "inicio")
-  
-  if (length(misl_pf) != 0) {
-    data_possess <- data_possess[-misl_pf, ] 
-  }
-  
-  # Locate more drawn personal fouls that are misleading:
-  misl_pf_more <- which(data_possess$action == "Falta Recibida" & data_possess$possession == "inicio")
-  misl_pf_more <- misl_pf_more[misl_pf_more != nrow(data_possess)]
-  
-  if (length(misl_pf_more) != 0) {
-    for (i in 1:length(misl_pf_more)) {
-      if (data_possess[misl_pf_more[i] + 1, "poss_time"]  == 0) {
-        data_possess[misl_pf_more[i], "block"] <- data_possess[misl_pf_more[i] + 1, "block"]
+  if (nrow(data_possess) == 0) {
+    data_all <- NULL
+    data_all_act <- NULL
+  }else{
+    # Remove drawn personal fouls that are misleading:
+    misl_pf <- which(data_possess$action == "Falta Recibida" & 
+                       is.na(data_possess$possession) & 
+                       lag(data_possess$possession) == "inicio" & 
+                       lead(data_possess$possession) == "inicio")
+    
+    if (length(misl_pf) != 0) {
+      data_possess <- data_possess[-misl_pf, ] 
+    }
+    
+    # Locate more drawn personal fouls that are misleading:
+    misl_pf_more <- which(data_possess$action == "Falta Recibida" & data_possess$possession == "inicio")
+    misl_pf_more <- misl_pf_more[misl_pf_more != nrow(data_possess)]
+    
+    if (length(misl_pf_more) != 0) {
+      for (i in 1:length(misl_pf_more)) {
+        if (data_possess[misl_pf_more[i] + 1, "poss_time"]  == 0) {
+          data_possess[misl_pf_more[i], "block"] <- data_possess[misl_pf_more[i] + 1, "block"]
+        }
       }
     }
+    
+    # Check if the last action was not a real end of possession:
+    if (!grepl("Tiro|Triple|P\u00e9rdida", data_possess$action[nrow(data_possess)])) {
+      data_possess <- data_possess[-nrow(data_possess), ] 
+    }
+    
+    # There are very few defensive rebounds that ended in a player's turnover,
+    # that turned into a team turnover, such as Willy 104473 2C 03:27,
+    # that if removed, other results are ruined.
+    data_possess <- data_possess %>%
+      filter(action != "Rebote Defensivo")
+    
+    # Remove blocks that correspond to technical fouls that do not start possessions.
+    # They were codified in do_possession with blocks greater than 1000:
+    data_possess <- data_possess %>%
+      filter(block < 1000)
+    
+    data_usg <- data_possess %>% 
+      group_by(block) %>% 
+      slice(n()) %>% # Take the last row of each block, i.e., the end of possessions.
+      ungroup() %>%
+      select(day, game_code, period, team, player, action)
+    
+    # Remove misleading steals:
+    data_usg <- data_usg %>%
+      filter(action != "Recuperaci\u00f3n")
+    
+    data_player_poss <- data_usg %>% 
+      count(day, game_code, period, team, player, name = "poss_end")
+    
+    data_team_poss <- data_player_poss %>% 
+      group_by(team) %>% 
+      summarise(poss_num = sum(poss_end)) %>% 
+      ungroup()
+    
+    data_all <- left_join(data_team_poss, data_player_poss, by = "team") %>%
+      mutate(season = season) %>%
+      select(season, day, game_code, period, team, player, poss_end, poss_num) %>%
+      mutate(usage_perc = round((poss_end / poss_num) *100, 2))
+    
+    # Sanity check:
+    #data_all %>% group_by(team) %>% summarise(sum(usage_perc)) %>% ungroup() # Only 100 for both teams.
+    
+    # Adding actions:
+    data_all_act <- data_usg %>% 
+      count(day, game_code, period, team, player, action, name = "poss_end") %>%
+      mutate(season = season, .before = 1) 
+    
+    # Sanity check: only field goals, free throws and turnovers.
+    #sort(table(data_all_act$action)) 
   }
-  
-  # Check if the last action was not a real end of possession:
-  if (!grepl("Tiro|Triple|P\u00e9rdida", data_possess$action[nrow(data_possess)])) {
-    data_possess <- data_possess[-nrow(data_possess), ] 
-  }
-  
-  # There are very few defensive rebounds that ended in a player's turnover,
-  # that turned into a team turnover, such as Willy 104473 2C 03:27,
-  # that if removed, other results are ruined.
-  data_possess <- data_possess %>%
-    filter(action != "Rebote Defensivo")
-  
-  data_usg <- data_possess %>% 
-    group_by(block) %>% 
-    slice(n()) %>% # Take the last row of each block, i.e., the end of possessions.
-    ungroup() %>%
-    select(day, game_code, period, team, player, action)
-
-  data_player_poss <- data_usg %>% 
-    count(day, game_code, period, team, player, name = "poss_end")
-  
-  data_team_poss <- data_player_poss %>% 
-    group_by(team) %>% 
-    summarise(poss_num = sum(poss_end)) %>% 
-    ungroup()
-  
-  data_all <- left_join(data_team_poss, data_player_poss, by = "team") %>%
-    mutate(season = season) %>%
-    select(season, day, game_code, period, team, player, poss_end, poss_num) %>%
-    mutate(usage_perc = round((poss_end / poss_num) *100, 2))
-  
-  # Sanity check:
-  #data_all %>% group_by(team) %>% summarise(sum(usage_perc)) %>% ungroup() # Only 100 for both teams.
-  
-  # Adding actions:
-  data_all_act <- data_usg %>% 
-    count(day, game_code, period, team, player, action, name = "poss_end") %>%
-    mutate(season = season, .before = 1) 
-  
-  # Sanity check: only field goals, free throws and turnovers.
-  #sort(table(data_all_act$action))
 
   return(list(data_all = data_all, data_all_act = data_all_act))
 }

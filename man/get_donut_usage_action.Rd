@@ -6,7 +6,7 @@
 \usage{
 get_donut_usage_action(data_usage_act, team_sel, type_play, 
                        language, min_poss, min_perc, size_orl,
-                       vjust_title = 1)
+                       size_irl = 4, vjust_title = 1)
 }
 \arguments{
 \item{data_usage_act}{Data frame with the number of possessions that each 
@@ -26,6 +26,8 @@ and 'Spanish' so far.}
 \item{min_perc}{Minimum percentage achieved.}
 
 \item{size_orl}{Size of the outer ring labels.}
+
+\item{size_irl}{Size of the inner ring labels.}
 
 \item{vjust_title}{Adjust the title vertically when representing turnovers.}
 }

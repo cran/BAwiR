@@ -1,6 +1,13 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.4.3 [2025-12-09]
+* Minor modification in do_usage() to avoid empty data frames. 
+* Minor update in get_donut_usage_action() to control the size of the inner ring labels.
+* Updates in do_possession() to refine the situations with starting possessions.
+* get_barplot_monthly_stats() is now get_plot_monthly_stats() and allows to create either a bar plot or a line plot.
+* Submitted to CRAN.
+
 Version: 1.4.2 [2025-11-20]
 * Minor modifications in the plot for the rosters age profiles. 
 * In do_possession_stats() the number of possessions and points for all rivals of each team are added.

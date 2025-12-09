@@ -12,7 +12,7 @@
 
 <meta name="author" content="Guillermo Vinue" />
 
-<meta name="date" content="2025-11-20" />
+<meta name="date" content="2025-12-09" />
 
 <title>Visualization of European basketball data</title>
 
@@ -341,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Visualization of European basketball
 data</h1>
 <h4 class="author">Guillermo Vinue</h4>
-<h4 class="date">2025-11-20</h4>
+<h4 class="date">2025-12-09</h4>
 
 
 
@@ -427,8 +427,9 @@ Visualization of European Basketball Data</em> (<a href="https://doi.org/10.1089
 <span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a></span>
 <span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>max_val <span class="ot">&lt;-</span> <span class="fu">max</span>(df1_m1[,<span class="fu">colnames</span>(df1_m1) <span class="sc">%in%</span> stats])</span>
 <span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>min_val <span class="ot">&lt;-</span> <span class="fu">min</span>(df1_m1[,<span class="fu">colnames</span>(df1_m1) <span class="sc">%in%</span> stats])</span>
-<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="fu">get_barplot_monthly_stats</span>(df1_m1, <span class="st">&quot;ACB 2017-2018, Regular Season. Monthly average stats.&quot;</span>, <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(min_val <span class="sc">-</span> <span class="dv">10</span>, max_val <span class="sc">+</span> <span class="dv">10</span>))</span></code></pre></div>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="fu">get_plot_monthly_stats</span>(df1_m1, <span class="st">&quot;ACB 2017-2018, Regular Season. Monthly average stats.&quot;</span>, </span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>                       <span class="dv">3</span>, <span class="st">&quot;bar_plot&quot;</span>, <span class="st">&quot;English&quot;</span>) <span class="sc">+</span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(min_val <span class="sc">-</span> <span class="dv">10</span>, max_val <span class="sc">+</span> <span class="dv">10</span>))</span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># Code for Figure 5:</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>df0<span class="sc">$</span>Compet <span class="ot">&lt;-</span> <span class="st">&quot;ACB&quot;</span></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>plot_yearly <span class="ot">&lt;-</span> <span class="fu">get_stats_seasons</span>(df0, <span class="st">&quot;ACB&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;Doncic, Luka&quot;</span>, <span class="st">&quot;Abalde, Alberto&quot;</span>), </span>

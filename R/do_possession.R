@@ -58,13 +58,52 @@
 
 do_possession <- function(data, period_sel) {
   team <- action <- player <- period <- time_point <- block <- NULL
-  time_start <- time_end <- poss_time <- possession <- NULL
+  time_start <- time_end <- poss_time <- possession <- row_name <- NULL
+  
+  data <- data %>%
+    filter(period == period_sel) 
+
+  data <- as.data.frame(data)
+  
+  rownames(data) <- 1:nrow(data)
+  
+  # Try to correct the cases when the replacements are as the possession runs. See line 244.
+  dt_repl <- data
+  dt_repl_row <- which(dt_repl$action == "Falta Recibida" & lead(dt_repl$action) == "Sale de la pista")
+  dt_repl1 <- dt_repl[dt_repl_row,]
+  # ----
+  
+  # Remove unsportsmanlike fouls hindering the definition of a new possession of the opponent team:
+  uns_foul <- which(data$action == "Falta Antideportiva" & data$team == lag(data$team) & data$time_point != lag(data$time_point))
+  
+  if (length(uns_foul) > 0) {
+    # In some games there were two unsportsmanlike fouls. See for example 104515 4C.
+    rm_uns_foul <- c()
+    for (l in 1:length(uns_foul)) {
+      # Also remove the next play assigned to the player who made the unsportsmanlike foul.
+      # See for example 104484 4C 06:58 Khalifa Diop is assigned a turnover after being out. 
+      # I have to look for the next row where this turnover is assigned.
+      uns_foul1 <- which(data$player == data[uns_foul[l], "player"])
+      
+      uns_foul2 <- uns_foul1[uns_foul1 > uns_foul[l]]
+      
+      uns_foul3 <- uns_foul2[which(data[uns_foul2, "action"] == "P\u00e9rdida")[1]]
+      
+      rm_iter <- c(uns_foul[l], uns_foul3)
+      
+      rm_uns_foul <- c(rm_uns_foul, rm_iter)
+    }
+    
+    data <- data[-rm_uns_foul, ]
+    
+    rownames(data) <- 1:nrow(data) 
+  }
+  # ---
   
   # Two main situations with start possession:
   # First one:
   data1 <- data %>%
     filter(!action %in% c("Quinteto inicial", "Salto perdido", "Tiempo Muerto", "Sale de la pista", "Entra a pista")) %>%
-    filter(period == period_sel) %>%
     filter(!(player == team & action != "Rebote Defensivo")) %>%
     mutate(possession = ifelse(action %in% c("Salto ganado", "Rebote Defensivo", "Recuperaci\u00f3n"), "inicio", NA), 
            .after = action) %>%
@@ -73,6 +112,15 @@ do_possession <- function(data, period_sel) {
   if (period_sel != "1C") {
     data1$possession[1] <- "inicio"
   }
+  
+  # Correct the technical fouls that do not start a real possesion for the next team.
+  # See for example 104465 4C 09:15 Joel Soriano
+  tech_foul <- which(data1$action == "Falta Personal (1TL)" & data1$team == lag(data1$team))
+  # Possible rows to correct:
+  if (length(tech_foul) > 0) {
+    tech_foul_corr <- data1[tech_foul + 1, ]
+  }
+  # Go then to line 198.
 
   # Reverse situations where some type of Falta Personal is before Falta Recibida. 
   # This causes errors in the computation of the time possession.
@@ -109,12 +157,17 @@ do_possession <- function(data, period_sel) {
   si7 <- which(data1$action == "Falta Personal (2TL)" & data1$team == lag(data1$team)) + 1
   si8 <- which(data1$action == "Falta en Ataque" & data1$team != lag(data1$team))
   si9 <- which(data1$action == "Falta Recibida" & !grepl("Falta Personal|Falta Antideportiva", lag(data1$action)) & data1$team != lag(data1$team))
+  si10 <- which(data1$action == "Mate" & data1$team != lag(data1$team))
+  # Free throw after technical foul to the coach. See 104467 4C 08::12
+  si11 <- which(data1$action == "Tiro Libre anotado" & data1$team != lag(data1$team))
+  si12 <- which(data1$action == "Tiro Libre fallado" & data1$team != lag(data1$team))
   
-  data1$possession[c(si1, si2, si3, si4, si5, si6, si7, si8, si9)] <- "inicio"   
+  data1$possession[c(si1, si2, si3, si4, si5, si6, si7, si8, si9, si10, si11, si12)] <- "inicio"   
   
   # Correct some inaccuracies, when they are not in the first row:
   #data1$possession[which(data1$action == "Tiro Libre fallado" & data1$possession == "inicio")] <- NA
   data1$possession[which(data1$action == "Falta Personal (1TL)" & data1$possession == "inicio")] <- NA
+  data1$possession[which(data1$action == "P\u00e9rdida" & lag(data1$action) == "Tap\u00f3n" & data1$possession == "inicio")] <- NA
 
   if (is.na(data1$possession[1])) {
     data1$possession[1] <- "inicio"
@@ -147,7 +200,7 @@ do_possession <- function(data, period_sel) {
   
   # Note: The block numbers refer to the rows where 'inicio' were located. 
   # For example, if the second 'inicio' label was in the fourth row, 
-  # the second block will be labelled with a 4.
+  # the second block will be labeled with a 4.
   
   data3 <- data2 %>%
     mutate(block = block_v, .after = period) 
@@ -180,6 +233,52 @@ do_possession <- function(data, period_sel) {
   data5 <- data5 %>%
     mutate(time_start = ifelse(nchar(time_start) < 5, paste0("0", time_start), time_start)) %>%
     mutate(time_end = ifelse(nchar(time_end) < 5, paste0("0", time_end), time_end))
+  
+  # Correct technical fouls if needed. See line 77.
+  if (length(tech_foul) > 0) {
+    for (i in 1:nrow(tech_foul_corr)) {
+      pl_corr <- which(data5$period == tech_foul_corr$period[i] & 
+                         data5$time_end == tech_foul_corr$time_point[i] & 
+                         data5$player == tech_foul_corr$player[i])
+      
+      # Remove the current possession:
+      ## Ensure the new factor is unique by summing 1000:
+      data5[pl_corr, "block"] <- data5[pl_corr, "block"] + 1000
+      data5[pl_corr, "possession"] <- NA
+      
+      # and start it in the next row:
+      data5[pl_corr + 1, "possession"] <- "inicio"
+    }
+  }
+  
+  # Try to correct the blocks of the possessions where the are replacements. See line 67:
+  for (i in 1:nrow(dt_repl1)) {
+    aux0 <- which(data5$time_end == dt_repl1$time_point[i] & data5$action == "Falta Recibida")
+    
+    if (length(aux0) > 0) {
+      aux0_block <- data5[aux0[1], "block"]
+      
+      aux0_block1 <- which(data5$block == aux0_block)
+      
+      aux1 <- aux0_block1[aux0_block1 > aux0[1]]
+      
+      # In some cases when the replacement takes place as the possession runs,
+      # the possession end with a team turnover, which is not registered in
+      # the data frame, so there are not rows after aux0.
+      # See for example 104471 4C 04:21 and 4C 04:05 Coviran Granada.
+      if (length(aux1) > 0) {
+        data5[aux1[1], "possession"] <- "inicio"
+        data5[aux1, "block"] <- data5[aux1, "block"] + 0.1
+        
+        aux2 <- aux0_block1[aux0_block1 <= aux0[1]]
+        
+        if (length(aux2) > 0) {
+          data5 <- data5[-aux2, ]
+          rownames(data5) <- 1:nrow(data5) 
+        }  
+      }
+    }
+  }
   
   return(data5)
 }

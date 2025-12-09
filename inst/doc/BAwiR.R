@@ -92,7 +92,8 @@ knitr::opts_chunk$set(echo = TRUE)
 # 
 # max_val <- max(df1_m1[,colnames(df1_m1) %in% stats])
 # min_val <- min(df1_m1[,colnames(df1_m1) %in% stats])
-# get_barplot_monthly_stats(df1_m1, "ACB 2017-2018, Regular Season. Monthly average stats.", 3) +
+# get_plot_monthly_stats(df1_m1, "ACB 2017-2018, Regular Season. Monthly average stats.",
+#                        3, "bar_plot", "English") +
 #   scale_y_continuous(limits = c(min_val - 10, max_val + 10))
 
 ## ----figure 5, message=FALSE, eval=FALSE--------------------------------------

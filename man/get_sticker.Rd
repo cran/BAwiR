@@ -4,12 +4,13 @@
 \alias{get_sticker}
 \title{Player's sticker}
 \usage{
-get_sticker(data_team_eff, data_team, player_sel, language = "English",
+get_sticker(data_player_eff, data_team, player_sel, language = "English",
             change_hjust_perc = FALSE, size_head = c(0.4, 0.3, 5.6, 3.5), 
-            size_eff = 2, size_cont_us = c(2.3, 1.7), size_plot_tit = 8)
+            size_eff = 2, size_cont_us = c(2.3, 1.7), size_plot_tit = 8,
+            hjust_title = 0.1, xjust_vt = c(0.392, 0.3), size_netrtg = 20)
 }
 \arguments{
-\item{data_team_eff}{Data frame with the efficiency statistics.}
+\item{data_player_eff}{Data frame with the efficiency statistics.}
 
 \item{data_team}{Data frame with the context and usage statistics.}
 
@@ -21,32 +22,40 @@ get_sticker(data_team_eff, data_team, player_sel, language = "English",
 
 \item{size_head}{Vector with the sizes of headers text.}
 
-\item{size_eff}{Number with the size of the efficiency text.}
+\item{size_eff}{Size of the text related to the winning percentage and player's efficiencies.}
 
 \item{size_cont_us}{Vector with the sizes of context and usage text.}
 
-\item{size_plot_tit}{Number with the size of the plot titles.}
+\item{size_plot_tit}{Size of the plot titles.}
+
+\item{hjust_title}{Adjust the title of the net efficiency.}
+
+\item{xjust_vt}{Adjust the text of the team's winning percentage and efficiencies.}
+
+\item{size_netrtg}{Size of the colored net efficiency value.}
 }
 \value{
 A plot.
 }
 \description{
 This function creates players' cards (a kind of sticker) that bring together 
-three of the concepts considered most important in basketball analytics. These
-are team efficiency (how many points the team scores and receives per possession), 
-the player's shooting context (from where and with what percentage they shoot) and 
-the player's use of possessions (how they end the possessions they execute).
+for each player three of the concepts considered most important in basketball 
+analytics. These are efficiency (how many points the team scores and receives 
+per 100 possessions with the player on the floor), the shooting context (from 
+where and with what percentage they shoot) and the use of possessions (how they 
+end the possessions they execute).
 }
 \examples{
 \dontrun{
 # The efficiency data frame must have this type of structure:
-data_team_eff <- data.frame(team = "Real Madrid", 
-                            win_perc = "83.3\% (5/6)",
-                            pts_poss = 1.14,
-                            pts_poss_opp = 1.04)
+data_player_eff <- data.frame(team = "Real Madrid", 
+                              win_perc = "83.3\% (5/6)",
+                              pts_poss = 114,
+                              pts_poss_opp = 104,
+                              net_rtg = 10)
 
-get_sticker(data_team_eff, acb_sticker_data_2526, "A. Abalde", language = "English")
-get_sticker(data_team_eff, acb_sticker_data_2526, "A. Abalde", language = "Spanish", TRUE)
+get_sticker(data_player_eff, acb_sticker_data_2526, "A. Abalde", language = "English")
+get_sticker(data_player_eff, acb_sticker_data_2526, "A. Abalde", language = "Spanish", TRUE)
 }
 
 }

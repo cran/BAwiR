@@ -11,7 +11,7 @@
 #' @usage 
 #' get_donut_usage_action(data_usage_act, team_sel, type_play, 
 #'                        language, min_poss, min_perc, size_orl,
-#'                        vjust_title = 1)
+#'                        size_irl = 4, vjust_title = 1)
 #' 
 #' @param data_usage_act Data frame with the number of possessions that each 
 #' player ended and the particular action used.
@@ -24,6 +24,7 @@
 #' @param min_poss Minimum number of possessions played. 
 #' @param min_perc Minimum percentage achieved.
 #' @param size_orl Size of the outer ring labels.
+#' @param size_irl Size of the inner ring labels.
 #' @param vjust_title Adjust the title vertically when representing turnovers.
 #' 
 #' @return 
@@ -56,7 +57,7 @@
 
 get_donut_usage_action <- function(data_usage_act, team_sel, type_play, 
                                    language, min_poss, min_perc, size_orl, 
-                                   vjust_title = 1) {
+                                   size_irl = 4, vjust_title = 1) {
   team <- poss_end <- poss_num <- usage_perc <- player <- NULL
   action <- percentage <- total <- fraction <- ymax <- ymin <- NULL
   ymin_action <- perc_frac <- ymax_action <- fill_col <- label <- NULL
@@ -193,7 +194,7 @@ get_donut_usage_action <- function(data_usage_act, team_sel, type_play,
           aes(x = 2.5, y = (ymin + ymax)/2, label = label),
           color = "white",
           fontface = "bold",
-          size = 5
+          size = size_irl
         ) +
         # Outer ring labels:
         geom_text(
