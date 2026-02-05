@@ -4,17 +4,23 @@
 \alias{do_clutch_time}
 \title{Get games with clutch time}
 \usage{
-do_clutch_time(data)
+do_clutch_time(data, min_left = "05:00", score_diff = 5)
 }
 \arguments{
 \item{data}{Source play-by-play data.}
+
+\item{min_left}{Minutes left to finish the game. Default 5 minutes.}
+
+\item{score_diff}{Scoring difference. Default 5 points.}
 }
 \value{
 Data frame of the game that has clutch time.
 }
 \description{
-Obtain the games that have clutch time. The clutch time is the game situation when the 
-scoring margin is within 5 points with five or fewer minutes remaining in a game.
+Obtain the games that have clutch time. The clutch time is generally defined as 
+the game situation when the scoring margin is within 5 points with five or fewer 
+minutes remaining in a game. In order to allow more clutch situations, the user
+will be able to set the minutes left and the scoring difference.
 }
 \examples{
 df0 <- do_clutch_time(acb_vbc_cz_pbp_2223)

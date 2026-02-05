@@ -1,12 +1,12 @@
-745cfa8428c2d277a39dd2b7dda0b21b *DESCRIPTION
+82d9e5d7ef600c24a88146ea183c0d0e *DESCRIPTION
 44a0119bcf37d64bd58214fb1aa65531 *NAMESPACE
-0062241750efbd394cafa32ee83d9e86 *NEWS
+e6b20bbaca7fe204d5755806cfb7d25d *NEWS
 8a97224bc4ea0049f01306bcc06eb82d *R/capit_two_words.R
 bd7281c0647af6ed4b0665c3a892f22a *R/do_EPS.R
 f49e05e06b7d806e03e51ff81d1a6c3c *R/do_OE.R
 fa198242cc0db22ec72c9b96b7a44ba9 *R/do_add_adv_stats.R
 2513b3dde0205ccc1cdf3adcde5e2d59 *R/do_best_zones.R
-6855a0fe40834c9c39dc62e08cd51a57 *R/do_clutch_time.R
+bd9d0eb3a91f42c67bed755a171b3356 *R/do_clutch_time.R
 af2a62befcec6874138f23d2c10d3bcb *R/do_divide_court_zones.R
 340c2700d2dd7437543740d7bfe39abc *R/do_filter_data.R
 280c526439be516c9dcb11b4ec182b9f *R/do_four_factors_df.R
@@ -23,7 +23,7 @@ e9111e34c678f772e60de47c0d1eb48e *R/do_possession_stats.R
 bff4503edc786d376fec1abaeeb4c81d *R/do_prepare_data_to.R
 bbe164495524fd66418ee437c6cfa70e *R/do_preproc_period.R
 fb312114a82c3dcab8008734c8f63a5e *R/do_process_acb_pbp.R
-0eba2e67b85e21d1ebd878253024af15 *R/do_reb_off_success.R
+66fd9d4b46f9d29eef77b2f3a6fe90e6 *R/do_reb_off_success.R
 25c80de9fdefec7f45c642ffad908acc *R/do_rpackage_stats.R
 dfa2d642782f01b0be748419140f9b48 *R/do_scrape_days_acb.R
 3c542c4726cffefc9cbfee2a8dc6dbf3 *R/do_scrape_shots_acb.R
@@ -44,7 +44,7 @@ e155f7f255f6043a9adde974553ea732 *R/do_violin_box_plots.R
 7613966663ae2c47e9eda4884a7bd4ee *R/get_bubble_plot.R
 043a9d8e4c8adba95c918ec4e5490c22 *R/get_donut_usage.R
 f3f852e4c454a8fdcc84f03c16549b87 *R/get_donut_usage_action.R
-871034d66f60df50a4eb68762367ec2b *R/get_four_factors_plot.R
+38763c57fc368ee37220a2ceb221e909 *R/get_four_factors_plot.R
 afba0f200a6f886ba680d263ca8a9748 *R/get_games_rosters.R
 b71ca81041d185a671fb7a7f403dd715 *R/get_heatmap_bb.R
 4046184910045b9d70b5d21ce2b122a6 *R/get_map_nats.R
@@ -85,13 +85,13 @@ d374aaaa13871ee9d88bcf7d0a6b2457 *data/eurocup_players_1718.RData
 bf642473394528b6e2e9bca2476fab88 *data/metrics_player_zone.RData
 474d358371ea8b6d53479c83c2d9e576 *inst/doc/BAwiR.R
 452166362c1aa7940412cbfb230dd42b *inst/doc/BAwiR.Rmd
-69930081df17f9a24decce7bde17156e *inst/doc/BAwiR.html
+46a3a67c3c933c0223da913318a81c72 *inst/doc/BAwiR.html
 cb155d96bffa82275901e1539627dcbe *inst/doc/BAwiR_pbp.R
 0b69d72be503a35f44dabde710242bb4 *inst/doc/BAwiR_pbp.Rmd
-2d23893a47c904a594ac3de48cbc8521 *inst/doc/BAwiR_pbp.html
-f8f6406b6a0316d48178efbadb6f6c96 *inst/doc/BAwiR_sc.R
-654e7964cd972713eb278699928b2af7 *inst/doc/BAwiR_sc.Rmd
-068322976348f67a9155e15a774b232c *inst/doc/BAwiR_sc.html
+90020a8710eecfe1af97a741ab06dda1 *inst/doc/BAwiR_pbp.html
+e2b2d252e6ffeb77a9c344ff5537b7ab *inst/doc/BAwiR_sc.R
+9fc0278ac09ca8f26b8b34f5a2926888 *inst/doc/BAwiR_sc.Rmd
+1e3ca91aa7fd401d06ea35fd2a22382e *inst/doc/BAwiR_sc.html
 dc6ac30f7763ddaa557049ee1ddf4a02 *inst/parquet.png
 a39d5ebbf37063ac4a1ffb88bd2813ba *man/acb_age_profile_data_2526.Rd
 18f9146a7e5a08f2a3dfcf687978da60 *man/acb_games_1718.Rd
@@ -111,7 +111,7 @@ a9b7af588928c65e90e7d28659779163 *man/acb_vbc_cz_pbp_2223.Rd
 d502482a4850027cfeb292f1dbdd317c *man/do_OE.Rd
 049d99ecb2354d1487eae34e9377e5cc *man/do_add_adv_stats.Rd
 43e4ee5b80861ef0d2795af171004370 *man/do_best_zones.Rd
-d3ac835139bfb1e24251532c9cc66576 *man/do_clutch_time.Rd
+421b8c6199fff5248b9fe52415a3b30d *man/do_clutch_time.Rd
 266ebeba8b55b26e1f5d39343ceb7704 *man/do_divide_court_zones.Rd
 bd269b7c18ff983ad02efc7a69934eda *man/do_filter_data.Rd
 4fc8403ae2e189c45bfa36259cacaf69 *man/do_four_factors_df.Rd
@@ -153,7 +153,7 @@ fc2bd57db85fe56c888f102cfb08ef77 *man/euroleague_players_1718.Rd
 8fe61688ecc4a9488c907614aa0a191e *man/get_bubble_plot.Rd
 646e60dfa7789746861293ec01b0a2cd *man/get_donut_usage.Rd
 82d5fdebd9840ea8fc1b74265d8f5a64 *man/get_donut_usage_action.Rd
-96a96014d59adcce61e3d76e1b2b2d00 *man/get_four_factors_plot.Rd
+70e2283a390827feb9393b2f5a11523b *man/get_four_factors_plot.Rd
 941cf6bcbebdcda46e8989bad5af36c1 *man/get_games_rosters.Rd
 0cf032024c909bca73c1d6e91755eeb5 *man/get_heatmap_bb.Rd
 a9273ac9b249ad7ff5b1d4fcd2a25d2d *man/get_map_nats.Rd
@@ -176,4 +176,4 @@ c38a10e452abb7cc6100f34d5ae65d2e *man/metrics_player_zone.Rd
 87800dd574009863b788b0c1493cc04d *man/scraping_rosters_euro.Rd
 452166362c1aa7940412cbfb230dd42b *vignettes/BAwiR.Rmd
 0b69d72be503a35f44dabde710242bb4 *vignettes/BAwiR_pbp.Rmd
-654e7964cd972713eb278699928b2af7 *vignettes/BAwiR_sc.Rmd
+9fc0278ac09ca8f26b8b34f5a2926888 *vignettes/BAwiR_sc.Rmd

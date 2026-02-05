@@ -4,7 +4,7 @@
 \alias{get_four_factors_plot}
 \title{Four factors plot}
 \usage{
-get_four_factors_plot(df_rank, df_no_rank, team, language)
+get_four_factors_plot(df_rank, df_no_rank, team, language, scope = "def_off")
 }
 \arguments{
 \item{df_rank}{Data frame with the team's offense and 
@@ -17,6 +17,9 @@ defense four factors.}
 
 \item{language}{Language labels. Current options are 'en' for English
 and 'es' for Spanish.}
+
+\item{scope}{Plot both defense and offense or just one of them. 
+Options are "def_off", "def", "off".}
 }
 \value{
 Graphical device.
@@ -37,6 +40,11 @@ df_four_factors <- do_four_factors_df(df1, team, NULL)
 
 # If only one team is represented the ranking between parentheses is just one.
 get_four_factors_plot(df_four_factors$df_rank, df_four_factors$df_no_rank, team, "en")
+
+# Example with only defense:
+get_four_factors_plot(df_four_factors$df_rank, df_four_factors$df_no_rank, team, 
+                      "en", "def") + 
+ ggplot2::theme(legend.position = "none")
 }
 
 }

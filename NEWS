@@ -1,6 +1,11 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.4.4 [2026-02-05]
+* Minor modification in get_four_factors_plot() to focus on defense or offense separately. 
+* do_clutch_time() allows now more situations of tight games. 
+* Submitted to CRAN.
+
 Version: 1.4.3 [2025-12-09]
 * Minor modification in do_usage() to avoid empty data frames. 
 * Minor update in get_donut_usage_action() to control the size of the inner ring labels.

@@ -47,7 +47,7 @@
 #' @export
 
 do_reb_off_success <- function(data, day_num, game_code, team_sel, verbose) {
-  # Locate the position of time outs:
+  # Locate the position of offensive rebounds:
   to_pos <- which(data$team == team_sel & data$action == "Rebote Ofensivo")
   
   # For teams:
