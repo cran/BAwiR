@@ -2,31 +2,31 @@
 % Please edit documentation in R/do_sub_lineup.R
 \name{do_sub_lineup}
 \alias{do_sub_lineup}
-\title{Compute ACB sub-lineups}
+\title{Compute sub-lineups}
 \usage{
-do_sub_lineup(data, elem_choose)
+do_sub_lineup(data, elem_choose, col_diff_points = FALSE)
 }
 \arguments{
 \item{data}{Data frame with the lineups (quintets).}
 
-\item{elem_choose}{Numeric: 4, 3 or 2.}
+\item{elem_choose}{Numeric: 4, 3, 2 or 1.}
+
+\item{col_diff_points}{Logical to indicate if \code{data} contains a 
+column called diff_points.}
 }
 \value{
 Data frame. Each row is a different sub-lineup. This is the meaning of the 
 columns that might not be explanatory by themselves:
 \itemize{
-  \strong{team_in}: Time point when that sub-lineup starts playing together.
-  \strong{team_out}: Time point when that sub-lineup stops playing together 
+  \strong{team_in}: Time point when the sub-lineup starts playing together.
+  \strong{team_out}: Time point when the sub-lineup stops playing together 
   (because there is a substitution).
   \strong{time_seconds}: Total of seconds that the sub-lineup played.
-  \strong{plus_minus}: Plus/minus achieved by the sub-lineup. This is the difference
-  between the game score of the previous lineup and of the current one.
-  \strong{plus_minus_poss}: Plus/minus per possession.
 }
 }
 \description{
-Compute all the sub-lineups that a given team shows during a game. They can
-be made up of four, three or two players.
+Compute all the sub-lineups that a given team shows during a game. 
+They can be made up of four, three, two or one player(s).
 }
 \note{
 A possession lasts 24 seconds in the ACB league.

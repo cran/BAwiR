@@ -15,8 +15,8 @@ do_lineup(data, day_num, game_code, team_sel, verbose)
 
 \item{team_sel}{One of the teams' names involved in the game.}
 
-\item{verbose}{Logical. Decide if information of the computations
-must be provided or not.}
+\item{verbose}{Logical to indicate if the information of the 
+computations must be provided.}
 }
 \value{
 Data frame. Each row is a different lineup. This is the meaning of the 
@@ -46,15 +46,16 @@ df0 <- acb_vbc_cz_pbp_2223
 day_num <- unique(acb_vbc_cz_pbp_2223$day)
 game_code <- unique(acb_vbc_cz_pbp_2223$game_code)
 
+# Starting players:
 acb_games_2223_sl <- acb_vbc_cz_sl_2223 \%>\%
   filter(period == "1C")
 
+# Prepare data:
 df1 <- do_prepare_data(df0, day_num, 
                        acb_games_2223_sl, acb_games_2223_info,
                        game_code)
                 
 df2 <- do_lineup(df1, day_num, game_code, "Valencia Basket", FALSE)    
-#df2
 
 }
 \author{

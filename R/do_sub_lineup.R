@@ -1,28 +1,27 @@
-#' Compute ACB sub-lineups
+#' Compute sub-lineups
 #' 
 #' @aliases do_sub_lineup
 #'
 #' @description 
-#' Compute all the sub-lineups that a given team shows during a game. They can
-#' be made up of four, three or two players.
+#' Compute all the sub-lineups that a given team shows during a game. 
+#' They can be made up of four, three, two or one player(s).
 #' 
 #' @usage 
-#' do_sub_lineup(data, elem_choose)
+#' do_sub_lineup(data, elem_choose, col_diff_points = FALSE)
 #' 
 #' @param data Data frame with the lineups (quintets).
-#' @param elem_choose Numeric: 4, 3 or 2.
+#' @param elem_choose Numeric: 4, 3, 2 or 1.
+#' @param col_diff_points Logical to indicate if \code{data} contains a 
+#' column called diff_points.
 #' 
 #' @return 
 #' Data frame. Each row is a different sub-lineup. This is the meaning of the 
 #' columns that might not be explanatory by themselves:
 #' \itemize{
-#'   \strong{team_in}: Time point when that sub-lineup starts playing together.
-#'   \strong{team_out}: Time point when that sub-lineup stops playing together 
+#'   \strong{team_in}: Time point when the sub-lineup starts playing together.
+#'   \strong{team_out}: Time point when the sub-lineup stops playing together 
 #'   (because there is a substitution).
 #'   \strong{time_seconds}: Total of seconds that the sub-lineup played.
-#'   \strong{plus_minus}: Plus/minus achieved by the sub-lineup. This is the difference
-#'   between the game score of the previous lineup and of the current one.
-#'   \strong{plus_minus_poss}: Plus/minus per possession.
 #' }
 #' 
 #' @note 
@@ -55,8 +54,8 @@
 #' 
 #' @export
 
-do_sub_lineup <- function(data, elem_choose) {
-  num_players <- diff_points <- lineup_type <- NULL
+do_sub_lineup <- function(data, elem_choose, col_diff_points = FALSE) {
+  num_players <- diff_points <- lineup_type <- lineup <- NULL
   
   if (elem_choose == 4) {
     tsl <- "quartet"
@@ -64,6 +63,8 @@ do_sub_lineup <- function(data, elem_choose) {
     tsl <- "trio"
   }else if (elem_choose == 2) {
     tsl <- "duo"
+  }else if (elem_choose == 1) {
+    tsl <- "single"
   }
   
   data_res <- data.frame()
@@ -76,9 +77,13 @@ do_sub_lineup <- function(data, elem_choose) {
       data_save$lineup <- paste(lineup_sub[[j]], collapse = ", ")
       data_save$lineup_type <- tsl
       
+      if (col_diff_points) {
+        data_save <- data_save %>%
+          select(-diff_points) 
+      }
+      
       data_save <- data_save %>%
-        select(-num_players, -diff_points) %>%
-        mutate(lineup_type = as.character(lineup_type))
+        mutate(num_players = str_count(lineup, ",") + 1)
       
       data_res <- bind_rows(data_res, data_save)
     }

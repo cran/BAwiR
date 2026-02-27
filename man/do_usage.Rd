@@ -4,20 +4,27 @@
 \alias{do_usage}
 \title{Players' usage}
 \usage{
-do_usage(data_possess, season = "2025-2026")
+do_usage(data_all_posse, team_name, lineup_curr, season = "2025-2026")
 }
 \arguments{
-\item{data_possess}{Data frame with the beginning of each possession 
-obtained with \code{\link{do_possession}}.}
+\item{data_all_posse}{Data frame with the start of each possession.}
+
+\item{team_name}{Name of the team.}
+
+\item{lineup_curr}{Lineup currently playing in the game interval under analysis.}
 
 \item{season}{Season string.}
 }
 \value{
-A data frame with the players' usage.
+A list with two data frames:
+\itemize{
+ \strong{data_all}: Possessions ended by each player.
+ \strong{data_all_act}: Actions that ended each possession per player.
+}
 }
 \description{
-For each period of a game, this function computes the players' usage, which indicates how 
-many possessions each player ended. A possession ends with a field-goal or free-throw attempt, 
+This function computes the players' usage to indicate how many possessions 
+each player ended. A possession ends with a field-goal or free-throw attempt, 
 or with a turnover.
 }
 \examples{
@@ -28,21 +35,74 @@ df0 <- acb_vbc_cz_pbp_2223
 day_num <- unique(acb_vbc_cz_pbp_2223$day)
 game_code <- unique(acb_vbc_cz_pbp_2223$game_code)
 
+# Starting players:
 acb_games_2223_sl <- acb_vbc_cz_sl_2223 \%>\%
-  filter(period == "1C")
+  dplyr::filter(period == "1C")
 
+# Prepare data:
 df1 <- do_prepare_data(df0, day_num, 
                        acb_games_2223_sl, acb_games_2223_info,
                        game_code)
-                       
-df2 <- do_possession(df1, "1C")    
 
-do_usage(df2, "2022-2023")
+teams_game <- sort(unique(df1$team))
+team_sel <- teams_game[1]
+
+data <- df1
+data <- data \%>\%
+  mutate(row_num = row_number()) \%>\%
+  mutate(time_point = ifelse(nchar(time_point) < 5, paste0("0", time_point), time_point))
+
+# Filter by team:
+data1 <- data \%>\%
+  filter(team == team_sel)
+
+# Set also the opponent team:
+team_opp <- setdiff(unique(data$team), team_sel)
+
+# Add the last row of games' data to have the real final 
+# game score in case it is not available:
+last_row_game <- data[nrow(data),]
+
+last_row_game$time_point <- "00:00"
+last_row_game$player <- NA
+last_row_game$action <- NA
+last_row_game$team <- team_sel
+
+data1 <- bind_rows(data1, last_row_game)
+
+# Get players out:
+pl_out <- c(1, which(data1$action == "Sale de la pista"), nrow(data1))
+
+i <- 1
+data2 <- data1 \%>\%
+  slice(pl_out[i]:pl_out[i + 1]) 
+
+nr <- nrow(data2)
+
+# Lineup:
+lineup <- data2 \%>\%
+  filter(action != "Sale de la pista") \%>\%
+  # Avoid actions that are assigned to teams: 
+  filter(player != team_sel) \%>\%
+  distinct(player) \%>\%
+  pull()
+
+# Identify when the possessions start:
+data2_rival <- data \%>\%
+  filter(team == team_opp) \%>\%
+  filter(between(row_num, data2$row_num[1], data2$row_num[nr]))
+
+data3 <- rbind(data2, data2_rival) \%>\%
+  arrange(row_num) \%>\%
+  na.omit()
+
+data4 <- do_possession(data3, NULL, "10:00") 
+
+data4[data4$action == "Mate", "action"] <- "Tiro de 2 anotado"
+
+data4_usg <- do_usage(data4, team_sel, lineup, "2022-2023")
 }
 
-}
-\seealso{
-\code{\link{do_possession}}
 }
 \author{
 Guillermo Vinue

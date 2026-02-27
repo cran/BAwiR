@@ -3,24 +3,26 @@
 #' @aliases do_possession
 #'
 #' @description 
-#' Compute when the possession starts for each team during each period of a game.
+#' Compute when the possession starts for each team in a game.
 #' 
 #' @usage 
-#' do_possession(data, period_sel)
+#' do_possession(data, period_sel, time_point_start)
 #' 
 #' @param data Play-by-play prepared data from a given game.
-#' @param period_sel Period of interest. Options can be "xC", where x=1,2,3,4.
+#' @param period_sel Period of interest. Options can be "xC", where x=1,2,....
+#' If NULL, no filtering is done.
+#' @param time_point_start Starting time point of the lineup.
 #' 
 #' @return 
 #' Data frame.  This is the meaning of the columns that might not be 
 #' explanatory by themselves:
 #' \itemize{
-#'   \strong{time_start}: Time point when the action starts.
-#'   \strong{time_end}: Time point when the action ends.
-#'   \strong{poss_time}: Duration of the possession.
-#'   \strong{possession}: Indicates when the possession starts. This is encoded
+#'  \strong{time_start}: Time point when the action starts.
+#'  \strong{time_end}: Time point when the action ends.
+#'  \strong{poss_time}: Duration of the possession.
+#'  \strong{possession}: Indicates when the possession starts. This is encoded
 #'   with the Spanish word \emph{inicio} (\emph{start}, in English).
-#'   \strong{points}: Number of points scored from a given action.
+#'  \strong{points}: Number of points scored from a given action.
 #' }
 #' 
 #' @note 
@@ -36,69 +38,102 @@
 #' Guillermo Vinue
 #' 
 #' @examples 
+#' \dontrun{
 #' library(dplyr)
 #' df0 <- acb_vbc_cz_pbp_2223
 #' 
 #' day_num <- unique(acb_vbc_cz_pbp_2223$day)
 #' game_code <- unique(acb_vbc_cz_pbp_2223$game_code)
 #' 
+#' # Starting players:
 #' acb_games_2223_sl <- acb_vbc_cz_sl_2223 %>%
 #'   dplyr::filter(period == "1C")
 #' 
+#' # Prepare data:
 #' df1 <- do_prepare_data(df0, day_num, 
 #'                        acb_games_2223_sl, acb_games_2223_info,
 #'                        game_code)
-#'                        
-#' df2 <- do_possession(df1, "1C")                         
-#' #df2
-#'
+#' 
+#' teams_game <- sort(unique(df1$team))
+#' team_sel <- teams_game[1]
+#' 
+#' data <- df1
+#' data <- data %>%
+#'   mutate(row_num = row_number()) %>%
+#'   mutate(time_point = ifelse(nchar(time_point) < 5, paste0("0", time_point), time_point))
+#' 
+#' # Filter by team:
+#' data1 <- data %>%
+#'   filter(team == team_sel)
+#' 
+#' # Set also the opponent team:
+#' team_opp <- setdiff(unique(data$team), team_sel)
+#' 
+#' # Add the last row of games' data to have the real final 
+#' # game score in case it is not available:
+#' last_row_game <- data[nrow(data),]
+#' 
+#' last_row_game$time_point <- "00:00"
+#' last_row_game$player <- NA
+#' last_row_game$action <- NA
+#' last_row_game$team <- team_sel
+#' 
+#' data1 <- bind_rows(data1, last_row_game)
+#' 
+#' # Get players out:
+#' pl_out <- c(1, which(data1$action == "Sale de la pista"), nrow(data1))
+#' 
+#' i <- 1
+#' data2 <- data1 %>%
+#'   slice(pl_out[i]:pl_out[i + 1]) 
+#' 
+#' nr <- nrow(data2)
+#' 
+#' # Lineup:
+#' lineup <- data2 %>%
+#'   filter(action != "Sale de la pista") %>%
+#'   # Avoid actions that are assigned to teams: 
+#'   filter(player != team_sel) %>%
+#'   distinct(player) %>%
+#'   pull()
+#' 
+#' # Identify when the possessions start:
+#' data2_rival <- data %>%
+#'   filter(team == team_opp) %>%
+#'   filter(between(row_num, data2$row_num[1], data2$row_num[nr]))
+#' 
+#' data3 <- rbind(data2, data2_rival) %>%
+#'   arrange(row_num) %>%
+#'   na.omit()
+#' 
+#' data4 <- do_possession(data3, NULL, "10:00") 
+#' }
+#' 
 #' @importFrom dplyr lag lead summarize
 #'
 #' @export
 
-do_possession <- function(data, period_sel) {
+do_possession <- function(data, period_sel, time_point_start) {
   team <- action <- player <- period <- time_point <- block <- NULL
   time_start <- time_end <- poss_time <- possession <- row_name <- NULL
   
-  data <- data %>%
-    filter(period == period_sel) 
+  if (!is.null(period_sel)) {
+    data <- data %>%
+      filter(period == period_sel)  
+  }
 
   data <- as.data.frame(data)
   
   rownames(data) <- 1:nrow(data)
   
-  # Try to correct the cases when the replacements are as the possession runs. See line 244.
+  # Try to correct the cases when the replacements are as the possession runs.
+  # I guess this must be done when the replacement is in the team that has the possession:
   dt_repl <- data
-  dt_repl_row <- which(dt_repl$action == "Falta Recibida" & lead(dt_repl$action) == "Sale de la pista")
+  dt_repl_row <- which(dt_repl$action == "Falta Recibida" & 
+                         lead(dt_repl$action) == "Sale de la pista" & 
+                         dt_repl$team == lead(dt_repl$team))
   dt_repl1 <- dt_repl[dt_repl_row,]
-  # ----
-  
-  # Remove unsportsmanlike fouls hindering the definition of a new possession of the opponent team:
-  uns_foul <- which(data$action == "Falta Antideportiva" & data$team == lag(data$team) & data$time_point != lag(data$time_point))
-  
-  if (length(uns_foul) > 0) {
-    # In some games there were two unsportsmanlike fouls. See for example 104515 4C.
-    rm_uns_foul <- c()
-    for (l in 1:length(uns_foul)) {
-      # Also remove the next play assigned to the player who made the unsportsmanlike foul.
-      # See for example 104484 4C 06:58 Khalifa Diop is assigned a turnover after being out. 
-      # I have to look for the next row where this turnover is assigned.
-      uns_foul1 <- which(data$player == data[uns_foul[l], "player"])
-      
-      uns_foul2 <- uns_foul1[uns_foul1 > uns_foul[l]]
-      
-      uns_foul3 <- uns_foul2[which(data[uns_foul2, "action"] == "P\u00e9rdida")[1]]
-      
-      rm_iter <- c(uns_foul[l], uns_foul3)
-      
-      rm_uns_foul <- c(rm_uns_foul, rm_iter)
-    }
-    
-    data <- data[-rm_uns_foul, ]
-    
-    rownames(data) <- 1:nrow(data) 
-  }
-  # ---
+  # ---- See below for further computations.
   
   # Two main situations with start possession:
   # First one:
@@ -109,18 +144,20 @@ do_possession <- function(data, period_sel) {
            .after = action) %>%
     distinct() # There are duplicated rows.
   
-  if (period_sel != "1C") {
-    data1$possession[1] <- "inicio"
-  }
+  if (!is.null(period_sel)) {
+    if (period_sel != "1C") {
+      data1$possession[1] <- "inicio"
+    }
+  } 
   
-  # Correct the technical fouls that do not start a real possesion for the next team.
+  # Correct the technical fouls that do not start a real possession for the next team.
   # See for example 104465 4C 09:15 Joel Soriano
   tech_foul <- which(data1$action == "Falta Personal (1TL)" & data1$team == lag(data1$team))
   # Possible rows to correct:
   if (length(tech_foul) > 0) {
     tech_foul_corr <- data1[tech_foul + 1, ]
   }
-  # Go then to line 198.
+  # ---- See below for further computations.
 
   # Reverse situations where some type of Falta Personal is before Falta Recibida. 
   # This causes errors in the computation of the time possession.
@@ -145,9 +182,7 @@ do_possession <- function(data, period_sel) {
   data1 <- data1 %>%
     filter(!grepl("Falta Personal", action))
   
-  # Other situations with start possession:
-  # si1 : Check if any dunk came after no assist, for example,
-  # when finishing an offensive rebound with a direct dunk.
+  # Other situations that start a possession:
   si1 <- which(data1$action == "Mate" & lead(data1$action) != "Asistencia") + 1
   si2 <- which(grepl("Tiro de", data1$action) & data1$team != lag(data1$team) & lag(data1$action) != "Falta Personal")
   si3 <- which(grepl("Triple", data1$action) & data1$team != lag(data1$team) & lag(data1$action) != "Falta Personal")
@@ -156,16 +191,18 @@ do_possession <- function(data, period_sel) {
   si6 <- which(data1$action == "P\u00e9rdida" & data1$team != lag(data1$team))
   si7 <- which(data1$action == "Falta Personal (2TL)" & data1$team == lag(data1$team)) + 1
   si8 <- which(data1$action == "Falta en Ataque" & data1$team != lag(data1$team))
-  si9 <- which(data1$action == "Falta Recibida" & !grepl("Falta Personal|Falta Antideportiva", lag(data1$action)) & data1$team != lag(data1$team))
+  si9 <- which(data1$action == "Falta Recibida" & !grepl("Falta Personal|Falta Antideportiva", lag(data1$action)) & 
+                 data1$team != lag(data1$team))
   si10 <- which(data1$action == "Mate" & data1$team != lag(data1$team))
   # Free throw after technical foul to the coach. See 104467 4C 08::12
   si11 <- which(data1$action == "Tiro Libre anotado" & data1$team != lag(data1$team))
   si12 <- which(data1$action == "Tiro Libre fallado" & data1$team != lag(data1$team))
+  si13 <- which(grepl("anotado", data1$action) & lag(data1$action) == "Falta T\u00e9cnica" & 
+                  data1$team == lag(data1$team) & data1$team != lead(data1$team))
   
-  data1$possession[c(si1, si2, si3, si4, si5, si6, si7, si8, si9, si10, si11, si12)] <- "inicio"   
+  data1$possession[c(si1, si2, si3, si4, si5, si6, si7, si8, si9, si10, si11, si12, si13)] <- "inicio"   
   
-  # Correct some inaccuracies, when they are not in the first row:
-  #data1$possession[which(data1$action == "Tiro Libre fallado" & data1$possession == "inicio")] <- NA
+  # Correct some inaccuracies (when they are not in the first row):
   data1$possession[which(data1$action == "Falta Personal (1TL)" & data1$possession == "inicio")] <- NA
   data1$possession[which(data1$action == "P\u00e9rdida" & lag(data1$action) == "Tap\u00f3n" & data1$possession == "inicio")] <- NA
 
@@ -173,29 +210,51 @@ do_possession <- function(data, period_sel) {
     data1$possession[1] <- "inicio"
   }
   
+  # Add the starting possession of each period:
+  for (i in unique(data1$period)) {
+    data1[which(data1$period == i)[1], "possession"] <- "inicio"
+  }
+  
+  # Correct some actions that do not start a new possession (this is mainly due to team offensive rebounds):
+  bl_prob <- which(data1$action == "Tap\u00f3n" & lag(data1$team) == lead(data1$team))
+  if (length(bl_prob) > 0) {
+    for (i in 1:length(bl_prob)) {
+      data1$possession[bl_prob[i]] <- NA
+      
+      if (!is.na(data1$possession[bl_prob[i] + 1])) {
+        data1$possession[bl_prob[i] + 1] <- NA
+      } 
+    }
+  }
+  
   # Create time end and start to compute the possession time:
   data2 <- data1 %>%
     mutate(time_start = lag(time_point), .before = time_point) %>%
     rename(time_end = time_point)
-  data2$time_start[1] <- "10:00"
-  data2$time_end[nrow(data2)] <- "00:00"
   
+  data2$time_start[1] <- time_point_start
+
   # Add for each possession a label block to be able to compute the possession time:
   ini <- which(data2$possession == "inicio")
-  block_v <- c()
-  for (i in 1:(length(ini) - 1)) {
-    block_v <- c(block_v, rep(ini[i], ini[i + 1] - ini[i]))
-  }
   
-  # If 'inicio' is in the last row of data2:
-  if (ini[length(ini)] == nrow(data2)) {
-    block_v <- c(block_v, ini[length(ini)])
+  if (length(ini) > 1) {
+    block_v <- c()
+    for (i in 1:(length(ini) - 1)) {
+      block_v <- c(block_v, rep(ini[i], ini[i + 1] - ini[i]))
+    }
+    
+    # If 'inicio' is in the last row of data2:
+    if (ini[length(ini)] == nrow(data2)) {
+      block_v <- c(block_v, ini[length(ini)])
+    }else{
+      # If not, repeat the needed value as many times as needed. For example, if 
+      # 'inicio' is in the row 84 and data2 has 85 rows, we need to create two 84,
+      # as 85 - 84 + 1:
+      reps_need <- nrow(data2) - ini[length(ini)] + 1
+      block_v <- c(block_v, rep(ini[length(ini)], reps_need))
+    }
   }else{
-    # If not, repeat the needed value as many times as needed. For example, if 
-    # 'inicio' is in the row 84 and data2 has 85 rows, we need to create two 84,
-    # as 85 - 84 + 1:
-    reps_need <- nrow(data2) - ini[length(ini)] + 1
-    block_v <- c(block_v, rep(ini[length(ini)], reps_need))
+    block_v <- 1
   }
   
   # Note: The block numbers refer to the rows where 'inicio' were located. 
@@ -205,11 +264,19 @@ do_possession <- function(data, period_sel) {
   data3 <- data2 %>%
     mutate(block = block_v, .after = period) 
   
+  # Turn 00:00 into 10:00 for the first time point of each period different from 1C:
+  for (i in unique(data3$period)) {
+    if (i %in% c("2C", "3C", "4C") & data3[which(data3$period == i)[1], "time_start"] %in% c("00:00", "00:01")) {
+      data3[which(data3$period == i)[1], "time_start"] <- "10:00"
+    }else if (i %in% c("5C", "6C") & data3[which(data3$period == i)[1], "time_start"] %in% c("00:00", "00:01")) {
+      data3[which(data3$period == i)[1], "time_start"] <- "05:00"
+    }
+  }
+  
   # Compute the possession times:
   data3_time <- data3 %>%
     group_by(block) %>%
-    summarize(poss_time = period_to_seconds(ms(time_start[1])) - 
-                period_to_seconds(ms(time_end[n()]))) %>%
+    summarize(poss_time = period_to_seconds(ms(time_start[1])) - period_to_seconds(ms(time_end[n()]))) %>%
     ungroup()
     
   data4 <- left_join(data3, data3_time, by = "block")  %>%
@@ -234,7 +301,7 @@ do_possession <- function(data, period_sel) {
     mutate(time_start = ifelse(nchar(time_start) < 5, paste0("0", time_start), time_start)) %>%
     mutate(time_end = ifelse(nchar(time_end) < 5, paste0("0", time_end), time_end))
   
-  # Correct technical fouls if needed. See line 77.
+  # Correct technical fouls if needed.
   if (length(tech_foul) > 0) {
     for (i in 1:nrow(tech_foul_corr)) {
       pl_corr <- which(data5$period == tech_foul_corr$period[i] & 
@@ -251,32 +318,51 @@ do_possession <- function(data, period_sel) {
     }
   }
   
-  # Try to correct the blocks of the possessions where the are replacements. See line 67:
-  for (i in 1:nrow(dt_repl1)) {
-    aux0 <- which(data5$time_end == dt_repl1$time_point[i] & data5$action == "Falta Recibida")
-    
-    if (length(aux0) > 0) {
-      aux0_block <- data5[aux0[1], "block"]
+  # Try to correct the blocks of the possessions where the are replacements.
+  if (nrow(dt_repl1) > 0) {
+    for (i in 1:nrow(dt_repl1)) {
+      aux0 <- which(data5$time_end == dt_repl1$time_point[i] & data5$action == "Falta Recibida")
       
-      aux0_block1 <- which(data5$block == aux0_block)
-      
-      aux1 <- aux0_block1[aux0_block1 > aux0[1]]
-      
-      # In some cases when the replacement takes place as the possession runs,
-      # the possession end with a team turnover, which is not registered in
-      # the data frame, so there are not rows after aux0.
-      # See for example 104471 4C 04:21 and 4C 04:05 Coviran Granada.
-      if (length(aux1) > 0) {
-        data5[aux1[1], "possession"] <- "inicio"
-        data5[aux1, "block"] <- data5[aux1, "block"] + 0.1
+      if (length(aux0) > 0) {
+        aux0_block <- data5[aux0[1], "block"]
         
-        aux2 <- aux0_block1[aux0_block1 <= aux0[1]]
+        aux0_block1 <- which(data5$block == aux0_block)
         
-        if (length(aux2) > 0) {
-          data5 <- data5[-aux2, ]
-          rownames(data5) <- 1:nrow(data5) 
-        }  
+        aux1 <- aux0_block1[aux0_block1 > aux0[1]]
+        
+        # In some cases when the replacement takes place as the possession runs,
+        # the possession end with a team turnover, which is not registered in
+        # the data frame, so there are not rows after aux0.
+        # See for example 104471 4C 04:21 and 4C 04:05 Coviran Granada.
+        if (length(aux1) > 0) {
+          data5[aux1[1], "possession"] <- "inicio"
+          data5[aux1, "block"] <- data5[aux1, "block"] + 0.1
+          
+          aux2 <- aux0_block1[aux0_block1 <= aux0[1]]
+          
+          if (length(aux2) > 0) {
+            data5 <- data5[-aux2, ]
+            rownames(data5) <- 1:nrow(data5) 
+          }  
+        }
       }
+    } 
+  }
+  
+  # Remove misleading offensive fouls that are not followed by a turnover, but by a drawn foul.
+  # See for example 104555 4C 02:28 D. Cacok and K. Taylor
+  off_foul <- which(data5$action == "Falta en Ataque" & !is.na(data5$possession) & 
+                      lead(data5$action) == "Falta Recibida" & !is.na(lead(data5$possession)))
+  if (length(off_foul)) {
+    rm_off_foul <- c()
+    for (i in 1:length(off_foul)) {
+      rm_off_foul <- c(rm_off_foul, c(off_foul[i], off_foul[i] + 1))
+    }
+    
+    data5 <- data5[-rm_off_foul, ]
+    
+    if (nrow(data5) != 0) {
+      rownames(data5) <- 1:nrow(data5) 
     }
   }
   

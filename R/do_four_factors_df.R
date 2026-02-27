@@ -1,12 +1,13 @@
-#' Four factors data frame
+#' Four factors for teams
 #' 
 #' @aliases do_four_factors_df
 #'
 #' @description 
 #' This function computes team's offense and defense four factors.
-#' The four factors are Effective Field Goal Percentage (EFGP), 
-#' Turnover Percentage (TOVP), Offensive Rebound Percentage (ORBP) and
-#' Free Throws Rate (FTRate). They are well defined at 
+#' 
+#' The four factors are the effective field goal percentage (EFGP), 
+#' the turnover percentage (TOVP), the offensive rebound percentage (ORBP) 
+#' and the free throws rate (FTRate). They are well defined at 
 #' \url{http://www.rawbw.com/~deano/articles/20040601_roboscout.htm} and
 #' \url{https://www.basketball-reference.com/about/factors.html}.
 #' 
@@ -14,10 +15,11 @@
 #' the percentage of possessions where the team missed the ball, see
 #' \url{https://www.nba.com/thunder/news/stats101.html} to read about 
 #' the 0.44 coefficient; ORBP measures how many rebounds were offensive 
-#' from the total of available rebounds; Finally, FTRate is a measure of both 
+#' from the total of available rebounds, and FTRate is a measure of 
 #' how often a team gets to the line.
 #' 
-#' @usage do_four_factors_df(df_games, teams, data_team_reb_tov)
+#' @usage 
+#' do_four_factors_df(df_games, teams, data_team_reb_tov)
 #' 
 #' @param df_games Data frame with the games, players info, advanced stats and
 #' eventually recoded teams names.
@@ -133,6 +135,9 @@ do_four_factors_df <- function(df_games, teams, data_team_reb_tov) {
              FTRate = round(FTRate * 100, 2)) %>%
       mutate(Team = i) %>%
       select(Team, everything())
+    
+    # The DRBP (percentage of defensive rebounds) would be:
+    #df4$ORBP[df4$Type == "Defense"] <- 100 - df4$ORBP[df4$Type == "Defense"]
     
     # Data frame with the four factors for each team, both defense and offense:
     df5 <- bind_rows(df5, df4) 

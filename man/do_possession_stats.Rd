@@ -2,7 +2,7 @@
 % Please edit documentation in R/do_possession_stats.R
 \name{do_possession_stats}
 \alias{do_possession_stats}
-\title{Possessions-related statistics}
+\title{Possessions-related statistics for teams}
 \usage{
 do_possession_stats(data_possess, season = "2025-2026")
 }
@@ -16,15 +16,15 @@ obtained with \code{\link{do_possession}}.}
 A data frame with the possessions statistics for each team.
 }
 \description{
-Compute the possessions-related statistics, namely, offensive rating, defensive rating, 
-net rating, pace and number of possessions.
+Compute the possessions-related statistics for teams. These statistics are
+offensive rating, defensive rating, net rating, pace and number of possessions.
 }
 \details{
 See \url{https://www.basketball-reference.com/about/glossary.html}
 for formulas and explanations.
 
 Both teams in the same game share the same pace. Pace reflects the tempo of the game itself, 
-not just one team's style.Over many games, a team's average pace reflects how fast they 
+not just one team's style. Over many games, a team's average pace reflects how fast they 
 usually play, but any individual game's pace is shared with their opponent.
 }
 \examples{
@@ -35,16 +35,23 @@ df0 <- acb_vbc_cz_pbp_2223
 day_num <- unique(acb_vbc_cz_pbp_2223$day)
 game_code <- unique(acb_vbc_cz_pbp_2223$game_code)
 
+# Starting players:
 acb_games_2223_sl <- acb_vbc_cz_sl_2223 \%>\%
-  filter(period == "1C")
+  dplyr::filter(period == "1C")
 
+# Prepare data:
 df1 <- do_prepare_data(df0, day_num, 
                        acb_games_2223_sl, acb_games_2223_info,
                        game_code)
-                       
-df2 <- do_possession(df1, "1C")    
 
-do_possession_stats(df2, "2022-2023")
+teams_game <- sort(unique(df1$team))
+
+# Study the lineups:
+data_res <- do_study_lineup(df1, day_num, game_code_num, teams_game[1], FALSE) 
+data_all_posse <- data_res$data_pos \%>\% select(-row_num)
+
+# Statistics of possessions:
+data_poss_st <- do_possession_stats(data_all_posse, "2022-2023")
 }
 
 }

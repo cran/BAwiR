@@ -27,7 +27,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## ----possessions, eval=FALSE--------------------------------------------------
 # # Possessions:
-# data_poss <- do_possession(df1, "1C")
+# data_poss <- do_possession(df1, "1C", "10:00")
 
 ## ----timeouts, eval=FALSE-----------------------------------------------------
 # # Timeouts:

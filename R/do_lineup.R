@@ -12,8 +12,8 @@
 #' @param day_num Day number.
 #' @param game_code Game code.
 #' @param team_sel One of the teams' names involved in the game.
-#' @param verbose Logical. Decide if information of the computations
-#' must be provided or not.
+#' @param verbose Logical to indicate if the information of the 
+#' computations must be provided.
 #' 
 #' @return 
 #' Data frame. Each row is a different lineup. This is the meaning of the 
@@ -43,15 +43,16 @@
 #' day_num <- unique(acb_vbc_cz_pbp_2223$day)
 #' game_code <- unique(acb_vbc_cz_pbp_2223$game_code)
 #' 
+#' # Starting players:
 #' acb_games_2223_sl <- acb_vbc_cz_sl_2223 %>%
 #'   filter(period == "1C")
 #' 
+#' # Prepare data:
 #' df1 <- do_prepare_data(df0, day_num, 
 #'                        acb_games_2223_sl, acb_games_2223_info,
 #'                        game_code)
 #'                 
 #' df2 <- do_lineup(df1, day_num, game_code, "Valencia Basket", FALSE)    
-#' #df2
 #' 
 #' @importFrom lubridate period_to_seconds   
 #' @importFrom stringr str_count   

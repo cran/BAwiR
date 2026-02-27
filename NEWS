@@ -1,9 +1,22 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.5 [2026-02-27]
+* This is an extended version of the package to analyze lineups in detail.
+** do_lineup_metrics() computes the statistics related to a single lineup.
+** do_study_lineup() computes the statistics related to all lineups that any team shows in a game.
+** do_possession_stats_lineup() computes the offensive and defensive ratings related to a lineup.
+** do_four_factors_df_lineup() computes the four factors related to a lineup.
+** get_net_rtg_on_off() computes the net rating when a specific player is on the court versus when they are on the bench.
+* In addition, there are some improvements in the following functions:
+** do_sub_lineup() now allows the analysis of the contributions for single players.
+** do_possession() is updated to refine the situations with starting possessions.
+** do_usage() is updated to refine the computation of the actions that end a possession.
+* Submitted to CRAN.
+
 Version: 1.4.4 [2026-02-05]
 * Minor modification in get_four_factors_plot() to focus on defense or offense separately. 
-* do_clutch_time() allows now more situations of tight games. 
+* do_clutch_time() now allows more situations of tight games. 
 * Submitted to CRAN.
 
 Version: 1.4.3 [2025-12-09]
