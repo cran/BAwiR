@@ -47,7 +47,7 @@ df1 <- do_prepare_data(df0, day_num,
 teams_game <- sort(unique(df1$team))
 
 # Study the lineups:
-data_res <- do_study_lineup(df1, day_num, game_code_num, teams_game[1], FALSE) 
+data_res <- do_study_lineup(df1, day_num, game_code, teams_game[1], "2022-2023", FALSE) 
 data_all_posse <- data_res$data_pos \%>\% select(-row_num)
 
 # Statistics of possessions:

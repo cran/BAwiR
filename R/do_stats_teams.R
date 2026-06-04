@@ -101,12 +101,12 @@ do_stats_teams <- function(df_games, season, competition, type_season){
   
   df_team2 <- df_team1 %>%
     select(Team, GP, everything()) %>%
-    mutate(FGPerc = ifelse(FGA == 0, 0, round((FG / FGA) * 100))) %>%
-    mutate(TwoPPerc = ifelse(TwoPA == 0, 0, round((TwoP / TwoPA) * 100))) %>%
-    mutate(ThreePPerc = ifelse(ThreePA == 0, 0, round((ThreeP / ThreePA) * 100))) %>%
-    mutate(FTPerc = ifelse(FTA == 0, 0, round((FT / FTA) * 100))) %>%
+    mutate(FGPerc = ifelse(FGA == 0, 0, round((FG / FGA) * 100, 1))) %>%
+    mutate(TwoPPerc = ifelse(TwoPA == 0, 0, round((TwoP / TwoPA) * 100, 1))) %>%
+    mutate(ThreePPerc = ifelse(ThreePA == 0, 0, round((ThreeP / ThreePA) * 100, 1))) %>%
+    mutate(FTPerc = ifelse(FTA == 0, 0, round((FT / FTA) * 100, 1))) %>%
     mutate(EFGPerc = ifelse(FGA == 0, 0, (FG + 0.5 * ThreeP) / FGA)) %>% # Effective Field Goal Percentage.
-    mutate(EFGPerc = round(EFGPerc * 100)) %>%
+    mutate(EFGPerc = round(EFGPerc * 100, 1)) %>%
     mutate(EFGPerc = ifelse(EFGPerc > 100, 100, EFGPerc)) %>% # FG = 1 ; Three = 1 --> (1 + 0.5 * 1) / 1 > 1
     select(1:5, FGPerc, 6:7, TwoPPerc, 8:9, ThreePPerc, 10:11, FTPerc, 12:27, EFGPerc, everything())
   
@@ -121,12 +121,12 @@ do_stats_teams <- function(df_games, season, competition, type_season){
   df_team_mean1 <- cbind(df_team_mean[,1:2], df_team_mean_aux1)
 
   df_team_mean2 <- df_team_mean1 %>%
-    mutate(FGPerc = ifelse(FGA == 0, 0, round((FG / FGA) * 100))) %>%
-    mutate(TwoPPerc = ifelse(TwoPA == 0, 0, round((TwoP / TwoPA) * 100))) %>%
-    mutate(ThreePPerc = ifelse(ThreePA == 0, 0, round((ThreeP / ThreePA) * 100))) %>%
-    mutate(FTPerc = ifelse(FTA == 0, 0, round((FT / FTA) * 100))) %>%
+    mutate(FGPerc = ifelse(FGA == 0, 0, round((FG / FGA) * 100, 1))) %>%
+    mutate(TwoPPerc = ifelse(TwoPA == 0, 0, round((TwoP / TwoPA) * 100, 1))) %>%
+    mutate(ThreePPerc = ifelse(ThreePA == 0, 0, round((ThreeP / ThreePA) * 100, 1))) %>%
+    mutate(FTPerc = ifelse(FTA == 0, 0, round((FT / FTA) * 100, 1))) %>%
     mutate(EFGPerc = ifelse(FGA == 0, 0, (FG + 0.5 * ThreeP) / FGA)) %>% # Effective Field Goal Percentage.
-    mutate(EFGPerc = round(EFGPerc * 100)) %>%
+    mutate(EFGPerc = round(EFGPerc * 100, 1)) %>%
     mutate(EFGPerc = ifelse(EFGPerc > 100, 100, EFGPerc)) %>% # FG = 1 ; Three = 1 --> (1 + 0.5 * 1) / 1 > 1
     select(1:5, FGPerc, 6:7, TwoPPerc, 8:9, ThreePPerc, 10:11, FTPerc, 12:27, EFGPerc, everything())
   

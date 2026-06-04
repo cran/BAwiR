@@ -33,32 +33,45 @@
 #' @export
 
 do_volume_threes <- function(df) {
-  game_code <- Team <- ThreePA <- TwoPA <- team <- NULL
-  threes_off <- fg_off <- threes_def <- fg_def <- NULL
+  game_code <- Team <- ThreeP <- ThreePA <- TwoPA <- team <- NULL
+  threes_off <- threes_off_made <- fg_off <- threes_def <- threes_def_made <- fg_def <- NULL
   
   data_volume_threes <- df %>%
     group_by(game_code, Team) %>%
     summarise(threes_off = sum(ThreePA),
+              threes_off_made = sum(ThreeP),
               fg_off = sum(TwoPA) + sum(ThreePA)) %>%
     ungroup() %>%
     group_by(game_code) %>%
     mutate(threes_def= rev(threes_off),
+           threes_def_made= rev(threes_off_made),
            fg_def = rev(fg_off)) %>%
     ungroup() %>%
     group_by(Team) %>%
     summarise(threes_off = sum(threes_off),
+              threes_off_made = sum(threes_off_made),
               fg_off = sum(fg_off),
               threes_def = sum(threes_def),
+              threes_def_made = sum(threes_def_made),
               fg_def = sum(fg_def)) %>%
     ungroup() %>%
-    mutate(volume_off = round((threes_off / fg_off) * 100, 2)) %>%
-    mutate(volume_def = round((threes_def / fg_def) * 100, 2)) %>%
+    mutate(volume_off = round((threes_off / fg_off) * 100, 1)) %>%
+    mutate(volume_def = round((threes_def / fg_def) * 100, 1)) %>%
+    mutate(success_off = round((threes_off_made / threes_off) * 100, 1)) %>%
+    mutate(success_def = round((threes_def_made / threes_def) * 100, 1)) %>%
     rename(team = Team)
   
-  data_volume_threes_comp <- data_volume_threes %>%
-    select(-contains("threes"), -contains("fg")) %>%
+  data_volume_threes_comp1 <- data_volume_threes %>%
+    select(team, contains("volume")) %>%
     rename(offense = 2, defense = 3) %>%
     pivot_longer(!team, names_to = "area", values_to = "volume")
+  
+  data_volume_threes_comp2 <- data_volume_threes %>%
+    select(team, contains("success")) %>%
+    rename(offense = 2, defense = 3) %>%
+    pivot_longer(!team, names_to = "area", values_to = "success")
+  
+  data_volume_threes_comp <- left_join(data_volume_threes_comp1, data_volume_threes_comp2, by = c("team", "area"))
   
   return(list(data_volume_threes = data_volume_threes, data_volume_threes_comp = data_volume_threes_comp))
 }

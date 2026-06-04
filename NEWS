@@ -1,6 +1,11 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.5.1 [2026-06-04]
+* do_stats() and do_stats_teams() now display percentages with one decimal place. 
+* do_volume_threes() also adds the three-point percentages.
+* Submitted to CRAN.
+
 Version: 1.5 [2026-02-27]
 * This is an extended version of the package to analyze lineups in detail.
 ** do_lineup_metrics() computes the statistics related to a single lineup.

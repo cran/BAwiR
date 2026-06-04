@@ -109,12 +109,12 @@ do_stats <- function(df_games, type_stats = "Total", season, competition, type_s
     
   # Add now the percentages and other variables related to accumulated statistics:
   df4 <- df3_def %>% 
-    mutate(TwoPPerc = ifelse(TwoPA == 0, 0, round((TwoP / TwoPA) * 100))) %>%
-    mutate(ThreePPerc = ifelse(ThreePA == 0, 0, round((ThreeP / ThreePA) * 100))) %>%
-    mutate(FTPerc = ifelse(FTA == 0, 0, round((FT / FTA) * 100))) %>%
-    mutate(FGPerc = ifelse(FGA == 0, 0, round((FG / FGA) * 100))) %>% # Field Goal Percentage.
+    mutate(TwoPPerc = ifelse(TwoPA == 0, 0, round((TwoP / TwoPA) * 100, 1))) %>%
+    mutate(ThreePPerc = ifelse(ThreePA == 0, 0, round((ThreeP / ThreePA) * 100, 1))) %>%
+    mutate(FTPerc = ifelse(FTA == 0, 0, round((FT / FTA) * 100, 1))) %>%
+    mutate(FGPerc = ifelse(FGA == 0, 0, round((FG / FGA) * 100, 1))) %>% # Field Goal Percentage.
     mutate(EFGPerc = ifelse(FGA == 0, 0, (FG + 0.5 * ThreeP) / FGA)) %>% # Effective Field Goal Percentage.
-    mutate(EFGPerc = round(EFGPerc * 100)) %>%
+    mutate(EFGPerc = round(EFGPerc * 100, 1)) %>%
     mutate(EFGPerc = ifelse(EFGPerc > 100, 100, EFGPerc)) %>% # FG = 1 ; Three = 1 --> (1 + 0.5 * 1) / 1 > 1
     mutate(ThreeRate = ifelse(FGA == 0, 0, round((ThreePA / FGA) * 100, 1))) %>% # 3-Point Attempt Rate.
     mutate(FRate = ifelse(FGA == 0, 0, round(FT / FGA, 1))) %>% # Free Throw Attempt Rate.

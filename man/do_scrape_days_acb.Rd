@@ -20,7 +20,7 @@ is working as transparently as possible with a research purpose.}
 
 \item{edition_id}{Identifier of the league edition. For 2024 is 975
 and for 2025 is 979. For coming seasons, check it at the ACB website, such as
-\url{https://acb.com/calendario/index/temporada_id/2025} and click on any of
+https://acb.com/calendario/index/temporada_id/2025 and click on any of
 the days to see which url appears.}
 }
 \value{
@@ -29,7 +29,11 @@ A data frame with two columns, one with the days and the other with the game cod
 \description{
 Obtain the game codes of any regular season day from any ACB season. 
 These game codes will be used to define the target url from which collecting 
-the shooting data of every game.
+the shooting data of every game. 
+
+NOTE: The ACB website has changed its format, so this function is not valid
+anymore. I keep it in the package in case it can provide users with some
+insights to carry out a friendly web scraping procedure.
 }
 \note{
 Before starting the web scraping, we must visit 
