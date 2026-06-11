@@ -1,6 +1,12 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.5.2 [2026-06-11]
+* The field-goals and free-throw percentages of the average values returned by do_stats() now coincide with the ones related to the total values.
+* The legend order of get_net_rtg_on_off() has been corrected to match the order of the dodged bars.
+* get_donut_usage() allows to filter by number and percentage of played possessions.
+* Submitted to CRAN.
+
 Version: 1.5.1 [2026-06-04]
 * do_stats() and do_stats_teams() now display percentages with one decimal place. 
 * do_volume_threes() also adds the three-point percentages.

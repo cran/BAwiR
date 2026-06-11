@@ -62,20 +62,22 @@ do_stats <- function(df_games, type_stats = "Total", season, competition, type_s
   group_by(Name, Team) %>% # Group by Name and Team because for example Llompart played 3 games for 
    # Valencia and 2 for Tenerife. If I don't group by Team, his total games played for both teams is 5.
   mutate(GP = n()) %>%
-  mutate(GS = sum(GS))
+  mutate(GS = sum(GS)) %>%
+  ungroup()
  
  df2_2 <- df2_1 %>%
   select(Name, Team, CombinID, Position, Nationality, GP, GS, everything()) 
  
  df3 <- df2_2 %>% 
-  select(-MP) %>%
-  group_by(Name, Team, CombinID, Position, Nationality, GP, GS)
+  select(-MP) 
     
  # Sum or average all numeric variables:
  if (type_stats == "Total" | type_stats == "Totales") {
    df3 <- df3 %>%
-    summarise_all(sum, na.rm = TRUE) # gv <- c(NA, NA) ; sum(gv) is NA but sum(gv, na.rm = TRUE) is 0.
-   
+     group_by(Name, Team, CombinID, Position, Nationality, GP, GS) %>%
+     summarise_all(sum, na.rm = TRUE) %>% # gv <- c(NA, NA) ; sum(gv) is NA but sum(gv, na.rm = TRUE) is 0.
+     ungroup()
+     
    # Sum minutes:
    # See do_sum_MP.R to sum the MP:
    df3_mp <- df2_2 %>% 
@@ -84,11 +86,21 @@ do_stats <- function(df_games, type_stats = "Total", season, competition, type_s
                              0,
                              sum(as.numeric(as.period(ms(MP), unit = "sec")), na.rm = TRUE))) %>%
      mutate(MP_oper_def = sprintf("%02d:%02d", MP_oper %/% 60, MP_oper %% 60)) %>%
+     ungroup() %>%
      distinct(Name, Team, CombinID, Position, Nationality, GP, GS, MP_oper_def)
   }else if (type_stats == "Average" | type_stats == "Promedio") {
     df3 <- df3 %>%
-     summarise_all(mean, na.rm = TRUE) 
-    df3[, 8:ncol(df3)] <- round(df3[, 8:ncol(df3)], 1)
+      group_by(Name, Team, CombinID, Position, Nationality, GP, GS) %>%
+      summarise_all(mean, na.rm = TRUE) %>%
+      ungroup()
+    
+    df3[, 8:ncol(df3)] <- round(df3[, 8:ncol(df3)], 2)
+    # I have rounded by  instead of 1 because for example, for Miles Norris.
+    # https://acb.com/es/liga/jugadores/miles-norris-30004050/partidos
+    # his total steals in the 20 regular season he played were 15 and 
+    # his total turnovers, 5. Then the average in both cases is 0.75 and
+    # 0.25, so his ratio stl_tov is 3. But if round by one decimal place,
+    # I get 0.8 and 0.2, so his stl_tov becomes now 4!
     
     # Average minutes:
     # See do_sum_MP.R to sum the MP:
@@ -98,7 +110,21 @@ do_stats <- function(df_games, type_stats = "Total", season, competition, type_s
                               0,
                               floor(mean(as.numeric(as.period(ms(MP), unit = "sec")), na.rm = TRUE)))) %>%
       mutate(MP_oper_def = sprintf("%02d:%02d", MP_oper %/% 60, MP_oper %% 60)) %>%
+      ungroup() %>%
       distinct(Name, Team, CombinID, Position, Nationality, GP, GS, MP_oper_def)
+    
+    # Get the right percentages, that coincide with those of the accumulated number of shots.
+    aux_perc <- df2_2 %>% 
+      select(-MP) %>%
+      group_by(Name, Team, CombinID, Position, Nationality, GP, GS) %>%
+      summarise_all(sum, na.rm = TRUE) %>% 
+      ungroup() %>%
+      select(Name, Team, CombinID, Position, Nationality, GP, GS, 
+             contains("Two"), contains("Three"), contains("FT"), contains("FG")) %>%
+      mutate(TwoPPerc = ifelse(TwoPA == 0, 0, round((TwoP / TwoPA) * 100, 1)), .after = TwoPA) %>%
+      mutate(ThreePPerc = ifelse(ThreePA == 0, 0, round((ThreeP / ThreePA) * 100, 1)), .after = ThreePA) %>%
+      mutate(FTPerc = ifelse(FTA == 0, 0, round((FT / FTA) * 100, 1)), .after = FTA) %>%
+      mutate(FGPerc = ifelse(FGA == 0, 0, round((FG / FGA) * 100, 1)), .after = FGA)
   }else{
     stop("Wrong option.")
   }
@@ -108,19 +134,37 @@ do_stats <- function(df_games, type_stats = "Total", season, competition, type_s
    select(Name, Team, CombinID, Position, Nationality, GP, GS, MP, everything())
     
   # Add now the percentages and other variables related to accumulated statistics:
-  df4 <- df3_def %>% 
-    mutate(TwoPPerc = ifelse(TwoPA == 0, 0, round((TwoP / TwoPA) * 100, 1))) %>%
-    mutate(ThreePPerc = ifelse(ThreePA == 0, 0, round((ThreeP / ThreePA) * 100, 1))) %>%
-    mutate(FTPerc = ifelse(FTA == 0, 0, round((FT / FTA) * 100, 1))) %>%
-    mutate(FGPerc = ifelse(FGA == 0, 0, round((FG / FGA) * 100, 1))) %>% # Field Goal Percentage.
-    mutate(EFGPerc = ifelse(FGA == 0, 0, (FG + 0.5 * ThreeP) / FGA)) %>% # Effective Field Goal Percentage.
-    mutate(EFGPerc = round(EFGPerc * 100, 1)) %>%
-    mutate(EFGPerc = ifelse(EFGPerc > 100, 100, EFGPerc)) %>% # FG = 1 ; Three = 1 --> (1 + 0.5 * 1) / 1 > 1
-    mutate(ThreeRate = ifelse(FGA == 0, 0, round((ThreePA / FGA) * 100, 1))) %>% # 3-Point Attempt Rate.
-    mutate(FRate = ifelse(FGA == 0, 0, round(FT / FGA, 1))) %>% # Free Throw Attempt Rate.
-    mutate(STL_TOV = ifelse(TOV == 0, STL, round(STL / TOV, 1))) %>% # Steal to Turnover Ratio.
-    mutate(AST_TOV = ifelse(TOV == 0, AST, round(AST / TOV, 1))) %>% # Assist to Turnover Ratio.
-    mutate(PPS = ifelse(FGA == 0, 0, round(PTS / FGA, 1))) # Points per Shot.
+  if (type_stats == "Total" | type_stats == "Totales") {
+    df4 <- df3_def %>% 
+      mutate(TwoPPerc = ifelse(TwoPA == 0, 0, round((TwoP / TwoPA) * 100, 1))) %>%
+      mutate(ThreePPerc = ifelse(ThreePA == 0, 0, round((ThreeP / ThreePA) * 100, 1))) %>%
+      mutate(FTPerc = ifelse(FTA == 0, 0, round((FT / FTA) * 100, 1))) %>%
+      mutate(FGPerc = ifelse(FGA == 0, 0, round((FG / FGA) * 100, 1))) %>% # Field Goal Percentage.
+      # More metrics:
+      mutate(EFGPerc = ifelse(FGA == 0, 0, (FG + 0.5 * ThreeP) / FGA)) %>% # Effective Field Goal Percentage.
+      mutate(EFGPerc = round(EFGPerc * 100, 1)) %>%
+      mutate(EFGPerc = ifelse(EFGPerc > 100, 100, EFGPerc)) %>% # FG = 1 ; Three = 1 --> (1 + 0.5 * 1) / 1 > 1
+      mutate(ThreeRate = ifelse(FGA == 0, 0, round((ThreePA / FGA) * 100, 1))) %>% # 3-Point Attempt Rate.
+      mutate(FRate = ifelse(FGA == 0, 0, round(FT / FGA, 1))) %>% # Free Throw Attempt Rate.
+      mutate(STL_TOV = ifelse(TOV == 0, STL, round(STL / TOV, 1))) %>% # Steal to Turnover Ratio.
+      mutate(AST_TOV = ifelse(TOV == 0, AST, round(AST / TOV, 1))) %>% # Assist to Turnover Ratio.
+      mutate(PPS = ifelse(FGA == 0, 0, round(PTS / FGA, 1))) # Points per Shot.
+  }else if (type_stats == "Average" | type_stats == "Promedio") {
+    df4 <- df3_def %>% 
+      mutate(TwoPPerc = aux_perc$TwoPPerc) %>%
+      mutate(ThreePPerc = aux_perc$ThreePPerc) %>%
+      mutate(FTPerc = aux_perc$FTPerc) %>%
+      mutate(FGPerc = aux_perc$FGPerc) %>% # Field Goal Percentage.
+      # More metrics:
+      mutate(EFGPerc = ifelse(FGA == 0, 0, (FG + 0.5 * ThreeP) / FGA)) %>% # Effective Field Goal Percentage.
+      mutate(EFGPerc = round(EFGPerc * 100, 1)) %>%
+      mutate(EFGPerc = ifelse(EFGPerc > 100, 100, EFGPerc)) %>% # FG = 1 ; Three = 1 --> (1 + 0.5 * 1) / 1 > 1
+      mutate(ThreeRate = ifelse(FGA == 0, 0, round((ThreePA / FGA) * 100, 1))) %>% # 3-Point Attempt Rate.
+      mutate(FRate = ifelse(FGA == 0, 0, round(FT / FGA, 1))) %>% # Free Throw Attempt Rate.
+      mutate(STL_TOV = ifelse(TOV == 0, STL, round(STL / TOV, 1))) %>% # Steal to Turnover Ratio.
+      mutate(AST_TOV = ifelse(TOV == 0, AST, round(AST / TOV, 1))) %>% # Assist to Turnover Ratio.
+      mutate(PPS = ifelse(FGA == 0, 0, round(PTS / FGA, 1))) # Points per Shot.
+  }
 
   df4$OE <- do_OE(df4) # Offensive Efficiency.
   df4$EPS <- do_EPS(df4) # Efficient Points Scored.

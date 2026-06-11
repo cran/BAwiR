@@ -73,33 +73,35 @@ do_add_adv_stats <- function(df) {
     mutate(GmSTL = sum(STL)) %>%
     mutate(GmBLKfv = sum(BLKfv)) %>%
     mutate(GmPF = sum(PF)) %>%
-    mutate(GmTOV = sum(TOV))
+    mutate(GmTOV = sum(TOV)) %>%
+    ungroup()
   
   # Game Score and PIE:
   df2 <- df1 %>%
     group_by(Player.x) %>%
     mutate(FG = TwoP + ThreeP) %>%
     mutate(FGA = TwoPA + ThreePA) %>%
-    mutate(FGPerc = ifelse(FGA == 0, 0, round((FG / FGA) * 100))) %>%
+    mutate(FGPerc = ifelse(FGA == 0, 0, round((FG / FGA) * 100, 1))) %>%
     mutate(GameSc =  PTS + 0.4 * FG - 0.7 * FGA - 0.4 * (FTA - FT) + 0.7 * ORB + 0.3 * DRB + 
                      STL + 0.7 * AST + 0.7 * BLKfv - 0.4 * PF - TOV) %>%
-    mutate(GameSc = round(GameSc)) %>%
+    mutate(GameSc = round(GameSc, 1)) %>%
     mutate(numer_pie = PTS + FG + FT - FGA - FTA + DRB + (0.5 * ORB) + AST + STL + (0.5 * BLKfv) - PF - TOV) %>%
     mutate(denom_pie = GmPTS + GmFG + GmFT - GmFGA - GmFTA + GmDRB + (0.5 * GmORB) + 
                        GmAST + GmSTL + (0.5 * GmBLKfv) - GmPF - GmTOV) %>%
-    mutate(PIE = round((numer_pie / denom_pie) * 100)) %>%
+    mutate(PIE = round((numer_pie / denom_pie) * 100, 1)) %>%
     select(-numer_pie, -denom_pie) %>%
     # More stats:
     #mutate(TSP = PTS / (2 * (FGA + 0.44 * FTA))) %>% # True Shooting Percentage.
     #mutate(TSP = round(TSP * 100)) %>% # For Causeur (first row), this percentage is greater than 100.
     mutate(EFGPerc = ifelse(FGA == 0, 0, (FG + 0.5 * ThreeP) / FGA)) %>% # Effective Field Goal Percentage.
-    mutate(EFGPerc = round(EFGPerc * 100)) %>%
+    mutate(EFGPerc = round(EFGPerc * 100, 1)) %>%
     mutate(EFGPerc = ifelse(EFGPerc > 100, 100, EFGPerc)) %>% # FG = 1 ; Three = 1 --> (1 + 0.5 * 1) / 1 > 1
     mutate(ThreeRate = ifelse(FGA == 0, 0, round((ThreePA / FGA) * 100, 1))) %>% # 3-Point Attempt Rate.
     mutate(FRate = ifelse(FGA == 0, 0, round(FT / FGA, 1))) %>% # Free Throw Attempt Rate.
     mutate(STL_TOV = ifelse(TOV == 0, STL, round(STL / TOV, 1))) %>% # Steal to Turnover Ratio.
     mutate(AST_TOV = ifelse(TOV == 0, AST, round(AST / TOV, 1))) %>% # Assist to Turnover Ratio.
-    mutate(PPS = ifelse(FGA == 0, 0, round(PTS / FGA, 1))) # Points per Shot.
+    mutate(PPS = ifelse(FGA == 0, 0, round(PTS / FGA, 1))) %>% # Points per Shot.
+    ungroup()
     
   df2$OE <- do_OE(df2) # Offensive Efficiency.
   df2$EPS <- do_EPS(df2) # Efficient Points Scored.

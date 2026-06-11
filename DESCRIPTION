@@ -1,8 +1,8 @@
 Package: BAwiR
 Type: Package
 Title: Analysis of Basketball Data
-Version: 1.5.1
-Date: 2026-06-04
+Version: 1.5.2
+Date: 2026-06-11
 Authors@R: person(given = "Guillermo", family = "Vinue", role = c("aut", "cre"), email = "guillermo.vinue@uv.es")
 Description: Collection of tools to work with European basketball data. Functions available are related to friendly 
 	web scraping, data management and visualization. Data were obtained from <https://www.euroleaguebasketball.net/euroleague/>, 
@@ -29,8 +29,8 @@ LazyData: true
 RoxygenNote: 7.3.2
 Encoding: UTF-8
 NeedsCompilation: no
-Packaged: 2026-06-04 06:47:29 UTC; guillermo
+Packaged: 2026-06-11 10:28:59 UTC; guillermo
 Author: Guillermo Vinue [aut, cre]
 Maintainer: Guillermo Vinue <guillermo.vinue@uv.es>
 Repository: CRAN
-Date/Publication: 2026-06-04 15:10:24 UTC
+Date/Publication: 2026-06-11 12:10:24 UTC

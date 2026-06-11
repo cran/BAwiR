@@ -21,7 +21,7 @@
 #' field goals and 'tov' for turnovers.
 #' @param language Language of the titles. Valid options are 'English' 
 #' and 'Spanish' so far.
-#' @param min_poss Minimum number of possessions played. 
+#' @param min_poss Minimum number of possessions the player ended. 
 #' @param min_perc Minimum percentage achieved.
 #' @param size_orl Size of the outer ring labels.
 #' @param size_irl Size of the inner ring labels.
@@ -128,6 +128,7 @@ get_donut_usage_action <- function(data_usage_act, team_sel, type_play,
       group_by(action) %>%
       mutate(total = sum(poss_end)) %>%
       ungroup() %>% 
+      # poss_num refers here to the number of possessions the player ended.
       filter(poss_num >= min_poss) %>%
       arrange(action, desc(percentage)) %>%
       select(-contains("poss")) %>%
@@ -215,6 +216,7 @@ get_donut_usage_action <- function(data_usage_act, team_sel, type_play,
       filter(action == "P\u00e9rdida") %>%
       select(-action) %>%
       rename(usage_perc = percentage) %>% 
+      # poss_num refers here to the number of possessions the player ended.
       filter(poss_num >= min_poss) %>%
       filter(usage_perc >= min_perc)
     

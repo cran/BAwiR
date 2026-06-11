@@ -21,7 +21,7 @@ field goals and 'tov' for turnovers.}
 \item{language}{Language of the titles. Valid options are 'English' 
 and 'Spanish' so far.}
 
-\item{min_poss}{Minimum number of possessions played.}
+\item{min_poss}{Minimum number of possessions the player ended.}
 
 \item{min_perc}{Minimum percentage achieved.}
 

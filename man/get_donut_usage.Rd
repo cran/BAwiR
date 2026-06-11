@@ -4,13 +4,17 @@
 \alias{get_donut_usage}
 \title{Donut chart usage possessions}
 \usage{
-get_donut_usage(data_usage, team_sel, size_play, size_perc)
+get_donut_usage(data_usage, team_sel, min_poss, min_perc, size_play, size_perc)
 }
 \arguments{
 \item{data_usage}{Data frame with the number of possessions that each 
 player played and the number that he ended.}
 
 \item{team_sel}{String with the team's full name.}
+
+\item{min_poss}{Minimum number of possessions the player played.}
+
+\item{min_perc}{Minimum percentage achieved.}
 
 \item{size_play}{Size of the players' labels.}
 
@@ -29,7 +33,7 @@ in the middle, making them cleaner to read than pie charts.
 }
 \examples{
 \dontrun{
-get_donut_usage(acb_usage_data_2526, "Valencia Basket", 3, 4)
+get_donut_usage(acb_usage_data_2526, "Valencia Basket", 1, 1, 3, 4)
 }
 
 }

@@ -44,6 +44,7 @@
 #' @examples 
 #' \dontrun{
 #' get_net_rtg_on_off(acb_combs, "Unicaja", "single", NULL, NULL, NULL, "Spanish")
+#' get_net_rtg_on_off(acb_combs, "Unicaja", "single", NULL, NULL, NULL, "English")
 #' }
 #'
 #' @importFrom dplyr if_else
@@ -134,10 +135,23 @@ get_net_rtg_on_off <- function(data_combs, team_name, type_lineup, type_period, 
   
   gg <- ggplot(df4, aes(x = netrtg, y = lineup, fill = status)) +
     geom_col(position = position_dodge(width = 0.5), width = 0.3) +
-    geom_text(aes(label = netrtg), position = position_dodge(width = 0.5), vjust = 0.8, hjust = -0.1, size = 3) +
+    geom_text(aes(label = netrtg), position = position_dodge(width = 0.5), vjust = 0.8, hjust = -0.1, size = 3.2) +
     geom_vline(xintercept = 0, linetype = "dashed") +
-    scale_x_continuous(limits = c(-max(abs(df4$netrtg)), max(abs(df4$netrtg)))) +
-    scale_fill_manual(values = setNames(c("purple", "lightblue"), legend_status)) +
+    scale_x_continuous(limits = c(-max(abs(df4$netrtg)), max(abs(df4$netrtg)))) 
+  
+  if (language == "English") {
+    gg <- gg +
+      scale_fill_manual(values = c("On the court" = "purple",
+                                   "On the bench" = "lightblue"), 
+                        breaks = legend_status) 
+  }else{
+    gg <- gg +
+      scale_fill_manual(values = c("En pista" = "purple",
+                                   "En el banquillo" = "lightblue"), 
+                        breaks = legend_status) 
+  }
+  
+  gg <- gg +
     labs(x = "", y = NULL, 
          title = plot_tit,
          subtitle = plot_subtit,

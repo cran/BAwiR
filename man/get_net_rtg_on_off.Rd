@@ -47,6 +47,7 @@ which gives a first idea of how much better/worse the team performs with that pl
 \examples{
 \dontrun{
 get_net_rtg_on_off(acb_combs, "Unicaja", "single", NULL, NULL, NULL, "Spanish")
+get_net_rtg_on_off(acb_combs, "Unicaja", "single", NULL, NULL, NULL, "English")
 }
 
 }

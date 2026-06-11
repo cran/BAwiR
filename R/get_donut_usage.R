@@ -7,11 +7,13 @@
 #' possessions that each player of a team ends while being on the court.
 #' 
 #' @usage 
-#' get_donut_usage(data_usage, team_sel, size_play, size_perc)
+#' get_donut_usage(data_usage, team_sel, min_poss, min_perc, size_play, size_perc)
 #' 
 #' @param data_usage Data frame with the number of possessions that each 
 #' player played and the number that he ended.
 #' @param team_sel String with the team's full name.
+#' @param min_poss Minimum number of possessions the player played. 
+#' @param min_perc Minimum percentage achieved.
 #' @param size_play Size of the players' labels.
 #' @param size_perc Size of the percentages labels.
 #' 
@@ -30,14 +32,14 @@
 #' 
 #' @examples 
 #' \dontrun{
-#' get_donut_usage(acb_usage_data_2526, "Valencia Basket", 3, 4)
+#' get_donut_usage(acb_usage_data_2526, "Valencia Basket", 1, 1, 3, 4)
 #' }
 #' 
 #' @importFrom ggplot2 theme_void scale_fill_gradient
 #'
 #' @export
 
-get_donut_usage <- function(data_usage, team_sel, size_play, size_perc) {
+get_donut_usage <- function(data_usage, team_sel, min_poss, min_perc, size_play, size_perc) {
   season <- team <- player <- poss_end <- poss_num <- usage_perc <- NULL
   cumulative <- label_pos <- usage_perc_label <- NULL
 
@@ -46,8 +48,11 @@ get_donut_usage <- function(data_usage, team_sel, size_play, size_perc) {
     group_by(player) %>%
     summarise(poss_end = sum(poss_end), poss_num = sum(poss_num)) %>%
     ungroup() %>%
-    mutate(usage_perc = round((poss_end / poss_num) *100, 2))
-  
+    mutate(usage_perc = round((poss_end / poss_num) *100, 2)) %>% 
+    # poss_num refers here to the number of possessions the player played.
+    filter(poss_num >= min_poss) %>%
+    filter(usage_perc >= min_perc)
+
   df1 <- df0 %>%
     arrange(desc(usage_perc)) %>%
     mutate(
