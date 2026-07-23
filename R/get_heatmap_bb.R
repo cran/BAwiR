@@ -56,9 +56,10 @@ get_heatmap_bb <- function(df_stats, team, levels_stats = NULL, stat_ord, base_s
 
   df <- df_stats %>% 
     filter(Team == team) %>%
-    ungroup(CombinID) %>%
+    #ungroup(CombinID) %>% # This weird command was not needed anymore!
     select(-c(Team, CombinID, Position, Nationality, Season, Compet, Type_season, Type_stats)) #%>%
     #arrange(desc(MP))
+  
   df_order <- data.frame(df)
   #df_order1 <- df_order[order(df_order[, stat_ord], decreasing = TRUE), ]
   df_order1 <- df_order[do.call("order", c(df_order[stat_ord], list(decreasing = TRUE))), ]

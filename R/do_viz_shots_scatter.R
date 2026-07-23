@@ -9,7 +9,10 @@
 #' 
 #' @usage 
 #' do_viz_shots_scatter(shots_stats, type, draw, size_lab_box = 2.8, size_lab_court = 3, 
-#'                      size_point = 3, language = "English")
+#'                      size_point = 3, language = "English", title_add = "", 
+#'                      pch_two_shot = 4, pch_three_shot = 17,
+#'                      color_made_shot = "darkblue", color_missed_shot = "red",
+#'                      point_intens = 0.4)
 #' 
 #' @param shots_stats Shooting data associated with the filters given to \code{\link{do_shots_stats}}.
 #' @param type Options are 'team' for team statistics, 'player' for player statistics and 
@@ -20,6 +23,18 @@
 #' @param size_lab_court Size of the text indicating the percentages by zone.
 #' @param size_point Size of the points.
 #' @param language Language of the titles. Valid options are 'English' and 'Spanish' so far.
+#' @param title_add Add additional information to the title if some filters have been applied
+#' to the input data frame.
+#' @param pch_two_shot Point shape of the two-point shots. A number between 0 and 25. Default is 4 (cross).
+#' @param pch_three_shot Point shape of the three-point shots. A number between 0 and 25. 
+#' Default is 17 (filled triangle point-up).
+#' @param color_made_shot Color for the made shots. Default is dark blue.
+#' @param color_missed_shot Color for the missed shots. Default is red.
+#' @param point_intens Intensity of the point symbols when plotting all the shots (\code{draw}=TRUE).
+#' 
+#' @note
+#' The shapes and colors for the shots are only needed when \code{draw=TRUE}, 
+#' i.e., when the locations of the shots are plotted.
 #' 
 #' @return 
 #' A plot.
@@ -58,7 +73,10 @@
 #' @export
 
 do_viz_shots_scatter <- function(shots_stats, type, draw, size_lab_box = 2.8, size_lab_court = 3, 
-                                 size_point = 3, language = "English") {
+                                 size_point = 3, language = "English", title_add = "", 
+                                 pch_two_shot = 4, pch_three_shot = 17,
+                                 color_made_shot = "darkblue", color_missed_shot = "red", 
+                                 point_intens = 0.4) {
   outcome <- NULL
   
   all_shots <- shots_stats$all_shots
@@ -89,30 +107,40 @@ do_viz_shots_scatter <- function(shots_stats, type, draw, size_lab_box = 2.8, si
   vect_local <- unique(all_shots$local)
   if (length(vect_local) == 2) {
     if (language == "English") {
-      title_plot <- paste0(title_plot_aux, ", HOME AND AWAY.") 
+      title_plot <- paste0(title_plot_aux, ", HOME AND AWAY") 
     }else{
-      title_plot <- paste0(title_plot_aux, ", CASA Y FUERA.")
+      title_plot <- paste0(title_plot_aux, ", CASA Y FUERA")
     }
   }else if (vect_local == TRUE) {
     if (language == "English") {
-      title_plot <- paste0(title_plot_aux, ", HOME.")
+      title_plot <- paste0(title_plot_aux, ", HOME")
     }else{
-      title_plot <- paste0(title_plot_aux, ", CASA.")
+      title_plot <- paste0(title_plot_aux, ", CASA")
     }
   }else{
     if (language == "English") {
-      title_plot <- paste0(title_plot_aux, ", AWAY.") 
+      title_plot <- paste0(title_plot_aux, ", AWAY") 
     }else{
-      title_plot <- paste0(title_plot_aux, ", FUERA.")
+      title_plot <- paste0(title_plot_aux, ", FUERA")
     }
+  }
+  
+  if (title_add != "") {
+    title_plot <- paste0(title_plot, ", ", title_add) 
   }
   
   all_shots <- all_shots %>%
     mutate(pos_x = ifelse(pos_x > 13000, 12990, pos_x))
   
   if (language == "English") {
-    leg_col_manual <- c("2pt_made" = "darkgreen", "2pt_missed" = "red", "3pt_made" = "darkgreen", "3pt_missed" = "red")
-    leg_sha_manual <- c("2pt_made" = 8, "2pt_missed" = 8, "3pt_made" = 17, "3pt_missed" = 17)
+    leg_col_manual <- c("2pt_made" = color_made_shot, 
+                        "2pt_missed" = color_missed_shot, 
+                        "3pt_made" = color_made_shot, 
+                        "3pt_missed" = color_missed_shot)
+    leg_sha_manual <- c("2pt_made" = pch_two_shot, 
+                        "2pt_missed" = pch_two_shot, 
+                        "3pt_made" = pch_three_shot, 
+                        "3pt_missed" = pch_three_shot)
   }else{
     all_shots <- all_shots %>%
       mutate(play_type = plyr::mapvalues(play_type, 
@@ -122,8 +150,14 @@ do_viz_shots_scatter <- function(shots_stats, type, draw, size_lab_box = 2.8, si
                                        from = c("made", "missed"),
                                        to = c("anotado", "fallado")))
     
-    leg_col_manual <- c("2pt_anotado" = "darkgreen", "2pt_fallado" = "red", "3pt_anotado" = "darkgreen", "3pt_fallado" = "red")
-    leg_sha_manual <- c("2pt_anotado" = 8, "2pt_fallado" = 8, "3pt_anotado" = 17, "3pt_fallado" = 17)
+    leg_col_manual <- c("2pt_anotado" = color_made_shot, 
+                        "2pt_fallado" = color_missed_shot, 
+                        "3pt_anotado" = color_made_shot, 
+                        "3pt_fallado" = color_missed_shot)
+    leg_sha_manual <- c("2pt_anotado" = pch_two_shot, 
+                        "2pt_fallado" = pch_two_shot, 
+                        "3pt_anotado" = pch_three_shot, 
+                        "3pt_fallado" = pch_three_shot)
   }
   
   gg <- ggplot(data = all_shots, aes(x = pos_x, y = pos_y)) +
@@ -133,7 +167,7 @@ do_viz_shots_scatter <- function(shots_stats, type, draw, size_lab_box = 2.8, si
   if (draw) {
     gg <- gg +
       #geom_text(data = summary_shots_zone, aes(x = pos_x, y = pos_y, label = summary), size = 3) +
-      geom_point(aes(colour = play_type, shape = play_type), size = size_point, alpha = 0.4) +
+      geom_point(aes(colour = play_type, shape = play_type), size = size_point, alpha = point_intens) +
       scale_color_manual(values = leg_col_manual) +
       scale_shape_manual(values = leg_sha_manual) 
   }else{

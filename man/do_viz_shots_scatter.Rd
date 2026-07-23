@@ -5,7 +5,10 @@
 \title{Visualization of the shots statistics}
 \usage{
 do_viz_shots_scatter(shots_stats, type, draw, size_lab_box = 2.8, size_lab_court = 3, 
-                     size_point = 3, language = "English")
+                     size_point = 3, language = "English", title_add = "", 
+                     pch_two_shot = 4, pch_three_shot = 17,
+                     color_made_shot = "darkblue", color_missed_shot = "red",
+                     point_intens = 0.4)
 }
 \arguments{
 \item{shots_stats}{Shooting data associated with the filters given to \code{\link{do_shots_stats}}.}
@@ -23,6 +26,20 @@ number of mades and attempted field goals.}
 \item{size_point}{Size of the points.}
 
 \item{language}{Language of the titles. Valid options are 'English' and 'Spanish' so far.}
+
+\item{title_add}{Add additional information to the title if some filters have been applied
+to the input data frame.}
+
+\item{pch_two_shot}{Point shape of the two-point shots. A number between 0 and 25. Default is 4 (cross).}
+
+\item{pch_three_shot}{Point shape of the three-point shots. A number between 0 and 25. 
+Default is 17 (filled triangle point-up).}
+
+\item{color_made_shot}{Color for the made shots. Default is dark blue.}
+
+\item{color_missed_shot}{Color for the missed shots. Default is red.}
+
+\item{point_intens}{Intensity of the point symbols when plotting all the shots (\code{draw}=TRUE).}
 }
 \value{
 A plot.
@@ -31,6 +48,10 @@ A plot.
 Create a visualization of the left half of the court and annotates both the total and 
 by zone shooting statistics. It can also show the location of each individual shot, 
 with color-coding for makes and misses.
+}
+\note{
+The shapes and colors for the shots are only needed when \code{draw=TRUE}, 
+i.e., when the locations of the shots are plotted.
 }
 \examples{
 \dontrun{

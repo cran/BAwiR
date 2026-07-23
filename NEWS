@@ -1,6 +1,13 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.5.3 [2026-07-23]
+* The documentation of the data set acb_shooting_data_2425 has been extended to provide more details about the meaning of its columns.
+* In get_heatmap_bb() there was an ungrouping using the column CombinID that was not needed anymore and that was causing an error.
+* do_viz_shots_scatter() includes the option to customize the shots symbols, colors and intensity.
+* The heatmap obtained with do_viz_shots_gradient() has corrected the position of the mid-court line.
+* do_viz_shots_scatter() and do_viz_shots_gradient add in their titles any of those filters that could have been applied to the input data set.
+
 Version: 1.5.2 [2026-06-11]
 * The field-goals and free-throw percentages of the average values returned by do_stats() now coincide with the ones related to the total values.
 * The legend order of get_net_rtg_on_off() has been corrected to match the order of the dodged bars.

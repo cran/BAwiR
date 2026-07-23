@@ -8,7 +8,8 @@
 #' In addition, it can also show a heatmap with the zones where the player takes the shots.
 #' 
 #' @usage 
-#' do_viz_shots_gradient(data_filter, type, metric, data_shots_zones, language = "English")
+#' do_viz_shots_gradient(data_filter, type, metric, data_shots_zones, language = "English", 
+#'                       title_add = "")
 #' 
 #' @param data_filter Shooting filtered data obtained with \code{\link{do_filter_data}}.
 #' @param type Options are 'team' for team statistics, 'player' for player statistics and 
@@ -17,6 +18,8 @@
 #' and 'none' if plotting a heatmap is preferred.
 #' @param data_shots_zones Shooting data with the court zones.
 #' @param language Language of the titles. Valid options are 'English' and 'Spanish' so far.
+#' @param title_add Add additional information to the title if some filters have been applied
+#' to the input data frame.
 #' 
 #' @return 
 #' A plot.
@@ -51,13 +54,14 @@
 #'
 #' @export
 
-do_viz_shots_gradient <- function(data_filter, type, metric, data_shots_zones, language = "English") {
+do_viz_shots_gradient <- function(data_filter, type, metric, data_shots_zones, language = "English", 
+                                  title_add = "") {
   player_license_id <- player_name <- perc_diff <- pps_diff <- pos_x <- pos_y <- NULL
   diff_val <- location_color <- total <- location <- perc <- pps_league <- NULL
   
   img_path <- system.file("parquet.png", package = "BAwiR")
   parquet <- png::readPNG(img_path)
-  
+
   if (metric %in% c("fg", "pps")) {
     # LEAGUE METRICS:
     df_aux <- data_shots_zones
@@ -144,6 +148,15 @@ do_viz_shots_gradient <- function(data_filter, type, metric, data_shots_zones, l
     stop("valid options are 'fg', 'pps' or 'none'.")
   }
   
+  if (title_add != "") {
+    title_plot <- paste0(title_plot, ", ", title_add) 
+  }
+  
+  all_shots <- all_shots %>%
+    mutate(pos_x = ifelse(pos_x > 13000, 12990, pos_x))
+  
+  prev_thous <- 13000
+  
   gg <- ggplot(data = all_shots, aes(x = pos_x, y = pos_y)) + # all_shots %>% filter(location != "paint")
     background_image(parquet) 
   
@@ -161,11 +174,15 @@ do_viz_shots_gradient <- function(data_filter, type, metric, data_shots_zones, l
       scale_fill_viridis_c(leg_tit, limits = c(0, 1), breaks = c(0, 1), labels = leg_lab,
                            option = "inferno", guide = guide_colorbar(barwidth = 2)) #+
       #theme(legend.position = "bottom") 
+    
+    #prev_thous <- as.numeric(paste0(floor(range(all_shots$pos_x)[2] / 1000), "000"))
   }else{
     gg <- gg +
-      geom_point(aes(color = diff_val)) +
-      xlim(0, 13000) +
-      ylim(-7602, 7602)
+      geom_point(aes(color = diff_val)) #+
+      #xlim(0, 13000) +
+      #ylim(-7602, 7602)
+    
+    #prev_thous <- 13000
     
     range_diff <- range(all_shots$diff_val)
     range_legend <- c(floor(range_diff[1]), ceiling(range_diff[2]))
@@ -184,15 +201,18 @@ do_viz_shots_gradient <- function(data_filter, type, metric, data_shots_zones, l
   }else{
     leg_col <- "Diferencia entre \n el jugador y la liga \n"
   }
-
+  
   gg <- gg +
+    xlim(0, 13000) +
+    ylim(-7602, 7602) +
     # 3PT SHOT LINE:
     # Left white line:
     annotate("segment", x = 0, y = -7602, xend = 2300, yend = -7602, color = "white", linewidth = 1.2, alpha = 0.4) +
     # Right white line:
     annotate("segment", x = 0, y = 7602, xend = 2300, yend = 7602, color = "white", linewidth = 1.2, alpha = 0.4) +
     # Curve that joins the left and white lines:
-    annotate("curve", x = 2300, y = -7602, xend = 2300, yend = 7602, curvature = 0.8, color = "white", linewidth = 1.2, alpha = 0.4) +
+    annotate("curve", x = 2300, y = -7602, xend = 2300, yend = 7602, curvature = 0.8, color = "white", 
+             linewidth = 1.2, alpha = 0.4) +
     # ---
     # PAINT:
     annotate("segment", x = 0, y = -2000, xend = 4000, yend = -2000, color = "black", linewidth = 1.2) +
@@ -211,8 +231,8 @@ do_viz_shots_gradient <- function(data_filter, type, metric, data_shots_zones, l
     geom_point(size = 4, pch = 1, data = data.frame(pos_x = 200, pos_y = 0), color = "white", stroke = 2, alpha = 0.4) +
     # ---
     # MID-LINE COURT:
-    annotate("segment", x = 13000, y = -7602, xend = 13000, yend = 7602, color = "white", linewidth = 1.2, alpha = 0.4) +
-    annotate("curve", x = 13000, y = 2000, xend = 13000, yend = -2000, curvature = 1, color = "white", linewidth = 1.2, alpha = 0.4) +
+    annotate("segment", x = prev_thous, y = -7602, xend = prev_thous, yend = 7602, color = "white", linewidth = 1.2, alpha = 0.4) +
+    annotate("curve", x = prev_thous, y = 2000, xend = prev_thous, yend = -2000, curvature = 1, color = "white", linewidth = 1.2, alpha = 0.4) +
     # ---
     # 3PT RIGHT CORNER:
     annotate("segment", x = 0, y = 6700, xend = 0, yend = 7602, color = "black", linewidth = 1.2) +

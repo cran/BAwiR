@@ -79,7 +79,7 @@ get_sticker <- function(data_player_eff, data_team, player_sel, language = "Engl
     eff_lab3 <- " points scored per 100 possessions"
     eff_lab4 <- "Defensive efficiency: "
     eff_lab5 <- " points received per 100 possessions"
-    eff_lab6 <- " NET EFFICIENCY:"
+    eff_lab6 <- " NET__EFFICIENCY:"
     con_lab1 <- " SHOOTING CONTEXT: \n"
     usa_lab1 <- " USE OF POSSESSIONS: \n"
   }else{
@@ -88,7 +88,7 @@ get_sticker <- function(data_player_eff, data_team, player_sel, language = "Engl
     eff_lab3 <- " puntos anotados por 100 posesiones"
     eff_lab4 <- "Eficiencia defensiva: "
     eff_lab5 <- " puntos recibidos por 100 posesiones"
-    eff_lab6 <- " EFICIENCIA NETA:"
+    eff_lab6 <- " EFICIENCIA__NETA:"
     con_lab1 <- " CONTEXTO DE LANZAMIENTO: \n"
     usa_lab1 <- " USO DE LAS POSESIONES: \n"
   }

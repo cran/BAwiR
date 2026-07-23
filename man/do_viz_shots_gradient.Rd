@@ -4,7 +4,8 @@
 \alias{do_viz_shots_gradient}
 \title{Visualization of the shots statistics with advanced features}
 \usage{
-do_viz_shots_gradient(data_filter, type, metric, data_shots_zones, language = "English")
+do_viz_shots_gradient(data_filter, type, metric, data_shots_zones, language = "English", 
+                      title_add = "")
 }
 \arguments{
 \item{data_filter}{Shooting filtered data obtained with \code{\link{do_filter_data}}.}
@@ -18,6 +19,9 @@ and 'none' if plotting a heatmap is preferred.}
 \item{data_shots_zones}{Shooting data with the court zones.}
 
 \item{language}{Language of the titles. Valid options are 'English' and 'Spanish' so far.}
+
+\item{title_add}{Add additional information to the title if some filters have been applied
+to the input data frame.}
 }
 \value{
 A plot.
