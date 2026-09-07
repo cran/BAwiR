@@ -4,103 +4,69 @@
 #'
 #' @description 
 #' Obtain the game codes of any regular season day from any ACB season. 
-#' These game codes will be used to define the target url from which collecting 
-#' the shooting data of every game. 
-#' 
-#' NOTE: The ACB website has changed its format, so this function is not valid
-#' anymore. I keep it in the package in case it can provide users with some
-#' insights to carry out a friendly web scraping procedure.
+#' These game codes can be used for example to define the target url 
+#' from which collecting the shooting data of every game. 
 #' 
 #' @usage 
-#' do_scrape_days_acb(season, analyst_name, verbose, num_days, edition_id)
+#' do_scrape_days_acb(edition_id)
 #' 
-#' @param season String with the starting year of the season. For example, "2024"
-#' refers to the 2024-2025 season.
-#' @param analyst_name Name to identify the user when doing web scraping. 
-#' This is a polite way to do web scraping and certify that the user 
-#' is working as transparently as possible with a research purpose.
-#' @param verbose Should R report information on progress? TRUE or FALSE.
-#' @param num_days Number of days to obtain.
-#' @param edition_id Identifier of the league edition. For 2024 is 975
-#' and for 2025 is 979. For coming seasons, check it at the ACB website, such as
-#' https://acb.com/calendario/index/temporada_id/2025 and click on any of
-#' the days to see which url appears.
+#' @param edition_id Identifier of the league edition. For 2026-2027 is 91. 
+#' For coming seasons, check it at the ACB website.
 #' 
 #' @note
 #' Before starting the web scraping, we must visit 
 #' \url{https://www.acb.com/robots.txt} to check for permissions.
 #' 
 #' @return 
-#' A data frame with two columns, one with the days and the other with the game codes.
+#' A data frame with two columns, one with the day and the other with 
+#' the game code. For 34 days and 9 games per day, there must be 306 rows.
 #' 
 #' @author 
-#' Guillermo Vinue
+#' Guillermo Vinue with help from ChatGPT.
 #' 
 #' @seealso 
 #' \code{\link{do_scrape_shots_acb}}
 #' 
 #' @examples 
 #' \dontrun{
-#' data_days <- do_scrape_days_acb("2024", "analyst_name", TRUE, 2, 975)
+#' data_days <- do_scrape_days_acb(91)
 #' }
 #' 
-#' @importFrom robotstxt paths_allowed
-#' @importFrom polite bow scrape
-#' @importFrom rvest html_attr
+#' @importFrom rvest read_html
+#' @importFrom stringr str_match str_extract_all
 #'
 #' @export
 
-do_scrape_days_acb <- function(season, analyst_name, verbose, num_days, edition_id){
-  url_acb <- paste0("https://acb.com/calendario/index/temporada_id/", season)
+do_scrape_days_acb <- function(edition_id){
+  url_acb <- paste0("https://acb.com/es/liga/calendario?temporada=", edition_id)
   
-  if (paths_allowed(url_acb)) {
-    session <- bow(url_acb, user_agent = paste0(analyst_name, ", polite R bot ", getOption("HTTPUserAgent")))
+  x <- read_html(url_acb) %>%
+    html_text()
+  
+  # Split at each roundNumber:
+  blocks <- str_split(x, '(?=\\\\?"roundNumber\\\\?":)', simplify = FALSE)[[1]]
+  
+  result <- lapply(blocks, function(block) {
+    rN <- str_match(block, 'roundNumber\\\\?":(\\d+)')[, 2]
     
-    if (verbose) {
-      print(session)
-    }
+    # Everything after "matches":[
+    after_matches <- str_split(block, 'matches\\\\?":\\[', n = 2)[[1]]
     
-    id_days_all <- scrape(session) %>%
-      html_nodes(xpath = './/div[@class="desplegable_personalizado desplegable_jornada roboto_bold"]') %>%
-      html_nodes(xpath = './/div[@class="elemento colorweb_7 mayusculas"]') %>%
-      html_attr("data-t2v-id") 
+    if (length(after_matches) < 2) return(NULL)
     
-    id_days <- id_days_all[1:num_days]
+    matches_text <- after_matches[2]
     
-    data_days <- data.frame()
-    for (i in 1:length(id_days)) {
-      if (verbose) {
-        cat("DAY:", id_days[i], "\n")
-      }
-      
-      url_acb_day <- paste0("https://acb.com/calendario/index/temporada_id/", 
-                            season, "/edicion_id/", edition_id, "/jornada_id/", id_days[i])
-      
-      if (paths_allowed(url_acb_day)) {
-        session1 <- bow(url_acb_day, user_agent = paste0(analyst_name, ", polite R bot ", getOption("HTTPUserAgent")))
-        
-        if (verbose) {
-          print(session1)
-        }
-        
-        id_games_all <- scrape(session1) %>%
-          html_nodes(xpath = './/article[@class="partido"]') %>%
-          html_nodes(xpath = './/article[@class="varios"]') %>%
-          html_nodes("a") %>%
-          html_attr("href") 
-        
-        id_games <- unique(gsub(".*\\/id\\/", "", id_games_all))
-        
-        data_iter <- data.frame(day = i, id_game = id_games)
-        data_days <- rbind(data_days, data_iter)
-      }
-      
-      # Take slowly:
-      Sys.sleep(5)
-    }
+    # ALL six-digit IDs after matches:
+    ids <- str_extract_all(matches_text, 'id\\D*(\\d{6})(?!\\d)')[[1]]
     
-    return(data_days)
-  }else{
-    stop("No permission to access page")
-  }
+    # Extract only the numbers:
+    ids <- str_extract(ids, '\\d{6}')
+    
+    data.frame(rN = rN, id = ids)
+  }) %>%
+    bind_rows()
+  
+  result_def <- result[-which(duplicated(result$id)), ]
+  
+  return(result_def)
 }

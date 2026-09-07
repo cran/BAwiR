@@ -1,12 +1,17 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.5.4 [2026-09-07]
+* The function do_scrape_days_acb() has been modified to avoid dependency on the polite package. In accordance with CRAN guidelines, the polite package was scheduled for archival in early September.
+* Submitted to CRAN.
+
 Version: 1.5.3 [2026-07-23]
 * The documentation of the data set acb_shooting_data_2425 has been extended to provide more details about the meaning of its columns.
 * In get_heatmap_bb() there was an ungrouping using the column CombinID that was not needed anymore and that was causing an error.
 * do_viz_shots_scatter() includes the option to customize the shots symbols, colors and intensity.
 * The heatmap obtained with do_viz_shots_gradient() has corrected the position of the mid-court line.
 * do_viz_shots_scatter() and do_viz_shots_gradient add in their titles any of those filters that could have been applied to the input data set.
+* Submitted to CRAN.
 
 Version: 1.5.2 [2026-06-11]
 * The field-goals and free-throw percentages of the average values returned by do_stats() now coincide with the ones related to the total values.

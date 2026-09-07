@@ -6,9 +6,9 @@ knitr::opts_chunk$set(echo = TRUE)
 # library(BAwiR)
 
 ## ----data, eval=FALSE---------------------------------------------------------
-# data_days <- do_scrape_days_acb("2024", "analyst_name", TRUE, 2)
+# data_days <- do_scrape_days_acb(91)
 # 
-# data_shots <- do_scrape_shots_acb(data_days[1:2, ], TRUE, "user_agent_def", "x_apikey")
+# data_shots <- do_scrape_shots_acb(data_days[1, ], TRUE, "user_agent_def", "x_apikey")
 
 ## ----eval=FALSE---------------------------------------------------------------
 # ?acb_shooting_data_2425

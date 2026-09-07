@@ -12,7 +12,7 @@
 
 <meta name="author" content="Guillermo Vinue" />
 
-<meta name="date" content="2026-07-23" />
+<meta name="date" content="2026-09-07" />
 
 <title>Analysis of Spanish spatial shooting data</title>
 
@@ -341,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Analysis of Spanish spatial shooting
 data</h1>
 <h4 class="author">Guillermo Vinue</h4>
-<h4 class="date">2026-07-23</h4>
+<h4 class="date">2026-09-07</h4>
 
 
 
@@ -351,11 +351,12 @@ platform for basketball data visualization</em>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># Firstly, load BAwiR:</span></span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(BAwiR) </span></code></pre></div>
 <p>An example for obtaining the spatial shooting data from the official
-ACB website is as follows. Define the analyst’s name, user agent and
-x_apikey accordingly.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>data_days <span class="ot">&lt;-</span> <span class="fu">do_scrape_days_acb</span>(<span class="st">&quot;2024&quot;</span>, <span class="st">&quot;analyst_name&quot;</span>, <span class="cn">TRUE</span>, <span class="dv">2</span>)</span>
+ACB website is as follows. Number 91 refers in this case to the ACB
+2026-2027 regular season. Define the user agent and x_apikey
+accordingly.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>data_days <span class="ot">&lt;-</span> <span class="fu">do_scrape_days_acb</span>(<span class="dv">91</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a> </span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>data_shots <span class="ot">&lt;-</span> <span class="fu">do_scrape_shots_acb</span>(data_days[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, ], <span class="cn">TRUE</span>, <span class="st">&quot;user_agent_def&quot;</span>, <span class="st">&quot;x_apikey&quot;</span>)</span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>data_shots <span class="ot">&lt;-</span> <span class="fu">do_scrape_shots_acb</span>(data_days[<span class="dv">1</span>, ], <span class="cn">TRUE</span>, <span class="st">&quot;user_agent_def&quot;</span>, <span class="st">&quot;x_apikey&quot;</span>)</span></code></pre></div>
 <p>BAwiR contains a sample of the shooting data from the ACB 2024-2025
 regular season. We can see it with these commands:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>?acb_shooting_data_2425</span>

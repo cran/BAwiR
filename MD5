@@ -1,6 +1,6 @@
-59592b79dc7d6bc23adb6faa8851ff3c *DESCRIPTION
-1f93d9956b6089be5181850c48dbe6c9 *NAMESPACE
-c5be90d7a468dce9867a222be3109135 *NEWS
+5c563dcc26707a65e5f748dc95c0755e *DESCRIPTION
+5ed293e8c8190e9579f64999a0c6b984 *NAMESPACE
+c1e0e881046b44a2d4ca055c2836c613 *NEWS
 8a97224bc4ea0049f01306bcc06eb82d *R/capit_two_words.R
 bd7281c0647af6ed4b0665c3a892f22a *R/do_EPS.R
 f49e05e06b7d806e03e51ff81d1a6c3c *R/do_OE.R
@@ -28,7 +28,7 @@ bbe164495524fd66418ee437c6cfa70e *R/do_preproc_period.R
 fb312114a82c3dcab8008734c8f63a5e *R/do_process_acb_pbp.R
 66fd9d4b46f9d29eef77b2f3a6fe90e6 *R/do_reb_off_success.R
 25c80de9fdefec7f45c642ffad908acc *R/do_rpackage_stats.R
-2633bfef743f890c987fe3099779e3f9 *R/do_scrape_days_acb.R
+db1dfa2390360630f9890cbfc931b1fe *R/do_scrape_days_acb.R
 3c542c4726cffefc9cbfee2a8dc6dbf3 *R/do_scrape_shots_acb.R
 947fd2720d0fba015590d162a3d23e39 *R/do_scraping_games.R
 a966b9f5ef870272a6dffc5c816f39d3 *R/do_scraping_rosters.R
@@ -50,7 +50,7 @@ ea939573a6bf0a35b173ffe30546ee31 *R/do_viz_shots_scatter.R
 22537e84cb5e158610a070ca7519369d *R/get_donut_usage_action.R
 38763c57fc368ee37220a2ceb221e909 *R/get_four_factors_plot.R
 afba0f200a6f886ba680d263ca8a9748 *R/get_games_rosters.R
-d68187e5cac2b9c5417eb539a7518337 *R/get_heatmap_bb.R
+2e7d4cde088eecd2e6c43c2a1cb5c03a *R/get_heatmap_bb.R
 4046184910045b9d70b5d21ce2b122a6 *R/get_map_nats.R
 b5da153d5b5038bf31f7b8a3cd8cdf60 *R/get_net_rtg_on_off.R
 6d5f91c2c9a248a110e7dfb7ab9f74e5 *R/get_plot_monthly_stats.R
@@ -60,7 +60,7 @@ dca591928e4f61001588a19fdb6714e4 *R/get_shooting_plot.R
 548bbd054c93d0e5ef4e15fd690b41e1 *R/get_similar_players.R
 c70227e2ba73dc4c64ecf9f8ca033895 *R/get_similar_teams.R
 b07fd4a4f755f836ffc9a80a32affc6a *R/get_stats_seasons.R
-970465022efda4dd328d967ce1cffcbb *R/get_sticker.R
+4e8998232cc5ead09ce34d34354b6241 *R/get_sticker.R
 dfb25af2654ff9dcf0812212940c2b6a *R/get_table_results.R
 120cbd3d2144539a1a95b76f94de35eb *R/join_players_bio_age_acb.R
 b9e29ce347492495229f707539298367 *R/join_players_bio_age_euro.R
@@ -91,13 +91,13 @@ d374aaaa13871ee9d88bcf7d0a6b2457 *data/eurocup_players_1718.RData
 bf642473394528b6e2e9bca2476fab88 *data/metrics_player_zone.RData
 474d358371ea8b6d53479c83c2d9e576 *inst/doc/BAwiR.R
 452166362c1aa7940412cbfb230dd42b *inst/doc/BAwiR.Rmd
-ae2522872fa616ebcee8e4f24a106f63 *inst/doc/BAwiR.html
+9173f13d8392ea9c01b2a47e4a5ab246 *inst/doc/BAwiR.html
 50ef948230787d2ff3b43883b0e1fc36 *inst/doc/BAwiR_pbp.R
 03977a6c609e38bbffdb82b5067796ab *inst/doc/BAwiR_pbp.Rmd
-8688b362605e3c57a5c30bdb0944fd5b *inst/doc/BAwiR_pbp.html
-e2b2d252e6ffeb77a9c344ff5537b7ab *inst/doc/BAwiR_sc.R
-73aa6dce9e585c41b87f9c343b932a0e *inst/doc/BAwiR_sc.Rmd
-448f366ef9006c0b3ea8174f5ba8336f *inst/doc/BAwiR_sc.html
+f6cda8aa67cc17353cee05ed5c454ac8 *inst/doc/BAwiR_pbp.html
+80cce976dc034695b3a171e3fadaa4cf *inst/doc/BAwiR_sc.R
+b4b82be7b17683da2f084c9086d9610f *inst/doc/BAwiR_sc.Rmd
+987dd37727099c2600e65985ccfe6c6c *inst/doc/BAwiR_sc.html
 dc6ac30f7763ddaa557049ee1ddf4a02 *inst/parquet.png
 a39d5ebbf37063ac4a1ffb88bd2813ba *man/acb_age_profile_data_2526.Rd
 df30dff97ac6c0f17f8138e04dd9377b *man/acb_combs.Rd
@@ -140,7 +140,7 @@ cf8a0a72c17b94e5257e2fc047372810 *man/do_preproc_period.Rd
 6b6825d370e8975213bdd8981577cdda *man/do_process_acb_pbp.Rd
 23e0a40cafe8eeb2f61daae60e01fa6f *man/do_reb_off_success.Rd
 0f61ac347e4eed108f23c968e2327898 *man/do_rpackage_stats.Rd
-17470fb4b12ace666c36f94230e67977 *man/do_scrape_days_acb.Rd
+7fe266c284d41546f02dbcd3328e5fec *man/do_scrape_days_acb.Rd
 014dbd13866e1fbf3d9436b32cba0f88 *man/do_scrape_shots_acb.Rd
 be26b55cf5372eeecc81be8e45f5f633 *man/do_scraping_games.Rd
 10a7c43270c1b8cbadf5de5b208e820a *man/do_scraping_rosters.Rd
@@ -166,7 +166,7 @@ ef7aee30da5877ecdb261a69f7e7dc23 *man/get_donut_usage.Rd
 8ae147b374b1185f23236e5cc4a73378 *man/get_donut_usage_action.Rd
 70e2283a390827feb9393b2f5a11523b *man/get_four_factors_plot.Rd
 941cf6bcbebdcda46e8989bad5af36c1 *man/get_games_rosters.Rd
-0cf032024c909bca73c1d6e91755eeb5 *man/get_heatmap_bb.Rd
+7d5e8a9fd356f153910aaca9d3a42f42 *man/get_heatmap_bb.Rd
 a9273ac9b249ad7ff5b1d4fcd2a25d2d *man/get_map_nats.Rd
 9e14fb8f7e310f1cc101bbbf26844bbb *man/get_net_rtg_on_off.Rd
 ca2ab1de1c182b77bfe2ce1847434dcb *man/get_plot_monthly_stats.Rd
@@ -188,4 +188,4 @@ c38a10e452abb7cc6100f34d5ae65d2e *man/metrics_player_zone.Rd
 87800dd574009863b788b0c1493cc04d *man/scraping_rosters_euro.Rd
 452166362c1aa7940412cbfb230dd42b *vignettes/BAwiR.Rmd
 03977a6c609e38bbffdb82b5067796ab *vignettes/BAwiR_pbp.Rmd
-73aa6dce9e585c41b87f9c343b932a0e *vignettes/BAwiR_sc.Rmd
+b4b82be7b17683da2f084c9086d9610f *vignettes/BAwiR_sc.Rmd

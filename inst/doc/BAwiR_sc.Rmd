@@ -20,12 +20,12 @@ knitr::opts_chunk$set(echo = TRUE)
 library(BAwiR) 
 ```
 
-An example for obtaining the spatial shooting data from the official ACB website is as follows. Define the analyst's name, user agent and x_apikey accordingly.
+An example for obtaining the spatial shooting data from the official ACB website is as follows. Number 91 refers in this case to the ACB 2026-2027 regular season. Define the user agent and x_apikey accordingly.
 
 ```{r data, eval=FALSE}
-data_days <- do_scrape_days_acb("2024", "analyst_name", TRUE, 2)
+data_days <- do_scrape_days_acb(91)
  
-data_shots <- do_scrape_shots_acb(data_days[1:2, ], TRUE, "user_agent_def", "x_apikey")
+data_shots <- do_scrape_shots_acb(data_days[1, ], TRUE, "user_agent_def", "x_apikey")
 ```
 
 BAwiR contains a sample of the shooting data from the ACB 2024-2025 regular season. We can see it with these commands:
