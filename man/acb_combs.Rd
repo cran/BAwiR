@@ -10,5 +10,5 @@ in the game 104459 from the ACB 2025-2026 regular season.
 }
 \usage{acb_combs}
 \format{Data frame with 150 rows and 38 columns.}
-\source{\url{https://www.acb.com/}}
+\source{\url{https://acb.com/}}
 \keyword{datasets}

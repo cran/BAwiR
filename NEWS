@@ -1,6 +1,10 @@
 Package: BAwiR
 ----------------------
 
+Version: 1.5.5 [2026-09-25]
+* A new paper related to the package has been published, so its doi link has been added to the DESCRIPTION file.
+* Submitted to CRAN.
+
 Version: 1.5.4 [2026-09-07]
 * The function do_scrape_days_acb() has been modified to avoid dependency on the polite package. In accordance with CRAN guidelines, the polite package was scheduled for archival in early September.
 * Submitted to CRAN.

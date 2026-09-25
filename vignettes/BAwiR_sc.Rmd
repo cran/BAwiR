@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-This document contains all the needed R code to reproduce the results described in the paper *Adding shooting data to a centralized platform for basketball data visualization*.
+This document contains all the needed R code to reproduce the results described in the paper *Adding shooting data to a centralized platform for basketball data visualization* ([https://doi.org/10.1007/s11042-026-21930-2](https://doi.org/10.1007/s11042-026-21930-2){target="_blank"}).
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

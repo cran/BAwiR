@@ -10,5 +10,5 @@ For each player we have the number of possessions he played and the ones he ende
 }
 \usage{acb_usage_data_2526}
 \format{Data frame with 62 rows and 9 columns.}
-\source{\url{https://www.acb.com/}}
+\source{\url{https://acb.com/}}
 \keyword{datasets}

@@ -1,19 +1,20 @@
 Package: BAwiR
 Type: Package
 Title: Analysis of Basketball Data
-Version: 1.5.4
-Date: 2026-09-07
+Version: 1.5.5
+Date: 2026-09-25
 Authors@R: person(given = "Guillermo", family = "Vinue", role = c("aut", "cre"), email = "guillermo.vinue@uv.es")
 Description: Collection of tools to work with European basketball data. Functions available are related to friendly 
 	web scraping, data management and visualization. Data were obtained from <https://www.euroleaguebasketball.net/euroleague/>, 
-	<https://www.euroleaguebasketball.net/eurocup/> and <https://www.acb.com/>, following the instructions 
+	<https://www.euroleaguebasketball.net/eurocup/> and <https://acb.com/>, following the instructions 
         of their respectives robots.txt files, when available. Box score data are available for the three leagues. 
 	Play-by-play and spatial shooting data are also available for the Spanish league. Methods for analysis include a 
 	population pyramid, 2D plots, circular plots of players' percentiles, plots of players' monthly/yearly stats, 
 	team heatmaps, team shooting plots, team four factors plots, cross-tables with the results of regular season games,
 	maps of nationalities, combinations of lineups, possessions-related variables, timeouts,
 	performance by periods, personal fouls, offensive rebounds and different types of shooting charts. 
-	Please see Vinue (2020) <doi:10.1089/big.2018.0124> and Vinue (2024) <doi:10.1089/big.2023.0177>. 
+	Please see Vinue (2020) <doi:10.1089/big.2018.0124>, Vinue (2024) <doi:10.1089/big.2023.0177> and
+	Vinue (2026) <doi:10.1007/s11042-026-21930-2>. 
 License: GPL (>= 2)
 URL: https://www.uv.es/vivigui/basketball_platform.html,
         https://www.uv.es/vivigui/, https://www.R-project.org
@@ -29,8 +30,8 @@ LazyData: true
 Encoding: UTF-8
 Config/roxygen2/version: 8.0.0
 NeedsCompilation: no
-Packaged: 2026-09-07 09:50:12 UTC; guillermo
+Packaged: 2026-09-25 16:10:31 UTC; guillermo
 Author: Guillermo Vinue [aut, cre]
 Maintainer: Guillermo Vinue <guillermo.vinue@uv.es>
 Repository: CRAN
-Date/Publication: 2026-09-07 18:50:02 UTC
+Date/Publication: 2026-09-25 21:50:12 UTC

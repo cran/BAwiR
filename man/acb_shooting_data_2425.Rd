@@ -44,5 +44,5 @@ three-point field goal.
 }
 \usage{acb_shooting_data_2425}
 \format{Data frame with 4277 rows and 23 columns.}
-\source{\url{https://www.acb.com/}}
+\source{\url{https://acb.com/}}
 \keyword{datasets}

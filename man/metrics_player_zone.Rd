@@ -10,5 +10,5 @@ court zones for some of the 30 players contained in the data frame \code{acb_pla
 }
 \usage{metrics_player_zone}
 \format{Data frame with 8 rows and 5 columns.}
-\source{\url{https://www.acb.com/}}
+\source{\url{https://acb.com/}}
 \keyword{datasets}

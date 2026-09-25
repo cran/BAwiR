@@ -21,7 +21,7 @@ from which collecting the shooting data of every game.
 }
 \note{
 Before starting the web scraping, we must visit 
-\url{https://www.acb.com/robots.txt} to check for permissions.
+\url{https://acb.com/robots.txt} to check for permissions.
 }
 \examples{
 \dontrun{

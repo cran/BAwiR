@@ -36,7 +36,7 @@ Data frame with eight columns:
 This function allows us to obtain the basic information of each player, 
 including his birth date. Then, we will be able to compute the age that 
 each player had in the date that he played each game. 
-The website used to collect information is \url{https://www.acb.com}.
+The website used to collect information is \url{https://acb.com}.
 }
 \details{
 Some players have a particular licence, which does not necessarily match with their
@@ -48,7 +48,7 @@ In addition to use the email address to stay identifiable, the function also
 contains two headers regarding the R platform and version used.
 
 Furthermore, even though in the robots.txt file at 
-\url{https://www.acb.com/robots.txt}, there is no information about scraping
+\url{https://acb.com/robots.txt}, there is no information about scraping
 limitations and all robots are allowed to have complete access,
 the function also includes the command \code{Sys.sleep(2)}
 to pause between requests for 2 seconds. In this way, we don't bother the server 

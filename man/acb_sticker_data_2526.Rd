@@ -11,5 +11,5 @@ of the sticker plot.
 }
 \usage{acb_sticker_data_2526}
 \format{Data frame with 11 rows and 9 columns.}
-\source{\url{https://www.acb.com/}}
+\source{\url{https://acb.com/}}
 \keyword{datasets}

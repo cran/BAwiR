@@ -10,5 +10,5 @@ and the particular number of actions used by the player to end the possession.
 }
 \usage{acb_usage_act_data_2526}
 \format{Data frame with 75 rows and 8 columns.}
-\source{\url{https://www.acb.com/}}
+\source{\url{https://acb.com/}}
 \keyword{datasets}

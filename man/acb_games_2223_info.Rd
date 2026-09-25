@@ -13,5 +13,5 @@ The \strong{game_code} column allows us to detect the source website, for exampl
 }
 \usage{acb_games_2223_info}
 \format{Data frame with 306 rows and 3 columns.}
-\source{\url{https://www.acb.com/}}
+\source{\url{https://acb.com/}}
 \keyword{datasets}

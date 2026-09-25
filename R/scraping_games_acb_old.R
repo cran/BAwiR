@@ -5,7 +5,7 @@
 #' @description 
 #' This function allowed us to get all the player game finder data for 
 #' all the desired ACB seasons available from: 
-#' \url{https://www.acb.com}. It was an old version that worked before the
+#' \url{https://acb.com}. It was an old version that worked before the
 #' internal structure of the ACB website changed. The updated function is
 #' now \code{\link{scraping_games_acb}}.
 #' 
@@ -41,7 +41,7 @@
 #' contains two headers regarding the R platform and version used.
 #' 
 #' Furthermore, even though in the robots.txt file at 
-#' \url{https://www.acb.com/robots.txt}, there is no information about scraping
+#' \url{https://acb.com/robots.txt}, there is no information about scraping
 #' limitations and all robots are allowed to have complete access,
 #' the function also includes the command \code{Sys.sleep(2)}
 #' to pause between requests for 2 seconds. In this way, we don't bother the server 
